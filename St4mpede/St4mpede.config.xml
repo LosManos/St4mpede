@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Stampede>
+	<ConnectionString>Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\DATA\PROJEKT\St4mpede\St4mpede.Test\Database\St4mpede.mdf;Integrated Security=True;Connect Timeout=30</ConnectionString>
+	<DatabaseName>C:\DATA\PROJEKT\ST4MPEDE\ST4MPEDE.TEST\DATABASE\ST4MPEDE.MDF</DatabaseName>
+	<ExcludedTablesRegex>__RefactorLog</ExcludedTablesRegex>
+	<DatabaseXmlFile>Database.xml</DatabaseXmlFile>
+</Stampede>

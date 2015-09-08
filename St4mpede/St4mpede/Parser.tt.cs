@@ -1,0 +1,175 @@
+﻿//<#+
+/*That line above is very carefully constructed to be awesome and make it so this works!*/
+#if NOT_IN_T4
+//Apparently T4 places classes into another class, making namespaces impossible
+namespace St4mpede
+{
+	using Microsoft.SqlServer.Management.Common;
+	using Microsoft.SqlServer.Management.Smo;
+	using System;
+	using System.Collections.Generic;
+	using System.Data.SqlClient;
+	using System.IO;
+	using System.Linq;
+	using System.Reflection;
+	using System.Text.RegularExpressions;
+	using System.Xml.Linq;
+#endif
+	//#	Regular ol' C# classes and code...
+
+	public class Parser
+	{
+		private IList<string> m_Log = new List<string>();
+
+		private Settings m_settings;
+
+		private IList<TableData> m_tablesData;
+
+		internal static string GetExecutingPath()
+		{
+			var ret = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+			return ret;
+		}
+
+		internal void Init(string configPathfilename)
+		{
+			if (null == configPathfilename) { throw new ArgumentNullException("pathfilename"); }
+
+			AddLog("Reading config file {0}.", configPathfilename);
+			var doc = XDocument.Load(new FileStream(configPathfilename, FileMode.Open));
+			Init(configPathfilename, doc);
+		}
+
+		internal void ParseDatabase()
+		{
+			using (var conn = new SqlConnection(m_settings.ConnectionString))
+			{
+				var serverConnection = new ServerConnection(conn);
+				var server = new Server(serverConnection);
+				AddLog("Choosing server {0}", server.Name);
+				var database =
+					string.IsNullOrWhiteSpace(m_settings.DatabaseName) ?
+					server.Databases[m_settings.DatabaseIndex] :    //	Uses index, like for SqlCompact.
+					server.Databases[m_settings.DatabaseName];
+				if (null == database) { throw new UnknownDatabaseException(GetDatabasesInfo(server.Databases)); }
+				AddLog("Choosing database {0}.", database.Name);
+
+				var tables = database.Tables;
+				AddLog("Number of tables:{0}.", tables.Count);
+				ParseTables(tables, m_settings.ExcludedTablesRegex);
+				AddLog("Tables parsed:{0}", string.Join(",", m_tablesData.Select(t => t.Name)));
+				AddLog(TableDataHelpers.ToInfo(m_tablesData));
+			}
+		}
+
+		internal void WriteDatabaseXml()
+		{
+			var xmlPathFile = m_settings.DatabaseXmlFile;
+			AddLog("Writing database xml {0}.", xmlPathFile);
+
+			var xml = ToXml(m_tablesData);
+
+			AddLog("Created xml:");
+			AddLog(xml);	//	TODO:	Make Xml output better.
+
+			//	TODO:	Write Xml to file.
+		}
+
+		#region Private methods.
+
+		private void AddLog(string format, params object[] args)
+		{
+			m_Log.Add(string.Format(format, args));
+		}
+
+		private void AddLog(IEnumerable<string> logRows)
+		{
+			foreach (var row in logRows)
+			{
+				AddLog(row);
+			}
+		}
+
+		private void AddLog(XDocument xml)
+		{
+			//	TODO:	Make the output better.
+			AddLog(xml.ToString());
+		}
+
+		private static IList<string> GetDatabasesInfo(DatabaseCollection databases)
+		{
+			var lst = new List<string>();
+			for (var i = 0; i < databases.Count; ++i)
+			{
+				lst.Add(string.Format("Name:{0}", databases[i].Name));
+			}
+			return lst;
+		}
+
+		private void Init(string pathfilename, System.Xml.Linq.XDocument doc)
+		{
+			var databaseName = (string)doc.Root.Element(Settings.XmlElements.DatabaseName);
+			int databaseIndex = 0;
+			int.TryParse(databaseName, out databaseIndex);
+			m_settings = new Settings
+			{
+				ConnectionString = (string)doc.Root.Element(Settings.XmlElements.ConnectionString),
+				DatabaseName = databaseName,
+				DatabaseIndex = databaseIndex,
+				ExcludedTablesRegex = (string)doc.Root.Element(Settings.XmlElements.ExcludedTablesRegex),
+				InitPathfilename = pathfilename,
+				DatabaseXmlFile = (string)doc.Root.Element(Settings.XmlElements.DatabaseXmlFile)
+			};
+		}
+
+		private void ParseTables(TableCollection tables, string excludedTablesRegex)
+		{
+			var tablesData = new List<TableData>();
+			foreach (Table table in tables)
+			{
+				tablesData.Add(new TableData(
+					table.Name,
+					false == Regex.IsMatch(table.Name, excludedTablesRegex)
+				));
+			}
+			m_tablesData = tablesData;
+		}
+
+		#endregion
+
+		private XDocument ToXml(IList<TableData> tables)
+		{
+			//	TODO:	Serialise the tables parameter to an Xml document, not necessary XDocument.
+			throw new NotImplementedException();
+		}
+
+		public override string ToString()
+		{
+			return string.Join("\r\n", m_Log);
+		}
+
+		#region Unit testing work arounds.
+
+		internal IList<string> UT_Log { get { return m_Log; } }
+
+		internal void UT_ParseTables(TableCollection tables, string excludedTablesRegex)
+		{
+			ParseTables(tables, excludedTablesRegex);
+		}
+
+		internal Settings UT_Settings { get { return m_settings; } }
+
+		internal IList<TableData> UT_TablesData{get{return m_tablesData;} }
+
+		internal XDocument UT_ToXml( IList<TableData> tables)
+		{
+			return ToXml(tables);
+		}
+
+		#endregion
+	}
+
+#if NOT_IN_T4
+} //end the namespace
+#endif
+//#>

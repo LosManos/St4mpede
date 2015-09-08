@@ -1,0 +1,45 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension=".cs" #>
+
+<#@ assembly name="Microsoft.SqlServer.Management.Sdk.Sfc" #>
+<#@ assembly name="Microsoft.SqlServer.Connectioninfo" #>
+<#@ assembly name="Microsoft.SqlServer.Smo" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+
+<#@ import namespace="Microsoft.SqlServer.Management.Common" #>
+<#@ import namespace="Microsoft.SqlServer.Management.Smo" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#@ import namespace="System.Xml.Linq" #>
+
+//		The file was generated  by St4mpede <#= System.DateTime.Now.ToString() #>
+
+<#
+	var parser = new Parser();
+	parser.Init(Path.Combine( @"C:\DATA\PROJEKT\St4mpede\St4mpede", "St4mpede.config.xml"));
+	parser.ParseDatabase();
+//	parser.WriteDatabaseXml();
+
+	/*
+	//	TODO:	Don't read the xml from file, instead use either the xml
+	//	to deserialise to another object or the tableData object directly.
+	//	Write a file and class per table.
+	*/
+#>
+
+/* 
+<#= parser.ToString() #>
+*/
+
+<#@ include file="St4mpede\Exception.tt.cs" #>
+<#@ include file="St4mpede\Settings.tt.cs" #>
+<#@ include file="St4mpede\TableData.tt.cs" #>
+<#@ include file="St4mpede\Parser.tt.cs" #>
