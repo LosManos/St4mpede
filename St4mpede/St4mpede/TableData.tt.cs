@@ -2,21 +2,27 @@
 /*That line above is very carefully constructed to be awesome and make it so this works!*/
 #if NOT_IN_T4
 //Apparently T4 places classes into another class, making namespaces impossible
-using System.Collections.Generic;
-using System.Linq;
-
 namespace St4mpede
 {
-	//	using System;
+	//	Note that when adding namespaces here we also have to add the namespaces to the TT file  import namespace=...
+	//	The same way any any new assembly reference must be added to the TT file assembly. name=...
+	using System.Collections.Generic;	// Note that any 
+	using System.Linq;
+	using System.Runtime.Serialization;
 #endif
 	//#	Regular ol' C# classes and code...
 
-	internal class TableData
+	/// <summary>This class must be public to make de/serialising possible when unit testing.
+	/// </summary>
+	[DataContract]
+	public class TableData
 	{
-		internal string Name { get; set; }
-		internal bool Include { get; set; }
+		[DataMember]
+		public string Name { get; set; }
+		[DataMember]
+		public bool Include { get; set; }
 
-		internal TableData()		{		}
+		public TableData()		{		}
 
 		internal TableData(string name, bool include)
 		{

@@ -5,32 +5,80 @@ using Microsoft.SqlServer.Management.Smo;
 using System.Data.SqlClient;
 using Microsoft.SqlServer.Management.Common;
 using System.Collections.Generic;
+using System.Xml.Serialization;
+using System.Xml;
+using System.Xml.Linq;
+using System.Linq;
 
 namespace St4mpede.Test
 {
 	[TestClass]
 	public class ParserTest
 	{
-		private Settings m_settings;
-		private const string DatabasePath = @"C:\DATA\PROJEKT\ST4MPEDE\ST4MPEDE.TEST\DATABASE\";
+		//private Settings m_settings;
+		private const string DatabasePath = @"C:\DATA\PROJEKT\ST4MPEDE\ST4MPEDE\ST4MPEDE.TEST\DATABASE\";
 		private const string ConnectionStringTemplate = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={0};Integrated Security=True;Connect Timeout=30";
 
 		[TestInitialize]
 		public void Initialize()
 		{
-			m_settings = new Settings();
+			//m_settings = new Settings();
 		}
 
 		[TestMethod]
-		public void GetDatabasesInfoTest()
+		public void ParseDatabaseTest()
 		{
 			Assert.Inconclusive("TBA");
+			var sut = new Parser();
+			sut.ParseDatabase();
 		}
 
 		[TestMethod]
-		public void AddLogTest()
+		public void AddLog_given_FormatAndArgs_should_AddItem()
 		{
-			Assert.Inconclusive("TBA");
+			//	#	Arrange.
+			var sut = new Parser();
+			Assert.IsFalse(sut.UT_Log.Any(), "There should be no log when we start.");
+
+			//	#	Act.
+			sut.UT_AddLog("a{0}c{1}", "b", "d");
+
+			//	#	Assert.
+			Assert.AreEqual("abcd", sut.UT_Log.Single());
+		}
+
+		[TestMethod]
+		public void AddLog_given_LogRows_should_AddThem()
+		{
+			//	#	Arrange.
+			var sut = new Parser();
+			Assert.IsFalse(sut.UT_Log.Any(), "There should be no log when we start.");
+			const string RowOne = "My first row";
+			const string RowTwo = "My second row";
+
+			//	#	Act.
+			sut.UT_AddLog(new[] { RowOne, RowTwo });
+
+			//	#	Assert.
+			Assert.AreEqual(2, sut.UT_Log.Count());
+			Assert.AreEqual(RowOne, sut.UT_Log[0]);	
+			Assert.AreEqual(RowTwo, sut.UT_Log[1]);	
+		}
+
+		[TestMethod]
+		public void AddLog_given_XDocument_should_AddIt()
+		{
+			//	#	Arrange.
+			var sut = new Parser();
+			Assert.IsFalse(sut.UT_Log.Any(), "There should be no log when we start.");
+			var xml = new XDocument();
+
+			//	#	Act.
+			sut.UT_AddLog(xml);
+
+			//	#	Assert.
+			Assert.AreEqual(1, sut.UT_Log.Count(), 
+			"Right now we don't test the formatting, only the existence of the row.");
 		}
 
 		[TestMethod]
@@ -138,13 +186,67 @@ namespace St4mpede.Test
 			//	#	Arrange.
 			var sut = new Parser();
 			var tables = new List<TableData>();
+			tables.Add(new TableData("MyName", true));
 
 			//	#	Act.
-			//sut.UT_ToXml(tables);
-
-			Assert.Fail("Not Implemented");
+			var res = sut.UT_ToXml(tables);
 
 			//	#	Assert.
+			var resTables = Parser.Deserialize<List<TableData>>(res);
+
+			Assert.AreEqual(1, resTables.Count);
+
+			Assert.AreEqual(
+				@"<ArrayOfTableData xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <TableData>
+    <Name>MyName</Name>
+    <Include>true</Include>
+  </TableData>
+</ArrayOfTableData>", 
+				res.ToString());
+	
+
+	//			Assert.AreEqual(
+
+
+	//				@"<ArrayOfTableData xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/St4mpede\">
+ // < TableData >
+	//    < Include > true </ Include >
+	//    < Name > MyName </ Name >
+	//  </ TableData >
+	//</ ArrayOfTableData > ",
+	//                res.ToString());
+
+	//		Assert.Fail("Not Implemented");
+
+	//		//	#	Assert.
+		}
+
+		//	http://stackoverflow.com/questions/1295046/use-xdocument-as-the-source-for-xmlserializer-deserialize
+		public static class SerializationUtil
+		{
+			//public static T Deserialize<T>(XDocument doc)
+			//{
+			//	XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+
+			//	using (var reader = doc.Root.CreateReader())
+			//	{
+			//		return (T)xmlSerializer.Deserialize(reader);
+			//	}
+			//}
+
+			public static XDocument Serialize<T>(T value)
+			{
+				XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+
+				XDocument doc = new XDocument();
+				using (var writer = doc.CreateWriter())
+				{
+					xmlSerializer.Serialize(writer, value);
+				}
+
+				return doc;
+			}
 		}
 	}
 }

@@ -4,6 +4,8 @@
 //Apparently T4 places classes into another class, making namespaces impossible
 namespace St4mpede
 {
+	//	Note that when adding namespaces here we also have to add the namespaces to the TT file  import namespace=...
+	//	The same way any any new assembly reference must be added to the TT file assembly. name=...
 	//	using System;
 #endif
 	//#	Regular ol' C# classes and code...
@@ -30,6 +32,20 @@ namespace St4mpede
 			internal const string ExcludedTablesRegex = "ExcludedTablesRegex";
 			internal const string DatabaseXmlFile = "DatabaseXmlFile";
         }
+
+		/// <summary>This constructor takes every needed property as argument.
+		/// </summary>
+		public Settings(string initPathfilename, 
+			string connectionString, string databaseName, int databaseIndex, 
+			string excludedTablesRegex, string databaseXmlFile)
+		{
+			this.InitPathfilename = initPathfilename;
+			this.ConnectionString = connectionString;
+			this.DatabaseName = databaseName;
+			this.DatabaseIndex = databaseIndex;
+			this.ExcludedTablesRegex = excludedTablesRegex;
+			this.DatabaseXmlFile = databaseXmlFile;
+		}
 	}
 
 #if NOT_IN_T4

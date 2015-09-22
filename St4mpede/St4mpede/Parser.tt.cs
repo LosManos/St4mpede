@@ -4,16 +4,20 @@
 //Apparently T4 places classes into another class, making namespaces impossible
 namespace St4mpede
 {
+	//	Note that when adding namespaces here we also have to add the namespaces to the TT file  import namespace=...
+	//	The same way any any new assembly reference must be added to the TT file assembly. name=...
 	using Microsoft.SqlServer.Management.Common;
 	using Microsoft.SqlServer.Management.Smo;
 	using System;
 	using System.Collections.Generic;
 	using System.Data.SqlClient;
+	using System.Diagnostics;
 	using System.IO;
 	using System.Linq;
 	using System.Reflection;
 	using System.Text.RegularExpressions;
 	using System.Xml.Linq;
+	using System.Xml.Serialization;
 #endif
 	//#	Regular ol' C# classes and code...
 
@@ -23,7 +27,7 @@ namespace St4mpede
 
 		private Settings m_settings;
 
-		private IList<TableData> m_tablesData;
+		private List<TableData> m_tablesData;
 
 		internal static string GetExecutingPath()
 		{
@@ -111,15 +115,14 @@ namespace St4mpede
 			var databaseName = (string)doc.Root.Element(Settings.XmlElements.DatabaseName);
 			int databaseIndex = 0;
 			int.TryParse(databaseName, out databaseIndex);
-			m_settings = new Settings
-			{
-				ConnectionString = (string)doc.Root.Element(Settings.XmlElements.ConnectionString),
-				DatabaseName = databaseName,
-				DatabaseIndex = databaseIndex,
-				ExcludedTablesRegex = (string)doc.Root.Element(Settings.XmlElements.ExcludedTablesRegex),
-				InitPathfilename = pathfilename,
-				DatabaseXmlFile = (string)doc.Root.Element(Settings.XmlElements.DatabaseXmlFile)
-			};
+			m_settings = new Settings(
+				pathfilename,
+				(string)doc.Root.Element(Settings.XmlElements.ConnectionString),
+				databaseName,
+				databaseIndex,
+				(string)doc.Root.Element(Settings.XmlElements.ExcludedTablesRegex),
+				(string)doc.Root.Element(Settings.XmlElements.DatabaseXmlFile)
+			);
 		}
 
 		private void ParseTables(TableCollection tables, string excludedTablesRegex)
@@ -137,11 +140,76 @@ namespace St4mpede
 
 		#endregion
 
-		private XDocument ToXml(IList<TableData> tables)
+		private XDocument ToXml(List<TableData> tables)
 		{
+			return Serialize(tables);
+
+			//\var doc = new XDocument();
+			//using (var writer = doc.CreateWriter())
+			//{
+			//	// write xml into the writer
+			//\	var serializer = new System.Runtime.Serialization.DataContractSerializer(tables.GetType());
+			//	serializer.WriteObject(writer, tables);
+			//}
+			//return doc;
+
+			//var document = new XDocument();
+			//var root = new XElement("Root");
+			//document.Add(root);
+			//tables.ToList().ForEach(x => root.Add(new XElement("TableData", x)));
+
+			//return document;
+
+			////	We don't do any direct xml serialising of tables here 
+			////	because we want to hand craft the xml to look exacly as we want.
+			//var ret = new XDocument();
+			//ret.AddFirst( new ("asdf");
+
+			//return ret;
+
+			//var xsSubmit = new XmlSerializer(typeof(IList<TableData>));
+			//using (var sww = new StringWriter())
+			//{
+			//	using (var writer = XmlWriter.Create(sww))
+			//	{
+			//		xsSubmit.Serialize(writer, tables);
+			//		var xml = sww.ToString();
+			//		return xml;
+			//	}
+			//}
+
 			//	TODO:	Serialise the tables parameter to an Xml document, not necessary XDocument.
 			throw new NotImplementedException();
 		}
+
+		//	Copied with pride from:
+		//	http://stackoverflow.com/questions/1295046/use-xdocument-as-the-source-for-xmlserializer-deserialize
+
+		//TODO:Make private and a UT_Deserialize method.
+		//TODO:Change to BrEng.
+		internal static T Deserialize<T>(XDocument doc)
+		{
+			XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+
+			using (var reader = doc.Root.CreateReader())
+			{
+				return (T)xmlSerializer.Deserialize(reader);
+			}
+		}
+
+		private static XDocument Serialize<T>(T value)
+		{
+			XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+
+			XDocument doc = new XDocument();
+			using (var writer = doc.CreateWriter())
+			{
+				xmlSerializer.Serialize(writer, value);
+			}
+
+			return doc;
+		}
+
 
 		public override string ToString()
 		{
@@ -152,6 +220,25 @@ namespace St4mpede
 
 		internal IList<string> UT_Log { get { return m_Log; } }
 
+		[DebuggerStepThrough]
+		internal void UT_AddLog( string format, params object[] args)
+		{
+			AddLog(format, args);
+		}
+
+		[DebuggerStepThrough]
+		internal void UT_AddLog( IEnumerable<string> logRows)
+		{
+			AddLog(logRows);
+		}
+
+		[DebuggerStepThrough]
+		internal void UT_AddLog(XDocument xml)
+		{
+			AddLog(xml);
+		}
+
+		[DebuggerStepThrough]
 		internal void UT_ParseTables(TableCollection tables, string excludedTablesRegex)
 		{
 			ParseTables(tables, excludedTablesRegex);
@@ -161,7 +248,8 @@ namespace St4mpede
 
 		internal IList<TableData> UT_TablesData{get{return m_tablesData;} }
 
-		internal XDocument UT_ToXml( IList<TableData> tables)
+		[DebuggerStepThrough]
+		internal XDocument UT_ToXml( List<TableData> tables)
 		{
 			return ToXml(tables);
 		}

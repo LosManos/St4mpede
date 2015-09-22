@@ -6,6 +6,7 @@
 <#@ assembly name="Microsoft.SqlServer.Smo" #>
 <#@ assembly name="System.Core" #>
 <#@ assembly name="System.Data" #>
+<#@ assembly name="System.Runtime.Serialization" #>
 <#@ assembly name="System.Xml" #>
 <#@ assembly name="System.Xml.Linq" #>
 
@@ -14,17 +15,20 @@
 <#@ import namespace="System" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="System.Diagnostics" #>
 <#@ import namespace="System.IO" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Runtime.Serialization" #>
 <#@ import namespace="System.Text.RegularExpressions" #>
 <#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Xml.Serialization" #>
 
 //		The file was generated  by St4mpede <#= System.DateTime.Now.ToString() #>
 
 <#
 	var parser = new Parser();
-	parser.Init(Path.Combine( @"C:\DATA\PROJEKT\St4mpede\St4mpede", "St4mpede.config.xml"));
+	parser.Init(Path.Combine( @"C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede", "St4mpede.config.xml"));
 	parser.ParseDatabase();
 //	parser.WriteDatabaseXml();
 

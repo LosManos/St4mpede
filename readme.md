@@ -7,13 +7,10 @@ The idea is to point a config to a relational database. St4mpede then examines i
 Note: Right now it barely creates the POCOs. It is still an alpha y'know.
 
 ## Thanks to
+http://earlz.net/view/2012/11/21/0346/how-to-unit-test-t4-code-generators
 http://www.luisrocha.net/2008/07/testing-text-template-transformation.html
 https://github.com/jbubriski/ST4bby
 https://github.com/netTiers/netTiers
 http://www.codesmithtools.com/freeware
 
-## TODO:
-ISettings should be internal, shouldn't it?
-I tried to but the compiler complained and said it couldn't implement it because it wasn't public.
-We might not need ISettings at all.
-Move this Todo to Github.
+*eof*
