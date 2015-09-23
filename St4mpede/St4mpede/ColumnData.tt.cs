@@ -18,14 +18,14 @@ namespace St4mpede
 		public string Name { get; set; }
 
 		[DataMember]
-		public string TypeName { get; set; }
+		public string DatabaseTypeName { get; set; }
 
 		public ColumnData()		{		}
 
 		public ColumnData(string name, string typeName)
 		{
 			this.Name = name;
-			this.TypeName = typeName;
+			this.DatabaseTypeName = typeName;
 		}
 	}
 
@@ -36,9 +36,9 @@ namespace St4mpede
 			var ret = new List<string>();
 			foreach( var column in columns)
 			{
-				//	Even though we are using Dotnet4.6 is seems we cannot use the $ string interpolation.
+				//	Even though we are using Dotnet4.6 is seems we cannot use the $ string interpolation. Is it T4?
 				//ret.Add($"Name={column.Name}\tType={column.TypeName}");
-				ret.Add(string.Format("Name={0}\tType={1}", column.Name, column.TypeName));
+				ret.Add(string.Format("Name={0},\tDatabaseTypeName={1}", column.Name, column.DatabaseTypeName));
             }
 
 			return ret;

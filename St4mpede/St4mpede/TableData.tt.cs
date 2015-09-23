@@ -61,6 +61,7 @@ namespace St4mpede
 
 			foreach( var table in tables)
 			{
+				ret.Add(string.Format("Table {0}:", table.Name));
 				ret.AddRange(ColumnDataHelpers.ToInfo(table.Columns));
 			}
 
