@@ -1,7 +1,7 @@
 ﻿
 
 
-//		The file was generated  by St4mpede 2015-09-22 21:46:14
+//		The file was generated  by St4mpede 2015-09-23 20:15:55
 
 
 /* 
@@ -15,8 +15,16 @@ Included tables are 2:Customer, User.
 Name:__RefactorLog, Include:False.
 Name:Customer, Include:True.
 Name:User, Include:True.
+Name=OperationKey	Type=uniqueidentifier
+Name=CustomerID	Type=int
+Name=Name	Type=varchar
+Name=UserId	Type=int
+Name=UserName	Type=nvarchar
+Name=HashedPassword	Type=nchar
+Name=LastLoggedOnDatetime	Type=datetime
 */
 
+//
 //
 //
 //

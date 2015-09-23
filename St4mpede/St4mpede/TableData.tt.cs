@@ -6,7 +6,7 @@ namespace St4mpede
 {
 	//	Note that when adding namespaces here we also have to add the namespaces to the TT file  import namespace=...
 	//	The same way any any new assembly reference must be added to the TT file assembly. name=...
-	using System.Collections.Generic;	// Note that any 
+	using System.Collections.Generic; 
 	using System.Linq;
 	using System.Runtime.Serialization;
 #endif
@@ -19,8 +19,12 @@ namespace St4mpede
 	{
 		[DataMember]
 		public string Name { get; set; }
+
 		[DataMember]
 		public bool Include { get; set; }
+
+		[DataMember]
+		public IList<ColumnData> Columns { get; set; }
 
 		public TableData()		{		}
 
@@ -46,11 +50,20 @@ namespace St4mpede
 			var includedTables =
 				tables.Where(t => t.Include).Select(t => t.Name);
             var ret = new List<string>();
-            ret.Add(string.Format("Excluded tables are {0}:{1}.",
+
+			ret.Add(string.Format("Excluded tables are {0}:{1}.",
 				excludedTables.Count(), string.Join(", ",excludedTables)));
+
 			ret.Add(string.Format("Included tables are {0}:{1}.", 
 				includedTables.Count(), string.Join(", ",includedTables)));
+
 			ret.AddRange(tables.Select(t => t.ToString()));
+
+			foreach( var table in tables)
+			{
+				ret.AddRange(ColumnDataHelpers.ToInfo(table.Columns));
+			}
+
 			return ret;
 		}
 	}

@@ -27,7 +27,7 @@ namespace St4mpede
 
 		private Settings m_settings;
 
-		private List<TableData> m_tablesData;
+		private IList<TableData> m_tablesData;
 
 		internal static string GetExecutingPath()
 		{
@@ -60,7 +60,9 @@ namespace St4mpede
 
 				var tables = database.Tables;
 				AddLog("Number of tables:{0}.", tables.Count);
+
 				ParseTables(tables, m_settings.ExcludedTablesRegex);
+
 				AddLog("Tables parsed:{0}", string.Join(",", m_tablesData.Select(t => t.Name)));
 				AddLog(TableDataHelpers.ToInfo(m_tablesData));
 			}
@@ -71,7 +73,7 @@ namespace St4mpede
 			var xmlPathFile = m_settings.DatabaseXmlFile;
 			AddLog("Writing database xml {0}.", xmlPathFile);
 
-			var xml = ToXml(m_tablesData);
+			var xml = ToXml(m_tablesData.ToList());
 
 			AddLog("Created xml:");
 			AddLog(xml);	//	TODO:	Make Xml output better.
@@ -125,21 +127,44 @@ namespace St4mpede
 			);
 		}
 
+		private static IList<ColumnData> ParseColumns( IList<Column> columns)
+		{
+			var ret = new List<ColumnData>();
+			foreach( var column in columns)
+			{
+				ret.Add(new ColumnData(column.Name, column.DataType.ToString()));
+			}
+			return ret;
+		}
+
 		private void ParseTables(TableCollection tables, string excludedTablesRegex)
 		{
 			var tablesData = new List<TableData>();
 			foreach (Table table in tables)
 			{
-				tablesData.Add(new TableData(
-					table.Name,
-					false == Regex.IsMatch(table.Name, excludedTablesRegex)
-				));
+				ParseTable(excludedTablesRegex, tablesData, table);
 			}
 			m_tablesData = tablesData;
 		}
 
+		private static void ParseTable(string excludedTablesRegex, IList<TableData> tablesData, Table table)
+		{
+			var tableData = 
+			new TableData(
+				table.Name,
+				false == Regex.IsMatch(table.Name, excludedTablesRegex)
+			);
+			tablesData.Add(tableData);
+
+			tableData.Columns = ParseColumns(table.Columns.Cast<Column>().ToList());
+        }
+
 		#endregion
 
+		/// <summary>This method takes a List and not an IList since serialising requires List (not IList).
+		/// </summary>
+		/// <param name="tables"></param>
+		/// <returns></returns>
 		private XDocument ToXml(List<TableData> tables)
 		{
 			return Serialize(tables);

@@ -45,5 +45,6 @@
 
 <#@ include file="St4mpede\Exception.tt.cs" #>
 <#@ include file="St4mpede\Settings.tt.cs" #>
+<#@ include file="St4mpede\ColumnData.tt.cs" #>
 <#@ include file="St4mpede\TableData.tt.cs" #>
 <#@ include file="St4mpede\Parser.tt.cs" #>
