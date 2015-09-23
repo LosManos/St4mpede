@@ -25,9 +25,9 @@ namespace St4mpede
 	{
 		private IList<string> m_Log = new List<string>();
 
-		private Settings m_settings;
+		private Settings _settings;
 
-		private IList<TableData> m_tablesData;
+		private ServerData _serverData;
 
 		internal static string GetExecutingPath()
 		{
@@ -35,50 +35,61 @@ namespace St4mpede
 			return ret;
 		}
 
-		internal void Init(string configPathfilename)
+		internal void Init(string configPath, string configFilename)
 		{
-			if (null == configPathfilename) { throw new ArgumentNullException("pathfilename"); }
+			if (null == configPath) { throw new ArgumentNullException("configPath"); }
+			if (null == configFilename) { throw new ArgumentNullException("configFilename"); }
 
-			AddLog("Reading config file {0}.", configPathfilename);
+			var configPathfilename = Path.Combine(configPath, configFilename);
+            AddLog("Reading config file {0}.", configPathfilename);
 			var doc = XDocument.Load(new FileStream(configPathfilename, FileMode.Open));
-			Init(configPathfilename, doc);
+			Init(configPath, configFilename, doc);
 		}
 
 		internal void ParseDatabase()
 		{
-			using (var conn = new SqlConnection(m_settings.ConnectionString))
+			using (var conn = new SqlConnection(_settings.ConnectionString))
 			{
 				var serverConnection = new ServerConnection(conn);
-				var server = new Server(serverConnection);
-				AddLog("Choosing server {0}", server.Name);
-				var database =
-					string.IsNullOrWhiteSpace(m_settings.DatabaseName) ?
-					server.Databases[m_settings.DatabaseIndex] :    //	Uses index, like for SqlCompact.
-					server.Databases[m_settings.DatabaseName];
-				if (null == database) { throw new UnknownDatabaseException(GetDatabasesInfo(server.Databases)); }
-				AddLog("Choosing database {0}.", database.Name);
+				try
+				{
+					var server = new Server(serverConnection);
+					AddLog("Chose server {0}", server.Name);
 
-				var tables = database.Tables;
-				AddLog("Number of tables:{0}.", tables.Count);
+					var database =
+						string.IsNullOrWhiteSpace(_settings.DatabaseName) ?
+						server.Databases[_settings.DatabaseIndex] :    //	Uses index, like for SqlCompact.
+						server.Databases[_settings.DatabaseName];
+					if (null == database) { throw new UnknownDatabaseException(GetDatabasesInfo(server.Databases)); }
+					AddLog("Chose database {0}.", database.Name);
 
-				ParseTables(tables, m_settings.ExcludedTablesRegex);
+					var tables = database.Tables;
+					AddLog("Number of tables:{0}.", tables.Count);
 
-				AddLog("Tables parsed:{0}", string.Join(",", m_tablesData.Select(t => t.Name)));
-				AddLog(TableDataHelpers.ToInfo(m_tablesData));
+					ParseTables(tables, _settings.ExcludedTablesRegex);
+					AddLog("Tables parsed:{0}", string.Join(",", _serverData.Tables.Select(t => t.Name)));
+					AddLog(TableDataHelpers.ToInfo(_serverData.Tables));
+				}
+				finally
+				{
+					serverConnection.Disconnect();
+				}
 			}
 		}
 
 		internal void WriteDatabaseXml()
 		{
-			var xmlPathFile = m_settings.DatabaseXmlFile;
+			var xmlPathFile = _settings.DatabaseXmlFile;
+			AddLog(string.Empty);
 			AddLog("Writing database xml {0}.", xmlPathFile);
 
-			var xml = ToXml(m_tablesData.ToList());
+			var xml = ToXml(_serverData);
 
 			AddLog("Created xml:");
-			AddLog(xml);	//	TODO:	Make Xml output better.
+			AddLog(xml);
 
 			//	TODO:	Write Xml to file.
+			xml.Save(Path.Combine(_settings.ConfigPath, _settings.OutputXmlFilename));
 		}
 
 		#region Private methods.
@@ -112,13 +123,14 @@ namespace St4mpede
 			return lst;
 		}
 
-		private void Init(string pathfilename, System.Xml.Linq.XDocument doc)
+		private void Init(string configPath, string configFilename, System.Xml.Linq.XDocument doc)
 		{
 			var databaseName = (string)doc.Root.Element(Settings.XmlElements.DatabaseName);
 			int databaseIndex = 0;
 			int.TryParse(databaseName, out databaseIndex);
-			m_settings = new Settings(
-				pathfilename,
+			_settings = new Settings(
+				configPath,
+				Path.Combine(configPath, configFilename),
 				(string)doc.Root.Element(Settings.XmlElements.ConnectionString),
 				databaseName,
 				databaseIndex,
@@ -127,10 +139,10 @@ namespace St4mpede
 			);
 		}
 
-		private static IList<ColumnData> ParseColumns( IList<Column> columns)
+		private static IList<ColumnData> ParseColumns(IList<Column> columns)
 		{
 			var ret = new List<ColumnData>();
-			foreach( var column in columns)
+			foreach (var column in columns)
 			{
 				ret.Add(new ColumnData(column.Name, column.DataType.ToString()));
 			}
@@ -144,7 +156,10 @@ namespace St4mpede
 			{
 				ParseTable(excludedTablesRegex, tablesData, table);
 			}
-			m_tablesData = tablesData;
+			_serverData = new ServerData
+			{
+				Tables = tablesData
+			};
 		}
 
 		private static void ParseTable(string excludedTablesRegex, IList<TableData> tablesData, Table table)
@@ -156,7 +171,7 @@ namespace St4mpede
 			);
 			tablesData.Add(tableData);
 
-			tableData.Columns = ParseColumns(table.Columns.Cast<Column>().ToList());
+			tableData.Columns = ParseColumns(table.Columns.Cast<Column>().ToList()).ToList();
         }
 
 		#endregion
@@ -165,54 +180,25 @@ namespace St4mpede
 		/// </summary>
 		/// <param name="tables"></param>
 		/// <returns></returns>
-		private XDocument ToXml(List<TableData> tables)
+		private static XDocument ToXml(ServerData serverData)
 		{
-			return Serialize(tables);
-
-			//\var doc = new XDocument();
-			//using (var writer = doc.CreateWriter())
-			//{
-			//	// write xml into the writer
-			//\	var serializer = new System.Runtime.Serialization.DataContractSerializer(tables.GetType());
-			//	serializer.WriteObject(writer, tables);
-			//}
-			//return doc;
-
-			//var document = new XDocument();
-			//var root = new XElement("Root");
-			//document.Add(root);
-			//tables.ToList().ForEach(x => root.Add(new XElement("TableData", x)));
-
-			//return document;
-
-			////	We don't do any direct xml serialising of tables here 
-			////	because we want to hand craft the xml to look exacly as we want.
-			//var ret = new XDocument();
-			//ret.AddFirst( new ("asdf");
-
-			//return ret;
-
-			//var xsSubmit = new XmlSerializer(typeof(IList<TableData>));
-			//using (var sww = new StringWriter())
-			//{
-			//	using (var writer = XmlWriter.Create(sww))
-			//	{
-			//		xsSubmit.Serialize(writer, tables);
-			//		var xml = sww.ToString();
-			//		return xml;
-			//	}
-			//}
-
-			//	TODO:	Serialise the tables parameter to an Xml document, not necessary XDocument.
-			throw new NotImplementedException();
+			return Serialise(serverData);
 		}
 
-		//	Copied with pride from:
-		//	http://stackoverflow.com/questions/1295046/use-xdocument-as-the-source-for-xmlserializer-deserialize
-
-		//TODO:Make private and a UT_Deserialize method.
-		//TODO:Change to BrEng.
-		internal static T Deserialize<T>(XDocument doc)
+		/// <summary>This method deserialises an XDocument to an object.
+		/// See complementary method <see cref="Serialise{T}(T)"/>.
+		/// <para>
+		/// Copied with pride from:
+		///	http://stackoverflow.com/questions/1295046/use-xdocument-as-the-source-for-xmlserializer-deserialize
+		/// </para>
+		/// <para>
+		/// If there ever will be a Util or Common library, maybe we should move it there.
+		/// </para>
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="doc"></param>
+		/// <returns></returns>
+		private static T Deserialise<T>(XDocument doc)
 		{
 			XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
 
@@ -222,7 +208,13 @@ namespace St4mpede
 			}
 		}
 
-		private static XDocument Serialize<T>(T value)
+		/// <summary>This method serialises an object into XDocument.
+		/// See complementary method <see cref="Deserialise{T}(XDocument)"/>.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		private static XDocument Serialise<T>(T value)
 		{
 			XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
 
@@ -234,7 +226,6 @@ namespace St4mpede
 
 			return doc;
 		}
-
 
 		public override string ToString()
 		{
@@ -263,20 +254,25 @@ namespace St4mpede
 			AddLog(xml);
 		}
 
+		internal static T UT_Deserialise<T>(XDocument res)
+		{
+			return Deserialise<T>(res);
+		}
+
 		[DebuggerStepThrough]
 		internal void UT_ParseTables(TableCollection tables, string excludedTablesRegex)
 		{
 			ParseTables(tables, excludedTablesRegex);
 		}
 
-		internal Settings UT_Settings { get { return m_settings; } }
+		internal Settings UT_Settings { get { return _settings; } }
 
-		internal IList<TableData> UT_TablesData{get{return m_tablesData;} }
+		internal ServerData UT_ServerData{get{ return _serverData; } }
 
 		[DebuggerStepThrough]
-		internal XDocument UT_ToXml( List<TableData> tables)
+		internal static XDocument UT_ToXml( ServerData serverData)
 		{
-			return ToXml(tables);
+			return ToXml(serverData);
 		}
 
 		#endregion

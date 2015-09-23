@@ -10,6 +10,7 @@ namespace St4mpede.Test
 		public void Settings_given_ObjectExists_should_HaveAllProperties()
 		{
 			//	#	Arrange and Act
+			const string MyConfigPath = "myConfigPath";
 			const string MyInitPathfilename = "myInitPathFileName";
 			const string MyConnectionString = "myConnectionString";
 			const string MyDatabaseName = "myDatabaseName";
@@ -18,6 +19,7 @@ namespace St4mpede.Test
 			const string MyDatabaseXmlFile = "myDatabaseXmlFile";
 			
 			var sut = new St4mpede.Settings(
+				MyConfigPath,
 				MyInitPathfilename,
 				MyConnectionString,
 				MyDatabaseName,
@@ -26,6 +28,7 @@ namespace St4mpede.Test
 				MyDatabaseXmlFile);
 
 			//	#	Assert.
+			Assert.AreEqual(MyConfigPath, sut.ConfigPath);
 			Assert.AreEqual(MyInitPathfilename, sut.InitPathfilename);
 			Assert.AreEqual(MyConnectionString, sut.ConnectionString);
 			Assert.AreEqual(MyDatabaseName, sut.DatabaseName);

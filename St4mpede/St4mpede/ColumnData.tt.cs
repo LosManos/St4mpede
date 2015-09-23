@@ -6,12 +6,15 @@ namespace St4mpede
 {
 	//	Note that when adding namespaces here we also have to add the namespaces to the TT file  import namespace=...
 	//	The same way any any new assembly reference must be added to the TT file assembly. name=...
-	using System.Collections.Generic; 
+	using System.Collections.Generic;
 	using System.Runtime.Serialization;
+	using System.Xml.Serialization;
 #endif
 	//#	Regular ol' C# classes and code...
 
+	/// <summary>This class must be public to make de/serialising possible when unit testing. </summary>
 	[DataContract]
+	[XmlType(TypeName = "Column")]
 	public class ColumnData
 	{
 		[DataMember]

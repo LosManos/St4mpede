@@ -12,7 +12,14 @@ namespace St4mpede
 
 	internal class Settings
 	{
+		internal string ConfigPath { get; set; }
+
 		internal string InitPathfilename { get; set; }
+
+		/// <summary>This is the name of the outputed XML file.
+		/// By the time of writing it is hard coded but when we have the time to make it settable, with default value fall back we might. Check Github for bug #4 https://github.com/LosManos/St4mpede/issues/4
+		/// </summary>
+		internal string OutputXmlFilename { get { return "St4mpede.xml"; } }
 
 		internal string ConnectionString { get; set; }
 
@@ -35,10 +42,11 @@ namespace St4mpede
 
 		/// <summary>This constructor takes every needed property as argument.
 		/// </summary>
-		public Settings(string initPathfilename, 
+		public Settings(string configPath, string initPathfilename, 
 			string connectionString, string databaseName, int databaseIndex, 
 			string excludedTablesRegex, string databaseXmlFile)
 		{
+			this.ConfigPath = configPath;
 			this.InitPathfilename = initPathfilename;
 			this.ConnectionString = connectionString;
 			this.DatabaseName = databaseName;
