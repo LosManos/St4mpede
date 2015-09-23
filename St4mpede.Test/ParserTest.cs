@@ -26,14 +26,6 @@ namespace St4mpede.Test
 		}
 
 		[TestMethod]
-		public void ParseDatabaseTest()
-		{
-			Assert.Inconclusive("TBA");
-			var sut = new Parser();
-			sut.ParseDatabase();
-		}
-
-		[TestMethod]
 		public void AddLog_given_FormatAndArgs_should_AddItem()
 		{
 			//	#	Arrange.
