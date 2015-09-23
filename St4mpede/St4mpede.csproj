@@ -65,6 +65,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="St4mpede.xml" />
     <None Include="St4mpede.config.xml">
       <SubType>Designer</SubType>
     </None>

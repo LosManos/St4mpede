@@ -25,7 +25,7 @@ namespace St4mpede
 	{
 		private IList<string> m_Log = new List<string>();
 
-		private Settings m_settings;
+		private Settings _settings;
 
 		private ServerData _serverData;
 
@@ -35,18 +35,20 @@ namespace St4mpede
 			return ret;
 		}
 
-		internal void Init(string configPathfilename)
+		internal void Init(string configPath, string configFilename)
 		{
-			if (null == configPathfilename) { throw new ArgumentNullException("pathfilename"); }
+			if (null == configPath) { throw new ArgumentNullException("configPath"); }
+			if (null == configFilename) { throw new ArgumentNullException("configFilename"); }
 
-			AddLog("Reading config file {0}.", configPathfilename);
+			var configPathfilename = Path.Combine(configPath, configFilename);
+            AddLog("Reading config file {0}.", configPathfilename);
 			var doc = XDocument.Load(new FileStream(configPathfilename, FileMode.Open));
-			Init(configPathfilename, doc);
+			Init(configPath, configFilename, doc);
 		}
 
 		internal void ParseDatabase()
 		{
-			using (var conn = new SqlConnection(m_settings.ConnectionString))
+			using (var conn = new SqlConnection(_settings.ConnectionString))
 			{
 				var serverConnection = new ServerConnection(conn);
 				try
@@ -55,16 +57,16 @@ namespace St4mpede
 					AddLog("Chose server {0}", server.Name);
 
 					var database =
-						string.IsNullOrWhiteSpace(m_settings.DatabaseName) ?
-						server.Databases[m_settings.DatabaseIndex] :    //	Uses index, like for SqlCompact.
-						server.Databases[m_settings.DatabaseName];
+						string.IsNullOrWhiteSpace(_settings.DatabaseName) ?
+						server.Databases[_settings.DatabaseIndex] :    //	Uses index, like for SqlCompact.
+						server.Databases[_settings.DatabaseName];
 					if (null == database) { throw new UnknownDatabaseException(GetDatabasesInfo(server.Databases)); }
 					AddLog("Chose database {0}.", database.Name);
 
 					var tables = database.Tables;
 					AddLog("Number of tables:{0}.", tables.Count);
 
-					ParseTables(tables, m_settings.ExcludedTablesRegex);
+					ParseTables(tables, _settings.ExcludedTablesRegex);
 					AddLog("Tables parsed:{0}", string.Join(",", _serverData.Tables.Select(t => t.Name)));
 					AddLog(TableDataHelpers.ToInfo(_serverData.Tables));
 				}
@@ -77,7 +79,7 @@ namespace St4mpede
 
 		internal void WriteDatabaseXml()
 		{
-			var xmlPathFile = m_settings.DatabaseXmlFile;
+			var xmlPathFile = _settings.DatabaseXmlFile;
 			AddLog(string.Empty);
 			AddLog("Writing database xml {0}.", xmlPathFile);
 
@@ -87,6 +89,7 @@ namespace St4mpede
 			AddLog(xml);
 
 			//	TODO:	Write Xml to file.
+			xml.Save(Path.Combine(_settings.ConfigPath, _settings.OutputXmlFilename));
 		}
 
 		#region Private methods.
@@ -120,13 +123,14 @@ namespace St4mpede
 			return lst;
 		}
 
-		private void Init(string pathfilename, System.Xml.Linq.XDocument doc)
+		private void Init(string configPath, string configFilename, System.Xml.Linq.XDocument doc)
 		{
 			var databaseName = (string)doc.Root.Element(Settings.XmlElements.DatabaseName);
 			int databaseIndex = 0;
 			int.TryParse(databaseName, out databaseIndex);
-			m_settings = new Settings(
-				pathfilename,
+			_settings = new Settings(
+				configPath,
+				Path.Combine(configPath, configFilename),
 				(string)doc.Root.Element(Settings.XmlElements.ConnectionString),
 				databaseName,
 				databaseIndex,
@@ -261,7 +265,7 @@ namespace St4mpede
 			ParseTables(tables, excludedTablesRegex);
 		}
 
-		internal Settings UT_Settings { get { return m_settings; } }
+		internal Settings UT_Settings { get { return _settings; } }
 
 		internal ServerData UT_ServerData{get{ return _serverData; } }
 

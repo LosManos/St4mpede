@@ -28,7 +28,7 @@
 
 <#
 	var parser = new Parser();
-	parser.Init(Path.Combine( @"C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede", "St4mpede.config.xml"));
+	parser.Init(@"C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede", "St4mpede.config.xml");
 	parser.ParseDatabase();
 	parser.WriteDatabaseXml();
 

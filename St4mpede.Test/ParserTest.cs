@@ -83,7 +83,7 @@ namespace St4mpede.Test
 			//	#	Act and Assert.
 			try
 			{
-				sut.Init(null);
+				sut.Init(null, null);
 				Assert.Fail("Should have thrown an exception.");
 			}
 			catch (ArgumentNullException)
@@ -99,10 +99,16 @@ namespace St4mpede.Test
 			var sut = new Parser();
 
 			//	#	Act and Assert.
-			try {
-				sut.Init("ThisFileDoesNotExist");
+			try
+			{
+				sut.Init("ThisPathDoesNotExist", "ThisFileDoesNotExist");
 				Assert.Fail("Should have thrown an exception.");
-			}catch( FileNotFoundException)
+			}
+			catch (FileNotFoundException)
+			{
+				//	Ok.
+			}
+			catch (DirectoryNotFoundException)
 			{
 				//	Ok.
 			}
@@ -112,11 +118,12 @@ namespace St4mpede.Test
 		public void Init_givenValidFile_should_CreateSettings()
 		{
 			//	#	Arrange.
-			const string PathFilename = @"..\..\ValidConfigFile.xml";
+			const string MyPath = @"..\..\";
+			const string MyFilename = @"ValidConfigFile.xml";
             var sut = new Parser();
 
 			//	#	Act.
-			sut.Init(PathFilename);
+			sut.Init(MyPath, MyFilename);
 
 			//	#	Assert.
 			Assert.IsInstanceOfType(sut.UT_Settings, typeof(Settings));
@@ -124,7 +131,8 @@ namespace St4mpede.Test
 			Assert.AreEqual("myDatabaseName", sut.UT_Settings.DatabaseName);
 			Assert.AreEqual(0, sut.UT_Settings.DatabaseIndex);
 			Assert.AreEqual("myExcludedTablesRegex", sut.UT_Settings.ExcludedTablesRegex);
-			Assert.AreEqual(PathFilename, sut.UT_Settings.InitPathfilename);
+			Assert.AreEqual(MyPath, sut.UT_Settings.ConfigPath);
+			Assert.AreEqual(Path.Combine( MyPath,MyFilename), sut.UT_Settings.InitPathfilename);
 		}
 
 		[TestMethod]
