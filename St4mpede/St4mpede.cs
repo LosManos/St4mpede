@@ -1,13 +1,13 @@
 ﻿
 
 
-//		The file was generated  by St4mpede 2015-09-23 22:53:02
+//		The file was generated  by St4mpede 2015-09-23 23:53:45
 
 
 /* 
 Reading config file C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede\St4mpede.config.xml.
-Choosing server (LocalDB)\MSSQLLocalDB
-Choosing database C:\DATA\PROJEKT\ST4MPEDE\St4mpede\ST4MPEDE.TEST\DATABASE\ST4MPEDE.MDF.
+Chose server (LocalDB)\MSSQLLocalDB
+Chose database C:\DATA\PROJEKT\ST4MPEDE\St4mpede\ST4MPEDE.TEST\DATABASE\ST4MPEDE.MDF.
 Number of tables:3.
 Tables parsed:__RefactorLog,Customer,User
 Excluded tables are 1:__RefactorLog.
@@ -25,8 +25,60 @@ Name=UserId,	DatabaseTypeName=int
 Name=UserName,	DatabaseTypeName=nvarchar
 Name=HashedPassword,	DatabaseTypeName=nchar
 Name=LastLoggedOnDatetime,	DatabaseTypeName=datetime
+
+Writing database xml Database.xml.
+Created xml:
+<ArrayOfTable xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Table>
+    <Name>__RefactorLog</Name>
+    <Include>false</Include>
+    <Columns>
+      <Column>
+        <Name>OperationKey</Name>
+        <DatabaseTypeName>uniqueidentifier</DatabaseTypeName>
+      </Column>
+    </Columns>
+  </Table>
+  <Table>
+    <Name>Customer</Name>
+    <Include>true</Include>
+    <Columns>
+      <Column>
+        <Name>CustomerID</Name>
+        <DatabaseTypeName>int</DatabaseTypeName>
+      </Column>
+      <Column>
+        <Name>Name</Name>
+        <DatabaseTypeName>varchar</DatabaseTypeName>
+      </Column>
+    </Columns>
+  </Table>
+  <Table>
+    <Name>User</Name>
+    <Include>true</Include>
+    <Columns>
+      <Column>
+        <Name>UserId</Name>
+        <DatabaseTypeName>int</DatabaseTypeName>
+      </Column>
+      <Column>
+        <Name>UserName</Name>
+        <DatabaseTypeName>nvarchar</DatabaseTypeName>
+      </Column>
+      <Column>
+        <Name>HashedPassword</Name>
+        <DatabaseTypeName>nchar</DatabaseTypeName>
+      </Column>
+      <Column>
+        <Name>LastLoggedOnDatetime</Name>
+        <DatabaseTypeName>datetime</DatabaseTypeName>
+      </Column>
+    </Columns>
+  </Table>
+</ArrayOfTable>
 */
 
+//
 //
 //
 //

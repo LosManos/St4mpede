@@ -9,6 +9,7 @@ using System.Xml.Serialization;
 using System.Xml;
 using System.Xml.Linq;
 using System.Linq;
+using St4mpede.Test.Extensions;
 
 namespace St4mpede.Test
 {
@@ -149,11 +150,11 @@ namespace St4mpede.Test
 			sut.UT_ParseTables(tables, "Project");
 
 			//	#	Assert.
-			Assert.AreEqual(2, sut.UT_TablesData.Count);
-			Assert.AreEqual("Customer", sut.UT_TablesData[0].Name);
-			Assert.IsTrue(sut.UT_TablesData[0].Include);
-			Assert.AreEqual("Project", sut.UT_TablesData[1].Name);
-			Assert.IsFalse(sut.UT_TablesData[1].Include);
+			Assert.AreEqual(2, sut.UT_ServerData.Tables.Count);
+			Assert.AreEqual("Customer", sut.UT_ServerData.Tables[0].Name);
+			Assert.IsTrue(sut.UT_ServerData.Tables[0].Include);
+			Assert.AreEqual("Project", sut.UT_ServerData.Tables[1].Name);
+			Assert.IsFalse(sut.UT_ServerData.Tables[1].Include);
 		}
 
 		[TestMethod]
@@ -176,25 +177,39 @@ namespace St4mpede.Test
 		public void ToXml()
 		{
 			//	#	Arrange.
-			var sut = new Parser();
-			var tables = new List<TableData>();
-			tables.Add(new TableData("MyName", true));
+			var server = new ServerData
+			{
+				Tables = new List<TableData>()
+			};
+			var table = server.Tables.AddItem(new TableData("MyTableName", true));
+			table.Columns = new List<ColumnData>
+			{
+				new ColumnData("MyColumnName", "MyColType")
+			};
 
 			//	#	Act.
-			var res = sut.UT_ToXml(tables);
+			var res = Parser.UT_ToXml(server);
 
 			//	#	Assert.
-			var resTables = Parser.Deserialize<List<TableData>>(res);
+			var resServer = Parser.UT_Deserialise<ServerData>(res);
 
-			Assert.AreEqual(1, resTables.Count);
+			Assert.AreEqual(1, resServer.Tables.Count);
 
 			Assert.AreEqual(
-				@"<ArrayOfTableData xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <TableData>
-    <Name>MyName</Name>
-    <Include>true</Include>
-  </TableData>
-</ArrayOfTableData>", 
+				@"<Server xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <Tables>
+    <Table>
+      <Name>MyTableName</Name>
+      <Include>true</Include>
+      <Columns>
+        <Column>
+          <Name>MyColumnName</Name>
+          <DatabaseTypeName>MyColType</DatabaseTypeName>
+        </Column>
+      </Columns>
+    </Table>
+  </Tables>
+</Server>", 
 				res.ToString());
 	
 

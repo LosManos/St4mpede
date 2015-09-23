@@ -30,7 +30,7 @@
 	var parser = new Parser();
 	parser.Init(Path.Combine( @"C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede", "St4mpede.config.xml"));
 	parser.ParseDatabase();
-//	parser.WriteDatabaseXml();
+	parser.WriteDatabaseXml();
 
 	/*
 	//	TODO:	Don't read the xml from file, instead use either the xml
@@ -47,4 +47,5 @@
 <#@ include file="St4mpede\Settings.tt.cs" #>
 <#@ include file="St4mpede\ColumnData.tt.cs" #>
 <#@ include file="St4mpede\TableData.tt.cs" #>
+<#@ include file="St4mpede\ServerData.tt.cs" #>
 <#@ include file="St4mpede\Parser.tt.cs" #>

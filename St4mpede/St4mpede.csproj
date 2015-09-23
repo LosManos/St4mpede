@@ -55,6 +55,7 @@
     <Compile Include="St4mpede\Parser.tt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="St4mpede\Exception.tt.cs" />
+    <Compile Include="St4mpede\ServerData.tt.cs" />
     <Compile Include="St4mpede\TableData.tt.cs" />
     <Compile Include="St4mpede\Settings.tt.cs" />
     <Compile Include="St4mpede.cs">
