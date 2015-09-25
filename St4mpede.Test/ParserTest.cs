@@ -185,26 +185,26 @@ namespace St4mpede.Test
 		public void ToXml()
 		{
 			//	#	Arrange.
-			var server = new ServerData
+			var database = new DatabaseData
 			{
 				Tables = new List<TableData>()
 			};
-			var table = server.Tables.AddItem(new TableData("MyTableName", true));
+			var table = database.Tables.AddItem(new TableData("MyTableName", true));
 			table.Columns = new List<ColumnData>
 			{
 				new ColumnData("MyColumnName", "MyColType")
 			};
 
 			//	#	Act.
-			var res = Parser.UT_ToXml(server);
+			var res = Parser.UT_ToXml(database);
 
 			//	#	Assert.
-			var resServer = Parser.UT_Deserialise<ServerData>(res);
+			var resServer = Parser.UT_Deserialise<DatabaseData>(res);
 
 			Assert.AreEqual(1, resServer.Tables.Count);
 
 			Assert.AreEqual(
-				@"<Server xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+				@"<Database xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
   <Tables>
     <Table>
       <Name>MyTableName</Name>
@@ -217,7 +217,7 @@ namespace St4mpede.Test
       </Columns>
     </Table>
   </Tables>
-</Server>", 
+</Database>", 
 				res.ToString());
 	
 

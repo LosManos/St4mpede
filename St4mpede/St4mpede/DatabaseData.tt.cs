@@ -14,10 +14,10 @@ namespace St4mpede
 
 	/// <summary>This class must be public to make de/serialising possible when unit testing. </summary>
 	[DataContract]
-	[XmlType(TypeName = "Server")]
-	public class ServerData
+	[XmlType(TypeName = "Database")]
+	public class DatabaseData
 	{
-		/// <summary>List of Tables for this Server.
+		/// <summary>List of Tables for this Database.
 		/// <para>Note it must be List and not IList to make serialising work.</para>
 		/// </summary>
 		public List<TableData> Tables { get; set; }

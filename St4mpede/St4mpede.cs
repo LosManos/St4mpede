@@ -1,7 +1,7 @@
 ﻿
 
 
-//		The file was generated  by St4mpede 2015-09-24 00:48:20
+//		The file was generated  by St4mpede 2015-09-25 21:32:57
 
 
 /* 
@@ -28,7 +28,7 @@ Name=LastLoggedOnDatetime,	DatabaseTypeName=datetime
 
 Writing database xml Database.xml.
 Created xml:
-<Server xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<Database xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Tables>
     <Table>
       <Name>__RefactorLog</Name>
@@ -77,7 +77,7 @@ Created xml:
       </Columns>
     </Table>
   </Tables>
-</Server>
+</Database>
 */
 
 //

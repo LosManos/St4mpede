@@ -47,5 +47,5 @@
 <#@ include file="St4mpede\Settings.tt.cs" #>
 <#@ include file="St4mpede\ColumnData.tt.cs" #>
 <#@ include file="St4mpede\TableData.tt.cs" #>
-<#@ include file="St4mpede\ServerData.tt.cs" #>
+<#@ include file="St4mpede\DatabaseData.tt.cs" #>
 <#@ include file="St4mpede\Parser.tt.cs" #>

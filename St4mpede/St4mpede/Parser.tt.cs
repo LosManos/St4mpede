@@ -27,7 +27,7 @@ namespace St4mpede
 
 		private Settings _settings;
 
-		private ServerData _serverData;
+		private DatabaseData _databaseData;
 
 		internal static string GetExecutingPath()
 		{
@@ -67,8 +67,8 @@ namespace St4mpede
 					AddLog("Number of tables:{0}.", tables.Count);
 
 					ParseTables(tables, _settings.ExcludedTablesRegex);
-					AddLog("Tables parsed:{0}", string.Join(",", _serverData.Tables.Select(t => t.Name)));
-					AddLog(TableDataHelpers.ToInfo(_serverData.Tables));
+					AddLog("Tables parsed:{0}", string.Join(",", _databaseData.Tables.Select(t => t.Name)));
+					AddLog(TableDataHelpers.ToInfo(_databaseData.Tables));
 				}
 				finally
 				{
@@ -83,12 +83,11 @@ namespace St4mpede
 			AddLog(string.Empty);
 			AddLog("Writing database xml {0}.", xmlPathFile);
 
-			var xml = ToXml(_serverData);
+			var xml = ToXml(_databaseData);
 
 			AddLog("Created xml:");
 			AddLog(xml);
 
-			//	TODO:	Write Xml to file.
 			xml.Save(Path.Combine(_settings.ConfigPath, _settings.OutputXmlFilename));
 		}
 
@@ -156,7 +155,7 @@ namespace St4mpede
 			{
 				ParseTable(excludedTablesRegex, tablesData, table);
 			}
-			_serverData = new ServerData
+			_databaseData = new DatabaseData
 			{
 				Tables = tablesData
 			};
@@ -180,9 +179,9 @@ namespace St4mpede
 		/// </summary>
 		/// <param name="tables"></param>
 		/// <returns></returns>
-		private static XDocument ToXml(ServerData serverData)
+		private static XDocument ToXml(DatabaseData databaseData)
 		{
-			return Serialise(serverData);
+			return Serialise(databaseData);
 		}
 
 		/// <summary>This method deserialises an XDocument to an object.
@@ -267,10 +266,10 @@ namespace St4mpede
 
 		internal Settings UT_Settings { get { return _settings; } }
 
-		internal ServerData UT_ServerData{get{ return _serverData; } }
+		internal DatabaseData UT_ServerData{get{ return _databaseData; } }
 
 		[DebuggerStepThrough]
-		internal static XDocument UT_ToXml( ServerData serverData)
+		internal static XDocument UT_ToXml( DatabaseData serverData)
 		{
 			return ToXml(serverData);
 		}
