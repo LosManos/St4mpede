@@ -23,6 +23,9 @@ namespace St4mpede
 
 	public class Parser
 	{
+		//	TODO:Move to settings with St4mpede as fallback.
+		private const string St4mpedePath = "St4mpede";
+
 		private IList<string> m_Log = new List<string>();
 
 		private Settings _settings;
@@ -88,7 +91,7 @@ namespace St4mpede
 			AddLog("Created xml:");
 			AddLog(xml);
 
-			xml.Save(Path.Combine(_settings.ConfigPath, _settings.OutputXmlFilename));
+			xml.Save(Path.Combine(_settings.ConfigPath, St4mpedePath	,  _settings.OutputXmlFilename));
 		}
 
 		#region Private methods.
