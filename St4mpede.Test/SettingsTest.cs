@@ -18,7 +18,7 @@ namespace St4mpede.Test
 			const string MyExcludedTablesRegex = "myExcludedTablesRegex";
 			const string MyDatabaseXmlFile = "myDatabaseXmlFile";
 			
-			var sut = new St4mpede.Settings(
+			var sut = new Settings(
 				MyConfigPath,
 				MyInitPathfilename,
 				MyConnectionString,

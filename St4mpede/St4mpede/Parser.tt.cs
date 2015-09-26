@@ -26,7 +26,7 @@ namespace St4mpede
 		//	TODO:Move to settings with St4mpede as fallback.
 		private const string St4mpedePath = "St4mpede";
 
-		private IList<string> m_Log = new List<string>();
+		private IList<string> _log = new List<string>();
 
 		private Settings _settings;
 
@@ -98,7 +98,7 @@ namespace St4mpede
 
 		private void AddLog(string format, params object[] args)
 		{
-			m_Log.Add(string.Format(format, args));
+			_log.Add(string.Format(format, args));
 		}
 
 		private void AddLog(IEnumerable<string> logRows)
@@ -184,59 +184,17 @@ namespace St4mpede
 		/// <returns></returns>
 		private static XDocument ToXml(DatabaseData databaseData)
 		{
-			return Serialise(databaseData);
+			return Core.Serialise(databaseData);
 		}
 
-		/// <summary>This method deserialises an XDocument to an object.
-		/// See complementary method <see cref="Serialise{T}(T)"/>.
-		/// <para>
-		/// Copied with pride from:
-		///	http://stackoverflow.com/questions/1295046/use-xdocument-as-the-source-for-xmlserializer-deserialize
-		/// </para>
-		/// <para>
-		/// If there ever will be a Util or Common library, maybe we should move it there.
-		/// </para>
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="doc"></param>
-		/// <returns></returns>
-		private static T Deserialise<T>(XDocument doc)
+		public string ToInfo()
 		{
-			XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-
-			using (var reader = doc.Root.CreateReader())
-			{
-				return (T)xmlSerializer.Deserialize(reader);
-			}
-		}
-
-		/// <summary>This method serialises an object into XDocument.
-		/// See complementary method <see cref="Deserialise{T}(XDocument)"/>.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="value"></param>
-		/// <returns></returns>
-		private static XDocument Serialise<T>(T value)
-		{
-			XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-
-			XDocument doc = new XDocument();
-			using (var writer = doc.CreateWriter())
-			{
-				xmlSerializer.Serialize(writer, value);
-			}
-
-			return doc;
-		}
-
-		public override string ToString()
-		{
-			return string.Join("\r\n", m_Log);
+			return string.Join("\r\n", _log);
 		}
 
 		#region Unit testing work arounds.
 
-		internal IList<string> UT_Log { get { return m_Log; } }
+		internal IList<string> UT_Log { get { return _log; } }
 
 		[DebuggerStepThrough]
 		internal void UT_AddLog( string format, params object[] args)
@@ -255,12 +213,7 @@ namespace St4mpede
 		{
 			AddLog(xml);
 		}
-
-		internal static T UT_Deserialise<T>(XDocument res)
-		{
-			return Deserialise<T>(res);
-		}
-
+		
 		[DebuggerStepThrough]
 		internal void UT_ParseTables(TableCollection tables, string excludedTablesRegex)
 		{

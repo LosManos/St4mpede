@@ -199,7 +199,7 @@ namespace St4mpede.Test
 			var res = Parser.UT_ToXml(database);
 
 			//	#	Assert.
-			var resServer = Parser.UT_Deserialise<DatabaseData>(res);
+			var resServer = Core.Deserialise<DatabaseData>(res);
 
 			Assert.AreEqual(1, resServer.Tables.Count);
 
