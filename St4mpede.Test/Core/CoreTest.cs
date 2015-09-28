@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace St4mpede.Test
+namespace St4mpede.Test.Core
 {
 	[TestClass]
 	public class CoreTest

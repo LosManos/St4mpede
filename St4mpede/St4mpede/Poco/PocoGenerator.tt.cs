@@ -2,10 +2,12 @@
 /*That line above is very carefully constructed to be awesome and make it so this works!*/
 #if NOT_IN_T4
 //Apparently T4 places classes into another class, making namespaces impossible
+using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
-namespace St4mpede.St4mpede.Poco
+namespace St4mpede.Poco
 {
 	//	Note that when adding namespaces here we also have to add the namespaces to the TT file  import namespace=...
 	//	The same way any any new assembly reference must be added to the TT file assembly. name=...
@@ -15,51 +17,85 @@ namespace St4mpede.St4mpede.Poco
 
 	internal class PocoGenerator
 	{
-		public DatabaseData Database { get; set; }
+		private ILog _log;
+
+		private IXDocHandler _xDocHandler;
+
+		private IList<ClassData> _classDataList;
+
+		private DatabaseData _database;
+
+		internal PocoGenerator()
+			:this(new Log(), new XDocHandler())
+		{	}
+
+		internal PocoGenerator(ILog log, IXDocHandler xDocHandler)
+		{
+			_log = log;
+			_xDocHandler = xDocHandler;
+		}
 
 		internal void Generate()
 		{
+			_classDataList = _database.Tables
+				.Where(t => t.Include)
+				.Select(t => new ClassData(t.Name))
+				.ToList();
 
+			_log.Add("Included classes are: {0}.", 
+				string.Join(",", _classDataList.Select(t => t.Name)));
 		}
 
 		internal void Output()
 		{
-
+			//xml.Save(Path.Combine(_settings.ConfigPath, St4mpedePath, _settings.OutputXmlFilename));
 		}
 
 		internal void ReadXml()
 		{
 			var xmlPathFile = @"C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede\St4mpede\St4mpede.xml";
-			//         AddLog(string.Empty);
-			//AddLog("Writing database xml {0}.", xmlPathFile);
+			_log.Add("Reading xml {0}.", xmlPathFile);
 
-			var doc = XDocument.Load(xmlPathFile);
+			var doc = _xDocHandler.Load(xmlPathFile);
 
-			var database = Deserialise<DatabaseData>(doc);
+			var database = Core.Deserialise<DatabaseData>(doc);
 
-			this.Database = database;
-			//AddLog("Created xml:");
-			//AddLog(xml);
-
-			//xml.Save(Path.Combine(_settings.ConfigPath, St4mpedePath, _settings.OutputXmlFilename));
+			this._database = database;
+			_log.Add(string.Format("Read database with tables: {0}.",
+				string.Join(", ", database.Tables.Select(t=>t.Name))));
 		}
 
 		internal string ToInfo()
 		{
-			return "TBA";
+			return _log.ToInfo();
 		}
 
-		//	TODO:Put, with Parser ditto, in common or core lib.
-		private static T Deserialise<T>(XDocument doc)
+		internal interface IXDocHandler
 		{
-			XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-
-			using (var reader = doc.Root.CreateReader())
+			XDocument Load(string pathfile);
+		}
+		internal class XDocHandler : IXDocHandler
+		{
+			XDocument IXDocHandler.Load( string pathfile)
 			{
-				return (T)xmlSerializer.Deserialize(reader);
+				return XDocument.Load(pathfile);
 			}
 		}
 
+		#region Methods and properties for making automatic testing possible without altering the architecture.
+
+		internal IList<ClassData> UT_Get_ClassData()
+		{
+			return _classDataList;
+		}
+
+		internal DatabaseData UT_DatabaseData
+		{
+			get { return this._database; }
+			set { this._database = value; }
+		}
+
+		#endregion
 	}
 
 #if NOT_IN_T4

@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace St4mpede.Test
+namespace St4mpede.Test.Core
 {
 	[TestClass]
 	public class ExceptionTest

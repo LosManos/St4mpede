@@ -26,7 +26,7 @@ namespace St4mpede
 		//	TODO:Move to settings with St4mpede as fallback.
 		private const string St4mpedePath = "St4mpede";
 
-		private IList<string> _log = new List<string>();
+		private ILog _log;
 
 		private Settings _settings;
 
@@ -38,13 +38,23 @@ namespace St4mpede
 			return ret;
 		}
 
+		internal Parser()
+			:this(new Log())
+		{
+		}
+
+		internal Parser(ILog log)
+		{
+			_log = log;
+		}
+
 		internal void Init(string configPath, string configFilename)
 		{
 			if (null == configPath) { throw new ArgumentNullException("configPath"); }
 			if (null == configFilename) { throw new ArgumentNullException("configFilename"); }
 
 			var configPathfilename = Path.Combine(configPath, configFilename);
-            AddLog("Reading config file {0}.", configPathfilename);
+            _log.Add("Reading config file {0}.", configPathfilename);
 			var doc = XDocument.Load(new FileStream(configPathfilename, FileMode.Open));
 			Init(configPath, configFilename, doc);
 		}
@@ -57,21 +67,21 @@ namespace St4mpede
 				try
 				{
 					var server = new Server(serverConnection);
-					AddLog("Chose server {0}", server.Name);
+					_log.Add("Chose server {0}", server.Name);
 
 					var database =
 						string.IsNullOrWhiteSpace(_settings.DatabaseName) ?
 						server.Databases[_settings.DatabaseIndex] :    //	Uses index, like for SqlCompact.
 						server.Databases[_settings.DatabaseName];
 					if (null == database) { throw new UnknownDatabaseException(GetDatabasesInfo(server.Databases)); }
-					AddLog("Chose database {0}.", database.Name);
+					_log.Add("Chose database {0}.", database.Name);
 
 					var tables = database.Tables;
-					AddLog("Number of tables:{0}.", tables.Count);
+					_log.Add("Number of tables:{0}.", tables.Count);
 
 					ParseTables(tables, _settings.ExcludedTablesRegex);
-					AddLog("Tables parsed:{0}", string.Join(",", _databaseData.Tables.Select(t => t.Name)));
-					AddLog(TableDataHelpers.ToInfo(_databaseData.Tables));
+					_log.Add("Tables parsed:{0}", string.Join(",", _databaseData.Tables.Select(t => t.Name)));
+					_log.Add(TableDataHelpers.ToInfo(_databaseData.Tables));
 				}
 				finally
 				{
@@ -83,37 +93,18 @@ namespace St4mpede
 		internal void WriteDatabaseXml()
 		{
 			var xmlPathFile = _settings.DatabaseXmlFile;
-			AddLog(string.Empty);
-			AddLog("Writing database xml {0}.", xmlPathFile);
+			_log.Add(string.Empty);
+			_log.Add("Writing database xml {0}.", xmlPathFile);
 
 			var xml = ToXml(_databaseData);
 
-			AddLog("Created xml:");
-			AddLog(xml);
+			_log.Add("Created xml:");
+			_log.Add(xml);
 
 			xml.Save(Path.Combine(_settings.ConfigPath, St4mpedePath	,  _settings.OutputXmlFilename));
 		}
 
 		#region Private methods.
-
-		private void AddLog(string format, params object[] args)
-		{
-			_log.Add(string.Format(format, args));
-		}
-
-		private void AddLog(IEnumerable<string> logRows)
-		{
-			foreach (var row in logRows)
-			{
-				AddLog(row);
-			}
-		}
-
-		private void AddLog(XDocument xml)
-		{
-			//	TODO:	Make the output better.
-			AddLog(xml.ToString());
-		}
 
 		private static IList<string> GetDatabasesInfo(DatabaseCollection databases)
 		{
@@ -189,31 +180,11 @@ namespace St4mpede
 
 		public string ToInfo()
 		{
-			return string.Join("\r\n", _log);
+			return _log.ToInfo();
 		}
 
 		#region Unit testing work arounds.
 
-		internal IList<string> UT_Log { get { return _log; } }
-
-		[DebuggerStepThrough]
-		internal void UT_AddLog( string format, params object[] args)
-		{
-			AddLog(format, args);
-		}
-
-		[DebuggerStepThrough]
-		internal void UT_AddLog( IEnumerable<string> logRows)
-		{
-			AddLog(logRows);
-		}
-
-		[DebuggerStepThrough]
-		internal void UT_AddLog(XDocument xml)
-		{
-			AddLog(xml);
-		}
-		
 		[DebuggerStepThrough]
 		internal void UT_ParseTables(TableCollection tables, string excludedTablesRegex)
 		{

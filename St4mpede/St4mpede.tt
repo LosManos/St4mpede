@@ -40,12 +40,12 @@
 #>
 
 /* 
-<#= parser.ToInfo() #>
+<#= parser.ToInfo  () #>
 */
 
-<#@ include file="St4mpede\Exception.tt.cs" #>
-<#@ include file="St4mpede\Log.tt.cs" #>
-<#@ include file="St4mpede\Core.tt.cs" #>
+<#@ include file="St4mpede\Core\Exception.tt.cs" #>
+<#@ include file="St4mpede\Core\Log.tt.cs" #>
+<#@ include file="St4mpede\Core\Core.tt.cs" #>
 <#@ include file="St4mpede\Settings.tt.cs" #>
 <#@ include file="St4mpede\DatabaseData.tt.cs" #>
 <#@ include file="St4mpede\Parser.tt.cs" #>
