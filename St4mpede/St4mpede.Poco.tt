@@ -30,4 +30,5 @@
 <#@ include file="St4mpede\Core\Log.tt.cs" #>
 <#@ include file="St4mpede\Core\Core.tt.cs" #>
 <#@ include file="St4mpede\DatabaseData.tt.cs" #>
+<#@ include file="St4mpede\Poco\ClassData.tt.cs" #>
 <#@ include file="St4mpede\Poco\PocoGenerator.tt.cs" #>

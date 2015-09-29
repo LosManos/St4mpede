@@ -2,10 +2,10 @@
 /*That line above is very carefully constructed to be awesome and make it so this works!*/
 #if NOT_IN_T4
 //Apparently T4 places classes into another class, making namespaces impossible
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using System.Xml.Serialization;
 
 namespace St4mpede.Poco
 {
@@ -37,17 +37,31 @@ namespace St4mpede.Poco
 
 		internal void Generate()
 		{
-			_classDataList = _database.Tables
-				.Where(t => t.Include)
-				.Select(t => new ClassData(t.Name))
-				.ToList();
+			_classDataList = new List<ClassData>();
+			_database.Tables
+				.Where(t=>t.Include)
+				.ToList()
+				.ForEach(table =>
+		   {
+			   var classData = new ClassData(table.Name);
+			   classData.Properties = new List<PropertyData>();
+			   table.Columns
+			   .ForEach(column =>
+			   {
+				   classData.Properties.Add(
+					   new PropertyData(column.Name,
+					   ConvertDatabaseTypeToDotnetType(column.DatabaseTypeName)));
+			   });
+			   _classDataList.Add(classData);
+		   });
 
-			_log.Add("Included classes are: {0}.", 
-				string.Join(",", _classDataList.Select(t => t.Name)));
+			_log.Add("Included classes are:");
+			_log.Add(ClassDataHelpers.ToInfo(_classDataList));
 		}
 
 		internal void Output()
 		{
+			_log.Add("Writing {0} classes.", _classDataList.Count);
 			//xml.Save(Path.Combine(_settings.ConfigPath, St4mpedePath, _settings.OutputXmlFilename));
 		}
 
@@ -82,11 +96,45 @@ namespace St4mpede.Poco
 			}
 		}
 
+		#region Private methods.
+
+		private class TypesTuple
+		{
+			internal string DatabaseTypeName { get; set; }
+			internal string DotnetTypeName { get; set; }
+			public TypesTuple(string databaseTypeName, string dotnetTypeName)
+			{
+				DatabaseTypeName = databaseTypeName;
+				DotnetTypeName = dotnetTypeName;
+			}
+		}
+
+		//	TODO:Create a dictionary.
+		private IList<TypesTuple> Types = new List<TypesTuple>
+		{
+			new TypesTuple("nvarchar", typeof(string).ToString()),
+			new TypesTuple("numeric", typeof(int).ToString())
+		};
+
+		private string ConvertDatabaseTypeToDotnetType(string databaseTypeName)
+		{
+			return Types.Single(t => t.DatabaseTypeName == databaseTypeName).DotnetTypeName;
+		}
+
+		#endregion
+
 		#region Methods and properties for making automatic testing possible without altering the architecture.
 
-		internal IList<ClassData> UT_Get_ClassData()
+		internal IList<ClassData> UT_ClassData
 		{
-			return _classDataList;
+			get
+			{
+				return _classDataList;
+			}
+			set
+			{
+				_classDataList = value;
+			}
 		}
 
 		internal DatabaseData UT_DatabaseData
