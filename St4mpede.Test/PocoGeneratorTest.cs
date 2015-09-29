@@ -11,6 +11,41 @@ namespace St4mpede.Test
 	public class PocoGeneratorTest
 	{
 		[TestMethod]
+		public void ConvertDatabaseTypeToDotnetType_given_UnknownDatabaseType_should_ReturnErrorString()
+		{
+			//	#	Act.
+			var res = PocoGenerator.UT_ConvertDatabaseTypeToDotnetType("unkown");
+
+			//	#	Assert.
+			Assert.IsTrue(res.Contains("ERROR"));
+		}
+
+		[TestMethod]
+		public void ConvertDatabaseTypeToDotnetType_given_KnownDatabaseType_should_ConvertedType()
+		{
+			//	#	Act.
+			var res = PocoGenerator.UT_ConvertDatabaseTypeToDotnetType("nvarchar");
+
+			//	#	Assert.
+			Assert.AreEqual(typeof(string).ToString(), res);
+		}
+
+		[TestMethod]
+		public void ConvertDatabaseTypeToDotnetType_given_NotUbiquitousDatabaseType_should_ConvertedType()
+		{
+			//	#	Arrange.
+			//	Manipulate Types dictionary to be incorrect.
+			PocoGenerator.UT_Types.Add(
+				new PocoGenerator.TypesTuple("nvarchar", typeof(char).ToString()));
+
+			//	#	Act.
+			var res = PocoGenerator.UT_ConvertDatabaseTypeToDotnetType("nvarchar");
+
+			//	#	Assert.
+			Assert.IsTrue(res.Contains("ERROR"));
+		}
+
+		[TestMethod]
 		public void Generate_given_Tables_should_CreateOnlyIncludedAsClass()
 		{
 			//	#	Arrange.

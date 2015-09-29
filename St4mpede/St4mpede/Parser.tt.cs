@@ -104,6 +104,11 @@ namespace St4mpede
 			xml.Save(Path.Combine(_settings.ConfigPath, St4mpedePath	,  _settings.OutputXmlFilename));
 		}
 
+		public string ToInfo()
+		{
+			return _log.ToInfo();
+		}
+
 		#region Private methods.
 
 		private static IList<string> GetDatabasesInfo(DatabaseCollection databases)
@@ -176,11 +181,6 @@ namespace St4mpede
 		private static XDocument ToXml(DatabaseData databaseData)
 		{
 			return Core.Serialise(databaseData);
-		}
-
-		public string ToInfo()
-		{
-			return _log.ToInfo();
 		}
 
 		#region Unit testing work arounds.

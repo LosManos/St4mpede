@@ -98,11 +98,11 @@ namespace St4mpede.Poco
 
 		#region Private methods.
 
-		private class TypesTuple
+		internal class TypesTuple
 		{
 			internal string DatabaseTypeName { get; set; }
 			internal string DotnetTypeName { get; set; }
-			public TypesTuple(string databaseTypeName, string dotnetTypeName)
+			internal TypesTuple(string databaseTypeName, string dotnetTypeName)
 			{
 				DatabaseTypeName = databaseTypeName;
 				DotnetTypeName = dotnetTypeName;
@@ -110,15 +110,24 @@ namespace St4mpede.Poco
 		}
 
 		//	TODO:Create a dictionary.
-		private IList<TypesTuple> Types = new List<TypesTuple>
+		private static IList<TypesTuple> Types = new List<TypesTuple>
 		{
 			new TypesTuple("nvarchar", typeof(string).ToString()),
 			new TypesTuple("numeric", typeof(int).ToString())
 		};
 
-		private string ConvertDatabaseTypeToDotnetType(string databaseTypeName)
+		private static string ConvertDatabaseTypeToDotnetType(string databaseTypeName)
 		{
-			return Types.Single(t => t.DatabaseTypeName == databaseTypeName).DotnetTypeName;
+			var res = Types.Where(t => t.DatabaseTypeName == databaseTypeName).ToList();
+			switch(res.Count)
+			{
+				case 0:
+					return string.Format("ERROR! Unkown database type {0}. This is a technical error and teh dictionary should be updated.", databaseTypeName);
+				case 1:
+					return res.Single().DotnetTypeName;
+				default:
+					return string.Format("ERROR! Not ubiquitous database type {0} as it could be referenced to any of [{1}]. This is a technical error and the dictionary should be updated.", databaseTypeName, string.Join(",", res));
+			}
 		}
 
 		#endregion
@@ -137,10 +146,23 @@ namespace St4mpede.Poco
 			}
 		}
 
+		internal static string UT_ConvertDatabaseTypeToDotnetType(string databaseType)
+		{
+			return ConvertDatabaseTypeToDotnetType(databaseType);
+        }
+
 		internal DatabaseData UT_DatabaseData
 		{
 			get { return this._database; }
 			set { this._database = value; }
+		}
+
+		internal static IList<TypesTuple> UT_Types
+		{
+			get
+			{
+				return Types;
+			}
 		}
 
 		#endregion
