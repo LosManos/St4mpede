@@ -10,6 +10,8 @@ namespace St4mpede
 #endif
 	//#	Regular ol' C# classes and code...
 
+
+		//TODO:Change name to ParserSettings or something alike.
 	internal class Settings
 	{
 		internal string ConfigPath { get; set; }
@@ -31,6 +33,8 @@ namespace St4mpede
 
 		internal string DatabaseXmlFile { get; set; }
 
+		internal string RootFolder { get; set; }
+
         internal static class XmlElements
 		{
 			internal const string ConnectionString = "ConnectionString";
@@ -38,13 +42,19 @@ namespace St4mpede
 			internal const string DatabaseIndex = "DatabaseIndex";
 			internal const string ExcludedTablesRegex = "ExcludedTablesRegex";
 			internal const string DatabaseXmlFile = "DatabaseXmlFile";
+			internal const string RootFolder = "RootFolder";
         }
+
+		internal Settings()
+		{
+		}
 
 		/// <summary>This constructor takes every needed property as argument.
 		/// </summary>
-		public Settings(string configPath, string initPathfilename, 
+		internal Settings(string configPath, string initPathfilename, 
 			string connectionString, string databaseName, int databaseIndex, 
-			string excludedTablesRegex, string databaseXmlFile)
+			string excludedTablesRegex, string databaseXmlFile, 
+			string rootFolder)
 		{
 			this.ConfigPath = configPath;
 			this.InitPathfilename = initPathfilename;
@@ -53,6 +63,7 @@ namespace St4mpede
 			this.DatabaseIndex = databaseIndex;
 			this.ExcludedTablesRegex = excludedTablesRegex;
 			this.DatabaseXmlFile = databaseXmlFile;
+			this.RootFolder = rootFolder;
 		}
 	}
 

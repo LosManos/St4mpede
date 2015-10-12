@@ -6,7 +6,6 @@ using System.Data.SqlClient;
 using Microsoft.SqlServer.Management.Common;
 using System.Collections.Generic;
 using System.Xml.Serialization;
-using System.Xml;
 using System.Xml.Linq;
 using System.Linq;
 using St4mpede.Test.Extensions;
@@ -24,54 +23,6 @@ namespace St4mpede.Test
 		public void Initialize()
 		{
 			//m_settings = new Settings();
-		}
-
-		[TestMethod]
-		public void AddLog_given_FormatAndArgs_should_AddItem()
-		{
-			//	#	Arrange.
-			var sut = new Parser();
-			Assert.IsFalse(sut.UT_Log.Any(), "There should be no log when we start.");
-
-			//	#	Act.
-			sut.UT_AddLog("a{0}c{1}", "b", "d");
-
-			//	#	Assert.
-			Assert.AreEqual("abcd", sut.UT_Log.Single());
-		}
-
-		[TestMethod]
-		public void AddLog_given_LogRows_should_AddThem()
-		{
-			//	#	Arrange.
-			var sut = new Parser();
-			Assert.IsFalse(sut.UT_Log.Any(), "There should be no log when we start.");
-			const string RowOne = "My first row";
-			const string RowTwo = "My second row";
-
-			//	#	Act.
-			sut.UT_AddLog(new[] { RowOne, RowTwo });
-
-			//	#	Assert.
-			Assert.AreEqual(2, sut.UT_Log.Count());
-			Assert.AreEqual(RowOne, sut.UT_Log[0]);	
-			Assert.AreEqual(RowTwo, sut.UT_Log[1]);	
-		}
-
-		[TestMethod]
-		public void AddLog_given_XDocument_should_AddIt()
-		{
-			//	#	Arrange.
-			var sut = new Parser();
-			Assert.IsFalse(sut.UT_Log.Any(), "There should be no log when we start.");
-			var xml = new XDocument();
-
-			//	#	Act.
-			sut.UT_AddLog(xml);
-
-			//	#	Assert.
-			Assert.AreEqual(1, sut.UT_Log.Count(), 
-			"Right now we don't test the formatting, only the existence of the row.");
 		}
 
 		[TestMethod]
@@ -166,16 +117,17 @@ namespace St4mpede.Test
 		}
 
 		[TestMethod]
-		public void ToString_should_ReturnLog()
+		public void ToInfo_should_ReturnLog()
 		{
 			//	#	Arrange.
 			const string LogMessage = "my Message";
-			var sut = new Parser();
-			sut.UT_Log.Add(LogMessage + "1");
-			sut.UT_Log.Add(LogMessage + "2");
+			ILog log = new Log();
+			var sut = new Parser(log);
+			log.Add(LogMessage + "1");
+			log.Add(LogMessage + "2");
 
 			//	#	Act.
-			var res = sut.ToString();
+			var res = sut.ToInfo();
 
 			//	#	Assert.
 			Assert.AreEqual( LogMessage + "1" + "\r\n" + LogMessage + "2", res);
@@ -199,7 +151,7 @@ namespace St4mpede.Test
 			var res = Parser.UT_ToXml(database);
 
 			//	#	Assert.
-			var resServer = Parser.UT_Deserialise<DatabaseData>(res);
+			var resServer =global::St4mpede.Core.Deserialise<DatabaseData>(res);
 
 			Assert.AreEqual(1, resServer.Tables.Count);
 

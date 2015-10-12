@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfClass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Class>
+    <Name>Customer</Name>
+    <Properties>
+      <Property>
+        <Name>CustomerID</Name>
+        <DotnetTypeName>ERROR! Unkown database type int. This is a technical error and teh dictionary should be updated.</DotnetTypeName>
+      </Property>
+      <Property>
+        <Name>Name</Name>
+        <DotnetTypeName>ERROR! Unkown database type varchar. This is a technical error and teh dictionary should be updated.</DotnetTypeName>
+      </Property>
+    </Properties>
+  </Class>
+  <Class>
+    <Name>User</Name>
+    <Properties>
+      <Property>
+        <Name>UserId</Name>
+        <DotnetTypeName>ERROR! Unkown database type int. This is a technical error and teh dictionary should be updated.</DotnetTypeName>
+      </Property>
+      <Property>
+        <Name>UserName</Name>
+        <DotnetTypeName>System.String</DotnetTypeName>
+      </Property>
+      <Property>
+        <Name>HashedPassword</Name>
+        <DotnetTypeName>ERROR! Unkown database type nchar. This is a technical error and teh dictionary should be updated.</DotnetTypeName>
+      </Property>
+      <Property>
+        <Name>LastLoggedOnDatetime</Name>
+        <DotnetTypeName>ERROR! Unkown database type datetime. This is a technical error and teh dictionary should be updated.</DotnetTypeName>
+      </Property>
+    </Properties>
+  </Class>
+</ArrayOfClass>

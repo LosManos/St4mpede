@@ -36,4 +36,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 [assembly:InternalsVisibleTo("St4mpede.Test")]
-[assembly: InternalsVisibleTo("St4mpede.Integration.Test")]
+[assembly:InternalsVisibleTo("St4mpede.Integration.Test")]
+[assembly:InternalsVisibleTo("DynamicProxyGenAssembly2")]
