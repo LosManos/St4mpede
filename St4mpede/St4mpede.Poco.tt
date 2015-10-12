@@ -9,6 +9,7 @@
 <#@ import namespace="System" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.IO" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Runtime.Serialization" #>
 <#@ import namespace="System.Xml.Linq" #>
@@ -18,6 +19,7 @@
 
 <#
 	var pocoGenerator = new PocoGenerator();
+	pocoGenerator.Init(@"C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede", "St4mpede.config.xml", Core.ReadConfig);
 	pocoGenerator.ReadXml();
 	pocoGenerator.Generate();
 	pocoGenerator.Output();
@@ -28,6 +30,7 @@
 */
 
 <#@ include file="St4mpede\Core\Log.tt.cs" #>
+<#@ include file="St4mpede\Core\CoreSettings.tt.cs" #>
 <#@ include file="St4mpede\Core\Core.tt.cs" #>
 <#@ include file="St4mpede\DatabaseData.tt.cs" #>
 <#@ include file="St4mpede\Poco\ClassData.tt.cs" #>

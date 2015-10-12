@@ -17,6 +17,7 @@ namespace St4mpede
 		void Add(string format, params object[] args);
 		void Add(IEnumerable<string> logRows);
 		void Add(XDocument xml);
+		void AddError(string format, params object[] args);
 		string ToInfo();
 	}
 
@@ -42,6 +43,11 @@ namespace St4mpede
 		void ILog.Add(XDocument xml)
 		{
 			((ILog)this).Add(xml.ToString());
+		}
+
+		void ILog.AddError(string format, params object[] args)
+		{
+			((ILog)this).Add("ERROR! : " + format, args);
 		}
 
 		string ILog.ToInfo()

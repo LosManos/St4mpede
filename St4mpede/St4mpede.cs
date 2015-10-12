@@ -1,11 +1,10 @@
 ﻿
 
 
-//		The file was generated  by St4mpede 2015-09-29 22:06:06
+//		The file was generated  by St4mpede 2015-10-12 21:52:39
 
 
 /* 
-Reading config file C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede\St4mpede.config.xml.
 Chose server (LocalDB)\MSSQLLocalDB
 Chose database C:\DATA\PROJEKT\ST4MPEDE\St4mpede\ST4MPEDE.TEST\DATABASE\ST4MPEDE.MDF.
 Number of tables:3.
@@ -80,6 +79,7 @@ Created xml:
 </Database>
 */
 
+//
 //
 //
 //

@@ -1,4 +1,4 @@
-﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+﻿<#@ template debug="false" hostspecific="true" language="C#" version="4.6" #>
 <#@ output extension=".cs" #>
 
 <#@ assembly name="Microsoft.SqlServer.Management.Sdk.Sfc" #>
@@ -30,7 +30,7 @@
 	var parser = new Parser();
 	parser.Init(@"C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede", "St4mpede.config.xml");
 	parser.ParseDatabase();
-	parser.WriteDatabaseXml();
+	parser.Output();
 
 	/*
 	//	TODO:	Don't read the xml from file, instead use either the xml
@@ -46,6 +46,7 @@
 <#@ include file="St4mpede\Core\Exception.tt.cs" #>
 <#@ include file="St4mpede\Core\Log.tt.cs" #>
 <#@ include file="St4mpede\Core\Core.tt.cs" #>
+<#@ include file="St4mpede\Core\CoreSettings.tt.cs" #>
 <#@ include file="St4mpede\Settings.tt.cs" #>
 <#@ include file="St4mpede\DatabaseData.tt.cs" #>
 <#@ include file="St4mpede\Parser.tt.cs" #>

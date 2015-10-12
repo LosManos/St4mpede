@@ -8,10 +8,39 @@ namespace St4mpede
 	//	The same way any any new assembly reference must be added to the TT file assembly. name=...
 	using System.Xml.Linq;
 	using System.Xml.Serialization;
+	using System;
+	using System.IO;
+	using System.Linq;
 #endif
 	//#	Regular ol' C# classes and code...
 	internal class Core
 	{
+		private const string ElementRootFolder = "RootFolder";
+
+		internal static XDocument ReadConfig( string configPath, string configFilename)
+		{
+			if (null == configPath) { throw new ArgumentNullException("configPath"); }
+			if (null == configFilename) { throw new ArgumentNullException("configFilename"); }
+
+			var configPathfilename = Path.Combine(configPath, configFilename);
+			var doc = XDocument.Load(new FileStream(configPathfilename, FileMode.Open));
+			return doc;
+		}
+
+		internal static CoreSettings Init( XDocument doc)
+		{
+			return new CoreSettings(
+				doc.Descendants().Where(e =>
+			   e.Name == ElementRootFolder).Single().Value);
+		}
+
+		internal static void WriteOutput(XDocument doc, string pathFilename)
+		{
+			doc.Save(pathFilename, SaveOptions.None);
+		}
+
+		#region Serialise/deserialise methods.
+
 		/// <summary>This method deserialises an XDocument to an object.
 		/// See complementary method <see cref="Serialise{T}(T)"/>.
 		/// <para>
@@ -54,6 +83,7 @@ namespace St4mpede
 			return doc;
 		}
 
+		#endregion
 	}
 #if NOT_IN_T4
 } //end the namespace

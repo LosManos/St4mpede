@@ -17,7 +17,6 @@ namespace St4mpede
 	using System.Reflection;
 	using System.Text.RegularExpressions;
 	using System.Xml.Linq;
-	using System.Xml.Serialization;
 #endif
 	//#	Regular ol' C# classes and code...
 
@@ -51,12 +50,26 @@ namespace St4mpede
 		internal void Init(string configPath, string configFilename)
 		{
 			if (null == configPath) { throw new ArgumentNullException("configPath"); }
-			if (null == configFilename) { throw new ArgumentNullException("configFilename"); }
+            if (null == configFilename) { throw new ArgumentNullException("configFilename"); }
+			var doc = Core.ReadConfig(configPath, configFilename);
+			_settings = Init(configPath, configFilename, doc);
+		}
 
-			var configPathfilename = Path.Combine(configPath, configFilename);
-            _log.Add("Reading config file {0}.", configPathfilename);
-			var doc = XDocument.Load(new FileStream(configPathfilename, FileMode.Open));
-			Init(configPath, configFilename, doc);
+		internal Settings Init(string configPath, string configFilename, XDocument doc)
+		{
+			var databaseName = (string)doc.Root.Element(Settings.XmlElements.DatabaseName);
+			int databaseIndex = 0;
+			int.TryParse(databaseName, out databaseIndex);
+			return new Settings(
+				configPath,
+				Path.Combine(configPath, configFilename),
+				(string)doc.Root.Element(Settings.XmlElements.ConnectionString),
+				databaseName,
+				databaseIndex,
+				(string)doc.Root.Element(Settings.XmlElements.ExcludedTablesRegex),
+				(string)doc.Root.Element(Settings.XmlElements.DatabaseXmlFile),
+				(string)doc.Root.Element(Settings.XmlElements.RootFolder)
+			);
 		}
 
 		internal void ParseDatabase()
@@ -90,7 +103,7 @@ namespace St4mpede
 			}
 		}
 
-		internal void WriteDatabaseXml()
+		internal void Output()
 		{
 			var xmlPathFile = _settings.DatabaseXmlFile;
 			_log.Add(string.Empty);
@@ -119,22 +132,6 @@ namespace St4mpede
 				lst.Add(string.Format("Name:{0}", databases[i].Name));
 			}
 			return lst;
-		}
-
-		private void Init(string configPath, string configFilename, System.Xml.Linq.XDocument doc)
-		{
-			var databaseName = (string)doc.Root.Element(Settings.XmlElements.DatabaseName);
-			int databaseIndex = 0;
-			int.TryParse(databaseName, out databaseIndex);
-			_settings = new Settings(
-				configPath,
-				Path.Combine(configPath, configFilename),
-				(string)doc.Root.Element(Settings.XmlElements.ConnectionString),
-				databaseName,
-				databaseIndex,
-				(string)doc.Root.Element(Settings.XmlElements.ExcludedTablesRegex),
-				(string)doc.Root.Element(Settings.XmlElements.DatabaseXmlFile)
-			);
 		}
 
 		private static IList<ColumnData> ParseColumns(IList<Column> columns)
