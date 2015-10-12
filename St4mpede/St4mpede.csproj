@@ -51,6 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Poco\Customer.cs" />
+    <Compile Include="Poco\User.cs" />
     <Compile Include="St4mpede\Core\Core.tt.cs" />
     <Compile Include="St4mpede\Core\CoreSettings.tt.cs" />
     <Compile Include="St4mpede\Core\Log.tt.cs" />
@@ -77,6 +79,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>St4mpede.Poco.cs</LastGenOutput>
     </Content>
+    <Content Include="St4mpede\Poco\PocoGenerator.xml" />
     <Content Include="St4mpede\St4mpede.xml" />
     <None Include="St4mpede.config.xml">
       <SubType>Designer</SubType>
@@ -92,9 +95,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Poco\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

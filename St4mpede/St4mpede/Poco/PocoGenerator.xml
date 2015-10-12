@@ -5,11 +5,11 @@
     <Properties>
       <Property>
         <Name>CustomerID</Name>
-        <DotnetTypeName>ERROR! Unkown database type int. This is a technical error and teh dictionary should be updated.</DotnetTypeName>
+        <DotnetTypeName>System.Int32</DotnetTypeName>
       </Property>
       <Property>
         <Name>Name</Name>
-        <DotnetTypeName>ERROR! Unkown database type varchar. This is a technical error and teh dictionary should be updated.</DotnetTypeName>
+        <DotnetTypeName>System.String</DotnetTypeName>
       </Property>
     </Properties>
   </Class>
@@ -18,7 +18,7 @@
     <Properties>
       <Property>
         <Name>UserId</Name>
-        <DotnetTypeName>ERROR! Unkown database type int. This is a technical error and teh dictionary should be updated.</DotnetTypeName>
+        <DotnetTypeName>System.Int32</DotnetTypeName>
       </Property>
       <Property>
         <Name>UserName</Name>
@@ -26,11 +26,11 @@
       </Property>
       <Property>
         <Name>HashedPassword</Name>
-        <DotnetTypeName>ERROR! Unkown database type nchar. This is a technical error and teh dictionary should be updated.</DotnetTypeName>
+        <DotnetTypeName>System.Char</DotnetTypeName>
       </Property>
       <Property>
         <Name>LastLoggedOnDatetime</Name>
-        <DotnetTypeName>ERROR! Unkown database type datetime. This is a technical error and teh dictionary should be updated.</DotnetTypeName>
+        <DotnetTypeName>System.DateTime</DotnetTypeName>
       </Property>
     </Properties>
   </Class>

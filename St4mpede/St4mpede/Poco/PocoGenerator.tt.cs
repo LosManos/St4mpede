@@ -98,12 +98,25 @@ namespace St4mpede.Poco
 
 		internal void Output()
 		{
-			_log.Add("Writing {0} classes.", _classDataList.Count);
+			//	TODO: Make path and name of xml output file settable.
+			var pathFileForXmlOutput =
+				Path.Combine(_coreSettings.RootFolder, @"Poco\PocoGenerator.xml");
+
+			_log.Add("Writing the output file {0}.", pathFileForXmlOutput);
 
 			_writeOutputFunction(
 				Core.Serialise(_classDataList.ToList()),
-				Path.Combine(_coreSettings.RootFolder, "PocoGenerator.xml"));
-		}
+				pathFileForXmlOutput);
+
+			//	TODO: Write output pocos.
+			//	TODO: Make output path settable.
+			var pathForPocoOutput = Path.Combine(_coreSettings.RootFolder, @"..\Poco\");
+			_log.Add("TBA:Writing {0} classes in {1}.", _classDataList.Count, pathForPocoOutput);
+
+			WritePocoClasses(pathForPocoOutput);
+
+			//	TODO: Add Poco files to project.
+        }
 
 		internal void ReadXml()
 		{
@@ -155,8 +168,11 @@ namespace St4mpede.Poco
 		/// </summary>
 		private IList<TypesTuple> Types = new List<TypesTuple>
 		{
+			new TypesTuple("datetime", typeof(DateTime).ToString()),
+			new TypesTuple("nchar", typeof(char).ToString()),
 			new TypesTuple("nvarchar", typeof(string).ToString()),
-			new TypesTuple("numeric", typeof(int).ToString())
+			new TypesTuple("int", typeof(int).ToString()),
+			new TypesTuple("varchar", typeof(string).ToString()),
 		};
 
 		private string ConvertDatabaseTypeToDotnetType(string databaseTypeName)
@@ -171,6 +187,38 @@ namespace St4mpede.Poco
 				default:
 					return string.Format("ERROR! Not ubiquitous database type {0} as it could be referenced to any of [{1}]. This is a technical error and the dictionary should be updated.", databaseTypeName, string.Join(",", res.Select(t=>t.DotnetTypeName)));
 			}
+		}
+
+		private void WritePocoClasses(string pathForPocoOutput)
+		{
+			foreach( var classData in _classDataList)
+			{
+				var res= MakeClass(classData);
+				Core.WriteOutput(res, Path.Combine(pathForPocoOutput,
+					AddSuffix(classData.Name)));
+            }
+		}
+
+		private string AddSuffix( string name)
+		{
+			return name + ".cs";
+		}
+
+		private IList<string> MakeClass(ClassData classData)
+		{
+			var ret = new List<string>();
+			ret.Add(string.Format("public class {0}", classData.Name));
+			ret.Add("{");
+			foreach( var property in classData.Properties)
+			{
+				ret.Add(
+					string.Format(
+						"\tpublic {0} {1} {{ get; set; }}", 
+						property.DotnetTypeName, 
+						property.Name));
+			}
+			ret.Add("}");
+			return ret;
 		}
 
 		#endregion
