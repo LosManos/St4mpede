@@ -11,6 +11,7 @@ namespace St4mpede
 	using System;
 	using System.IO;
 	using System.Linq;
+	using System.Collections.Generic;
 #endif
 	//#	Regular ol' C# classes and code...
 	internal class Core
@@ -37,6 +38,17 @@ namespace St4mpede
 		internal static void WriteOutput(XDocument doc, string pathFilename)
 		{
 			doc.Save(pathFilename, SaveOptions.None);
+		}
+
+		internal static void WriteOutput( IList<string> rows, string pathFilename)
+		{
+			using (var sw = File.CreateText(pathFilename))
+			{
+				foreach( var row in rows)
+				{
+					sw.WriteLine(row);
+				}
+			}
 		}
 
 		#region Serialise/deserialise methods.
