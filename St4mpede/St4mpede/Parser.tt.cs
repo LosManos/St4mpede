@@ -79,7 +79,7 @@ namespace St4mpede
 			);
 		}
 
-		internal void ParseDatabase()
+		internal void Generate()
 		{
 			using (var conn = new SqlConnection(_settings.ConnectionString))
 			{

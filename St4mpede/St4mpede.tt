@@ -29,7 +29,7 @@
 <#
 	var parser = new Parser();
 	parser.Init(Host.TemplateFile);
-	parser.ParseDatabase();
+	parser.Generate();
 	parser.Output();
 #>
 

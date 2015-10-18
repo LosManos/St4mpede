@@ -7,11 +7,11 @@ namespace St4mpede.Integration.Test
 	{
         [TestMethod]
 		[TestCategory(Common.Constants.TestCategoryIntegration)]
-		public void ParseDatabaseTest()
+		public void GenerateTest()
 		{
 			Assert.Inconclusive("TBA");
 			var sut = new Parser();
-			sut.ParseDatabase();
+			sut.Generate();
 		}
 
 	}
