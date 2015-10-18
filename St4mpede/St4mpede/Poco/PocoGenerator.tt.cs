@@ -17,8 +17,12 @@ namespace St4mpede.Poco
 
 	internal class PocoGenerator
 	{
+		#region Private properties and fields.
+
 		private const string PocoElement = "Poco";
 		private const string OutputFolderElement = "OutputFolder";
+
+		private ICore _core;
 
 		private ILog _log;
 
@@ -32,19 +36,31 @@ namespace St4mpede.Poco
 
 		private CoreSettings _coreSettings;
 
-		private Action<XDocument, string> _writeOutputFunction;
+		#endregion
 
-        internal PocoGenerator()
-			:this(new Log(), new XDocHandler(), Core.WriteOutput)
+		internal static class DatabaseTypes
+		{
+			internal const string DateTime = "datetime";
+			internal const string NChar = "nchar";
+			internal const string NVarChar = "nvarchar";
+			internal const string Int = "int";
+			internal const string VarChar = "varchar";
+		}
+
+		#region Constructors.
+
+		internal PocoGenerator()
+			:this(new Core(), new Log(), new XDocHandler())
 		{	}
 
-		internal PocoGenerator(ILog log, IXDocHandler xDocHandler,
-			Action<XDocument, string> writeOutputFunction)
+		internal PocoGenerator(ICore core, ILog log, IXDocHandler xDocHandler)
 		{
+			_core = core;
 			_log = log;
 			_xDocHandler = xDocHandler;
-			_writeOutputFunction = writeOutputFunction;
 		}
+
+		#endregion
 
 		internal void Generate()
 		{
@@ -70,14 +86,22 @@ namespace St4mpede.Poco
 			_log.Add(ClassDataHelpers.ToInfo(_classDataList));
 		}
 
-		internal void Init(string configPath, string configFilename,
+		internal void Init( string hostTemplateFile)
+		{
+			Init(hostTemplateFile, null, null);
+		}
+
+		internal void Init(string hostTemplateFile, string configFilename, 
 			Func<string, string, XDocument> readConfigFunction)
 		{
-			if (null == configPath) { throw new ArgumentNullException("configPath"); }
-			if (null == configFilename) { throw new ArgumentNullException("configFilename"); }
-			if (null == readConfigFunction) { throw new ArgumentNullException("readConfigFunction"); }
+			if (null == hostTemplateFile) { throw new ArgumentNullException("configPath"); }
 
-			var doc = readConfigFunction(configPath, configFilename);
+			configFilename = configFilename ?? Core.DefaultConfigFilename;
+			readConfigFunction = readConfigFunction ?? Core.ReadConfig;
+
+			var doc = readConfigFunction(
+				Path.GetDirectoryName(hostTemplateFile), 
+				configFilename);
 
 			var coreSettings = Core.Init(doc);
 
@@ -104,14 +128,14 @@ namespace St4mpede.Poco
 
 			_log.Add("Writing the output file {0}.", pathFileForXmlOutput);
 
-			_writeOutputFunction(
+			_core.WriteOutput(
 				Core.Serialise(_classDataList.ToList()),
 				pathFileForXmlOutput);
 
 			//	TODO: Write output pocos.
 			//	TODO: Make output path settable.
 			var pathForPocoOutput = Path.Combine(_coreSettings.RootFolder, @"..\Poco\");
-			_log.Add("TBA:Writing {0} classes in {1}.", _classDataList.Count, pathForPocoOutput);
+			_log.Add("Writing {0} classes in {1}.", _classDataList.Count, pathForPocoOutput);
 
 			WritePocoClasses(pathForPocoOutput);
 
@@ -168,11 +192,11 @@ namespace St4mpede.Poco
 		/// </summary>
 		private IList<TypesTuple> Types = new List<TypesTuple>
 		{
-			new TypesTuple("datetime", typeof(DateTime).ToString()),
-			new TypesTuple("nchar", typeof(char).ToString()),
-			new TypesTuple("nvarchar", typeof(string).ToString()),
-			new TypesTuple("int", typeof(int).ToString()),
-			new TypesTuple("varchar", typeof(string).ToString()),
+			new TypesTuple(DatabaseTypes.DateTime, typeof(DateTime).ToString()),
+			new TypesTuple(DatabaseTypes.NChar, typeof(char).ToString()),
+			new TypesTuple(DatabaseTypes.NVarChar, typeof(string).ToString()),
+			new TypesTuple(DatabaseTypes.Int, typeof(int).ToString()),
+			new TypesTuple(DatabaseTypes.VarChar, typeof(string).ToString()),
 		};
 
 		private string ConvertDatabaseTypeToDotnetType(string databaseTypeName)
@@ -194,7 +218,7 @@ namespace St4mpede.Poco
 			foreach( var classData in _classDataList)
 			{
 				var res= MakeClass(classData);
-				Core.WriteOutput(res, Path.Combine(pathForPocoOutput,
+				_core.WriteOutput(res, Path.Combine(pathForPocoOutput,
 					AddSuffix(classData.Name)));
             }
 		}

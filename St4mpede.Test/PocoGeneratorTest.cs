@@ -57,7 +57,7 @@ namespace St4mpede.Test
 		public void Generate_given_Tables_should_CreateOnlyIncludedAsClass()
 		{
 			//	#	Arrange.
-			var sut = new PocoGenerator(new Log(), null, null);
+			var sut = new PocoGenerator(null, new Log(), null);
 			const string ColumnOneAName = "ColOne";
 			const string ColumnOneBName = "ColTwo";
 			const string TableNameOne = "One";
@@ -73,7 +73,7 @@ namespace St4mpede.Test
 							new ColumnData(
 								ColumnOneAName, "nvarchar"),
 							new ColumnData(
-								ColumnOneBName, "numeric")
+								ColumnOneBName, "int")
 						}
 					},
                     new TableData {
@@ -126,42 +126,6 @@ namespace St4mpede.Test
 		}
 
 		[TestMethod]
-		public void Init_given_NoConfigFileName_should_ThrowException()
-		{
-			//	#	Arrange.
-			var sut = new PocoGenerator(null, null, null);
-
-			//	#	Act.
-			try
-			{
-				sut.Init("whatever", null, null);
-				Assert.Fail("Should not come here.");
-			}
-			catch (ArgumentNullException exc)
-			{
-				Assert.AreEqual("configFilename", exc.ParamName);
-			}
-		}
-
-		[TestMethod]
-		public void Init_given_NoReadConfigFunction_should_ThrowException()
-		{
-			//	#	Arrange.
-			var sut = new PocoGenerator(null, null, null);
-
-			//	#	Act.
-			try
-			{
-				sut.Init("whatever", "whatevar", null);
-				Assert.Fail("Should not come here.");
-			}
-			catch (ArgumentNullException exc)
-			{
-				Assert.AreEqual("readConfigFunction", exc.ParamName);
-			}
-		}
-
-		[TestMethod]
 		public void Init_given_ProperData_should_DoItsMagic()
 		{
 			//	#	Arrange.
@@ -174,7 +138,7 @@ namespace St4mpede.Test
 				</St4mpede>
 "); };
 			var mockLog = new Mock<ILog>();
-			var sut = new PocoGenerator(mockLog.Object, null, null);
+			var sut = new PocoGenerator(null, mockLog.Object, null);
 
 			//	#	Act.
 			sut.Init("whatever", "whatevar", func);
@@ -212,15 +176,9 @@ namespace St4mpede.Test
 		public void OutputTest()
 		{
 			//	#	Arrange.
-			int callCount = 0;
-			XDocument resultDoc = null;
-			Action<XDocument, string> writeOutputFunction =
-				(XDocument doc, string pathFilename) =>
-				{
-					++callCount;
-					resultDoc = doc;
-				};
-            var sut = new PocoGenerator(new Log(), null, writeOutputFunction);
+			var mockedCore = new Mock<ICore>();
+			mockedCore.Setup(m => m.WriteOutput(It.IsAny<IList<string>>(), It.IsAny<string> ()));
+			var sut = new PocoGenerator(mockedCore.Object, new Log(), null);
 			sut.UT_OutputFolder = @"path\path";
 			sut.UT_CoreSettings = new CoreSettings()
 			{
@@ -243,8 +201,7 @@ namespace St4mpede.Test
 			sut.Output();
 
 			//	#	Assert.
-			Assert.AreEqual(1, callCount, "We should have called the function once.");
-			Assert.IsNotNull(resultDoc, "We have at least got a xdoc. Feel free to check further for its contents.");
+			mockedCore.Verify(m => m.WriteOutput(It.IsAny<IList<string>>(), It.IsAny<string>()), Times.Once());
 		}
 
 		[TestMethod]
@@ -268,7 +225,7 @@ namespace St4mpede.Test
 			mockXDocHandler
 				.Setup(m => m.Load(It.IsAny<string>()))
 				.Returns(xml);
-			var sut = new PocoGenerator(log, mockXDocHandler.Object, null);
+			var sut = new PocoGenerator(null, log, mockXDocHandler.Object);
 
 			//	#	Act.
 			sut.ReadXml();

@@ -1,17 +1,17 @@
 ﻿
 
 
-//		The file was generated  by St4mpede.Poco 2015-10-12 22:46:23
+//		The file was generated  by St4mpede.Poco 2015-10-18 21:40:25
 
 
-/* 
+/* 			
 Reading xml C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede\St4mpede\St4mpede.xml.
 Read database with tables: __RefactorLog, Customer, User.
 Included classes are:
 Name=Customer
 Name=User
 Writing the output file C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede\St4mpede\Poco\PocoGenerator.xml.
-TBA:Writing 2 classes in C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede\St4mpede\..\Poco\.
+Writing 2 classes in C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede\St4mpede\..\Poco\.
 */
 
 //

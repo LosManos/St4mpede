@@ -19,13 +19,13 @@
 
 <#
 	var pocoGenerator = new PocoGenerator();
-	pocoGenerator.Init(@"C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede", "St4mpede.config.xml", Core.ReadConfig);
+	pocoGenerator.Init(Host.TemplateFile);
 	pocoGenerator.ReadXml();
 	pocoGenerator.Generate();
 	pocoGenerator.Output();
 #>
 
-/* 
+/* 			
 <#= pocoGenerator.ToInfo() #>
 */
 

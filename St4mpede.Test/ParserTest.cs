@@ -82,7 +82,7 @@ namespace St4mpede.Test
 			Assert.AreEqual("myDatabaseName", sut.UT_Settings.DatabaseName);
 			Assert.AreEqual(0, sut.UT_Settings.DatabaseIndex);
 			Assert.AreEqual("myExcludedTablesRegex", sut.UT_Settings.ExcludedTablesRegex);
-			Assert.AreEqual(MyPath, sut.UT_Settings.ConfigPath);
+			Assert.AreEqual(@"..\..", sut.UT_Settings.ConfigPath);
 			Assert.AreEqual(Path.Combine( MyPath,MyFilename), sut.UT_Settings.InitPathfilename);
 		}
 

@@ -22,20 +22,17 @@ namespace St4mpede
 
 	public class Parser
 	{
-		//	TODO:Move to settings with St4mpede as fallback.
-		private const string St4mpedePath = "St4mpede";
-
-		private ILog _log;
+        private ILog _log;
 
 		private Settings _settings;
 
 		private DatabaseData _databaseData;
 
-		internal static string GetExecutingPath()
-		{
-			var ret = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-			return ret;
-		}
+		//internal static string GetExecutingPath()
+		//{
+		//	var ret = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+		//	return ret;
+		//}
 
 		internal Parser()
 			:this(new Log())
@@ -47,11 +44,21 @@ namespace St4mpede
 			_log = log;
 		}
 
-		internal void Init(string configPath, string configFilename)
+		internal void Init( string hostTemplateFile)
 		{
-			if (null == configPath) { throw new ArgumentNullException("configPath"); }
-            if (null == configFilename) { throw new ArgumentNullException("configFilename"); }
-			var doc = Core.ReadConfig(configPath, configFilename);
+			Init(hostTemplateFile, null);
+		}
+
+		internal void Init(string hostTemplateFile, string configFilename)
+		{
+			if (null == hostTemplateFile) { throw new ArgumentNullException("hostTemplateFile"); }
+
+			var configPath = Path.GetDirectoryName(hostTemplateFile);
+			configFilename = configFilename ?? Core.DefaultConfigFilename;
+
+            var doc = Core.ReadConfig(
+				configPath, 
+				configFilename);
 			_settings = Init(configPath, configFilename, doc);
 		}
 
@@ -114,7 +121,7 @@ namespace St4mpede
 			_log.Add("Created xml:");
 			_log.Add(xml);
 
-			xml.Save(Path.Combine(_settings.ConfigPath, St4mpedePath	,  _settings.OutputXmlFilename));
+			xml.Save(Path.Combine(_settings.ConfigPath, Core.DefaultSt4mpedePath	,  _settings.OutputXmlFilename));
 		}
 
 		public string ToInfo()

@@ -13,10 +13,19 @@ namespace St4mpede
 	using System.Linq;
 	using System.Collections.Generic;
 #endif
+	internal interface ICore
+	{
+		void WriteOutput(XDocument doc, string pathFilename);
+		void WriteOutput(IList<string> rows, string pathFilename);
+	}
+
 	//#	Regular ol' C# classes and code...
-	internal class Core
+	internal class Core : ICore
 	{
 		private const string ElementRootFolder = "RootFolder";
+
+		internal static readonly string DefaultConfigFilename = "St4mpede.config.xml";
+		internal static readonly string DefaultSt4mpedePath = "St4mpede";
 
 		internal static XDocument ReadConfig( string configPath, string configFilename)
 		{
@@ -35,12 +44,12 @@ namespace St4mpede
 			   e.Name == ElementRootFolder).Single().Value);
 		}
 
-		internal static void WriteOutput(XDocument doc, string pathFilename)
+		public void WriteOutput(XDocument doc, string pathFilename)
 		{
 			doc.Save(pathFilename, SaveOptions.None);
 		}
 
-		internal static void WriteOutput( IList<string> rows, string pathFilename)
+		public void WriteOutput( IList<string> rows, string pathFilename)
 		{
 			using (var sw = File.CreateText(pathFilename))
 			{
