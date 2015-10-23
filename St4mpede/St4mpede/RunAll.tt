@@ -1,0 +1,27 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="Microsoft.VisualStudio.TextTemplating.Interfaces.11.0" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
+<#@ output extension=".md" #>
+
+<#
+
+//	The below code does not work. Paths become wrong.
+//	How do we solve running all chosen St4mpede modules?
+
+//var templateFilename = @"..\St4mpede.tt";
+//var templateText= File.ReadAllText( Host.ResolvePath( templateFilename ));
+//var engine = new Engine();
+//var output = engine.ProcessTemplate( templateText, Host );
+////File.WriteAllText( outputPathFilename, output);
+//
+//templateFilename = @"St4mpede.Poco.tt";
+//templateText= File.ReadAllText( Host.ResolvePath( templateFilename ));
+//output = engine.ProcessTemplate( templateText, Host );
+////File.WriteAllText( outputPathFilename, output);
+
+#>

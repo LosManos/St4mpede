@@ -41,6 +41,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Program Files (x86)\Microsoft SQL Server\120\SDK\Assemblies\Microsoft.SqlServer.Smo.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.TextTemplating.Interfaces.11.0, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
@@ -80,6 +81,10 @@
       <LastGenOutput>St4mpede.Poco.cs</LastGenOutput>
     </Content>
     <Content Include="St4mpede\Poco\PocoGenerator.xml" />
+    <Content Include="St4mpede\RunAll.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RunAll.md</LastGenOutput>
+    </Content>
     <Content Include="St4mpede\St4mpede.xml" />
     <None Include="St4mpede.config.xml">
       <SubType>Designer</SubType>
@@ -88,6 +93,11 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>St4mpede.cs</LastGenOutput>
     </Content>
+    <None Include="St4mpede\RunAll.md">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RunAll.tt</DependentUpon>
+    </None>
     <None Include="St4mpede\St4mpede.xsd">
       <SubType>Designer</SubType>
     </None>
