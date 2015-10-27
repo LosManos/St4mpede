@@ -45,7 +45,7 @@ namespace St4mpede.Test
 			//mockedServerInfo
 			//	.Setup( m=>m.GetColumnsByTable(It.IsAny<Table>()))
 			//	.Returns(columnList);
-			var mockedSettings = new Mock<ISettings>();
+			var mockedSettings = new Mock<IParserSettings>();
 			mockedSettings
 				.SetupGet(m => m.ConnectionString)
 				.Returns("whatever");
@@ -139,7 +139,7 @@ namespace St4mpede.Test
 			sut.Init(MyPath, MyFilename);
 
 			//	#	Assert.
-			Assert.IsInstanceOfType(sut.UT_Settings, typeof(Settings));
+			Assert.IsInstanceOfType(sut.UT_Settings, typeof(ParserSettings));
 			Assert.AreEqual("myConnectionString", sut.UT_Settings.ConnectionString);
 			Assert.AreEqual("myDatabaseName", sut.UT_Settings.DatabaseName);
 			Assert.AreEqual(0, sut.UT_Settings.DatabaseIndex);
@@ -190,7 +190,6 @@ namespace St4mpede.Test
 			Assert.AreEqual(0, res.DatabaseIndex);
 			Assert.AreEqual("MyExcludedTablesRegex", res.ExcludedTablesRegex);
 			Assert.AreEqual("MyDatabaseXmlFile", res.DatabaseXmlFile);
-			Assert.AreEqual("MyRootFolder", res.RootFolder);
 		}
 
 		#endregion

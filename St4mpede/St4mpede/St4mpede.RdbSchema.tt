@@ -24,7 +24,7 @@
 <#@ import namespace="System.Xml.Linq" #>
 <#@ import namespace="System.Xml.Serialization" #>
 
-//		The file was generated  by St4mpede <#= System.DateTime.Now.ToString() #>
+//		This file was generated  by St4mpede <#= System.DateTime.Now.ToString() #>
 
 <#
 	var parser = new Parser();
@@ -41,7 +41,7 @@
 <#@ include file="Core\Log.tt.cs" #>
 <#@ include file="Core\Core.tt.cs" #>
 <#@ include file="Core\CoreSettings.tt.cs" #>
-<#@ include file="Settings.tt.cs" #>
+<#@ include file="RdbSchema\ParserSettings.tt.cs" #>
 <#@ include file="RdbSchema\DatabaseData.tt.cs" #>
 <#@ include file="RdbSchema\DatabaseConnection.tt.cs" #>
 <#@ include file="RdbSchema\Parser.tt.cs" #>

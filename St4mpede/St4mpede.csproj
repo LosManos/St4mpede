@@ -70,7 +70,7 @@
     </Compile>
     <Compile Include="St4mpede\Poco\ClassData.tt.cs" />
     <Compile Include="St4mpede\Poco\PocoGenerator.tt.cs" />
-    <Compile Include="St4mpede\Settings.tt.cs" />
+    <Compile Include="St4mpede\RdbSchema\ParserSettings.tt.cs" />
     <Compile Include="St4mpede\St4mpede.RdbSchema.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

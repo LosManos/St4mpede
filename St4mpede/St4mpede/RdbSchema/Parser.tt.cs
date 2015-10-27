@@ -21,7 +21,9 @@ namespace St4mpede
 	{
         private ILog _log;
 
-		private ISettings _settings;
+		private CoreSettings _coreSettings;
+
+		private IParserSettings _settings;
 
 		private DatabaseData _databaseData;
 
@@ -58,31 +60,30 @@ namespace St4mpede
             var doc = Core.ReadConfig(
 				configPath, 
 				configFilename);
+			_coreSettings = Core.Init(doc);
 			_settings = Init(configPath, configFilename, doc);
 		}
 
-		internal Settings Init(string configPath, string configFilename, XDocument doc)
+		internal ParserSettings Init(string configPath, string configFilename, XDocument doc)
 		{
-			const string CoreSubElementName = "Core";
 			const string RdbSchemaSubElementName = "RdbSchema";
 
 			//	Get the databasename which might be a name or a pathfilename or a number.
-			var databaseName = (string)doc.Root.Element(RdbSchemaSubElementName).Element(Settings.XmlElements.DatabaseName);
+			var databaseName = (string)doc.Root.Element(RdbSchemaSubElementName).Element(ParserSettings.XmlElements.DatabaseName);
 
 			//	If the databasename is a number - put it in databaseindex.
 			int databaseIndex = 0;
 			int.TryParse(databaseName, out databaseIndex);
 
 			//	Create the object with all properties set.
-			return new Settings(
+			return new ParserSettings(
 				configPath,
 				Path.Combine(configPath, configFilename),
-				(string)doc.Root.Element(RdbSchemaSubElementName).Element(Settings.XmlElements.ConnectionString),
+				(string)doc.Root.Element(RdbSchemaSubElementName).Element(ParserSettings.XmlElements.ConnectionString),
 				databaseName,
 				databaseIndex,
-				(string)doc.Root.Element(RdbSchemaSubElementName).Element(Settings.XmlElements.ExcludedTablesRegex),
-				(string)doc.Root.Element(RdbSchemaSubElementName).Element(Settings.XmlElements.DatabaseXmlFile),
-				(string)doc.Root.Element(CoreSubElementName).Element(Settings.XmlElements.RootFolder)
+				(string)doc.Root.Element(RdbSchemaSubElementName).Element(ParserSettings.XmlElements.ExcludedTablesRegex),
+				(string)doc.Root.Element(RdbSchemaSubElementName).Element(ParserSettings.XmlElements.DatabaseXmlFile)
 			);
 		}
 
@@ -159,7 +160,7 @@ namespace St4mpede
 
 		#region Unit testing work arounds.
 
-		internal ISettings UT_Settings { get { return _settings; }
+		internal IParserSettings UT_Settings { get { return _settings; }
 			set { _settings = value; } }
 
 		internal DatabaseData UT_ServerData{get{ return _databaseData; } }
