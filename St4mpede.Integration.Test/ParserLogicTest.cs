@@ -10,9 +10,11 @@ namespace St4mpede.Integration.Test
 	[TestClass]
 	public class ParserLogicTest
 	{
-		private const string DatabasePath = @"C:\DATA\PROJEKT\ST4MPEDE\ST4MPEDE\ST4MPEDE.TEST\DATABASE\";
+		private const string DatabasePath = @"ST4MPEDE.TEST\DATABASE\";
 		private const string ConnectionStringTemplate = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={0};Integrated Security=True;Connect Timeout=30";
 
+		public TestContext TestContext { get; set; }
+	
 		[TestMethod]
 		[TestCategory(Common.Constants.TestCategoryIntegration)]
 		public void ParseTablesTest()
@@ -20,7 +22,7 @@ namespace St4mpede.Integration.Test
 			//	#	Arrange.
 			const string DatabaseName = "ParseTablesTest.mdf";
 			var connectionString = string.Format(ConnectionStringTemplate,
-				Path.Combine(DatabasePath, DatabaseName));
+				Path.Combine( Common.Functions.SolutionPath(TestContext), DatabasePath, DatabaseName));
 			IList<Table> tables;
 
 			using (var conn = new SqlConnection(connectionString))
@@ -28,7 +30,7 @@ namespace St4mpede.Integration.Test
 				var serverConnection = new ServerConnection(conn);
 				var server = new Server(serverConnection);
 				var database = server.Databases[
-					Path.Combine(DatabasePath, DatabaseName)];
+					Path.Combine(Common.Functions.SolutionPath(TestContext), DatabasePath, DatabaseName)];
 				tables = ServerInfo.UT_GetTablesByDatabasePrivate(database);
             }
 			var sut = new ParserLogic();
