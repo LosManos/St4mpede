@@ -6,11 +6,9 @@ namespace St4mpede
 {
 	//	Note that when adding namespaces here we also have to add the namespaces to the TT file  import namespace=...
 	//	The same way any any new assembly reference must be added to the TT file assembly. name=...
-	using Microsoft.SqlServer.Management.Common;
 	using Microsoft.SqlServer.Management.Smo;
 	using System;
 	using System.Collections.Generic;
-	using System.Data.SqlClient;
 	using System.Diagnostics;
 	using System.IO;
 	using System.Linq;
@@ -23,7 +21,9 @@ namespace St4mpede
 	{
         private ILog _log;
 
-		private ISettings _settings;
+		private CoreSettings _coreSettings;
+
+		private IParserSettings _settings;
 
 		private DatabaseData _databaseData;
 
@@ -31,11 +31,7 @@ namespace St4mpede
 
 		private IParserLogic _parserLogic;
 
-		//internal static string GetExecutingPath()
-		//{
-		//	var ret = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-		//	return ret;
-		//}
+		private const string ProjectPath = "RdbSchema";
 
 		internal Parser()
 			:this(new Log())
@@ -64,23 +60,30 @@ namespace St4mpede
             var doc = Core.ReadConfig(
 				configPath, 
 				configFilename);
+			_coreSettings = Core.Init(doc);
 			_settings = Init(configPath, configFilename, doc);
 		}
 
-		internal Settings Init(string configPath, string configFilename, XDocument doc)
+		internal ParserSettings Init(string configPath, string configFilename, XDocument doc)
 		{
-			var databaseName = (string)doc.Root.Element(Settings.XmlElements.DatabaseName);
+			const string RdbSchemaSubElementName = "RdbSchema";
+
+			//	Get the databasename which might be a name or a pathfilename or a number.
+			var databaseName = (string)doc.Root.Element(RdbSchemaSubElementName).Element(ParserSettings.XmlElements.DatabaseName);
+
+			//	If the databasename is a number - put it in databaseindex.
 			int databaseIndex = 0;
 			int.TryParse(databaseName, out databaseIndex);
-			return new Settings(
+
+			//	Create the object with all properties set.
+			return new ParserSettings(
 				configPath,
 				Path.Combine(configPath, configFilename),
-				(string)doc.Root.Element(Settings.XmlElements.ConnectionString),
+				(string)doc.Root.Element(RdbSchemaSubElementName).Element(ParserSettings.XmlElements.ConnectionString),
 				databaseName,
 				databaseIndex,
-				(string)doc.Root.Element(Settings.XmlElements.ExcludedTablesRegex),
-				(string)doc.Root.Element(Settings.XmlElements.DatabaseXmlFile),
-				(string)doc.Root.Element(Settings.XmlElements.RootFolder)
+				(string)doc.Root.Element(RdbSchemaSubElementName).Element(ParserSettings.XmlElements.ExcludedTablesRegex),
+				(string)doc.Root.Element(RdbSchemaSubElementName).Element(ParserSettings.XmlElements.DatabaseXmlFile)
 			);
 		}
 
@@ -114,7 +117,7 @@ namespace St4mpede
 			_log.Add("Created xml:");
 			_log.Add(xml);
 
-			xml.Save(Path.Combine(_settings.ConfigPath, _settings.OutputXmlFilename));
+			xml.Save(Path.Combine(_settings.ConfigPath, ProjectPath, _settings.OutputXmlFilename));
 		}
 
 		public string ToInfo()
@@ -157,7 +160,7 @@ namespace St4mpede
 
 		#region Unit testing work arounds.
 
-		internal ISettings UT_Settings { get { return _settings; }
+		internal IParserSettings UT_Settings { get { return _settings; }
 			set { _settings = value; } }
 
 		internal DatabaseData UT_ServerData{get{ return _databaseData; } }

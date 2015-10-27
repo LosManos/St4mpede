@@ -1,6 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Stampede>
-	<ConnectionString>myConnectionString</ConnectionString>
-	<DatabaseName>myDatabaseName</DatabaseName>
-	<ExcludedTablesRegex>myExcludedTablesRegex</ExcludedTablesRegex>
+	<Core>
+		<RootFolder>MyRootFolder</RootFolder>
+	</Core>
+	<RdbSchema>
+		<ConnectionString>myConnectionString</ConnectionString>
+		<DatabaseName>myDatabaseName</DatabaseName>
+		<ExcludedTablesRegex>myExcludedTablesRegex</ExcludedTablesRegex>
+		<DatabaseXmlFile>MyDatabaseXmlFile</DatabaseXmlFile>
+	</RdbSchema>
 </Stampede>

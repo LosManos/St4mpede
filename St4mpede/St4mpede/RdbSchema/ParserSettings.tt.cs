@@ -10,7 +10,7 @@ namespace St4mpede
 #endif
 	//#	Regular ol' C# classes and code...
 
-	internal interface ISettings
+	internal interface IParserSettings
 	{
 		string ConfigPath { get; set; }
 		string InitPathfilename { get; set; }
@@ -20,11 +20,9 @@ namespace St4mpede
 		int DatabaseIndex { get; set; }
 		string ExcludedTablesRegex { get; set; }
 		string DatabaseXmlFile { get; set; }
-		string RootFolder { get; set; }
 	}
 	
-	//TODO:Change name to ParserSettings or something alike.
-	internal class Settings : ISettings
+	internal class ParserSettings : IParserSettings
 	{
 		public string ConfigPath { get; set; }
 
@@ -33,7 +31,7 @@ namespace St4mpede
 		/// <summary>This is the name of the outputed XML file.
 		/// By the time of writing it is hard coded but when we have the time to make it settable, with default value fall back we might. Check Github for bug #4 https://github.com/LosManos/St4mpede/issues/4
 		/// </summary>
-		public string OutputXmlFilename { get { return "St4mpede.xml"; } }
+		public string OutputXmlFilename { get { return "St4mpede.RdbSchema.xml"; } }
 
 		public string ConnectionString { get; set; }
 
@@ -45,8 +43,6 @@ namespace St4mpede
 
 		public string DatabaseXmlFile { get; set; }
 
-		public string RootFolder { get; set; }
-
         internal static class XmlElements
 		{
 			internal const string ConnectionString = "ConnectionString";
@@ -54,19 +50,17 @@ namespace St4mpede
 			internal const string DatabaseIndex = "DatabaseIndex";
 			internal const string ExcludedTablesRegex = "ExcludedTablesRegex";
 			internal const string DatabaseXmlFile = "DatabaseXmlFile";
-			internal const string RootFolder = "RootFolder";
         }
 
-		internal Settings()
+		internal ParserSettings()
 		{
 		}
 
 		/// <summary>This constructor takes every needed property as argument.
 		/// </summary>
-		internal Settings(string configPath, string initPathfilename, 
+		internal ParserSettings(string configPath, string initPathfilename, 
 			string connectionString, string databaseName, int databaseIndex, 
-			string excludedTablesRegex, string databaseXmlFile, 
-			string rootFolder)
+			string excludedTablesRegex, string databaseXmlFile)
 		{
 			this.ConfigPath = configPath;
 			this.InitPathfilename = initPathfilename;
@@ -75,7 +69,6 @@ namespace St4mpede
 			this.DatabaseIndex = databaseIndex;
 			this.ExcludedTablesRegex = excludedTablesRegex;
 			this.DatabaseXmlFile = databaseXmlFile;
-			this.RootFolder = rootFolder;
 		}
 	}
 
