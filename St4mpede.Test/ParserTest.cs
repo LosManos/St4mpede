@@ -9,15 +9,78 @@ using System.Xml.Serialization;
 using System.Xml.Linq;
 using System.Linq;
 using St4mpede.Test.Extensions;
+using Moq;
 
 namespace St4mpede.Test
 {
 	[TestClass]
 	public class ParserTest
 	{
-		//private Settings m_settings;
 		private const string DatabasePath = @"C:\DATA\PROJEKT\ST4MPEDE\ST4MPEDE\ST4MPEDE.TEST\DATABASE\";
 		private const string ConnectionStringTemplate = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={0};Integrated Security=True;Connect Timeout=30";
+
+		[TestMethod]
+		public void Generate_given_HappyPath_should_Succeed()
+		{
+			//	#	Arrange.
+			const string ExcludedTablesRegex = "MyExcludedTablesRegex";
+            var mockedLog = new Mock<ILog>();
+			var mockedDatabaseConnection = new Mock<IDatabaseConnection>();
+			var mockedServerInfo = new Mock<IServerInfo>();
+			var mockedParserLogic = new Mock<IParserLogic>();
+			var databaseList = new List<Database>
+			{
+				new Database()
+			};
+			var tableList = new List<Table> {
+				new Table { Name = "MyTableName"}
+			};
+			//var columnList = new List<Column>
+			//{
+			//	new Column {Name="MyColumnName"}
+			//};
+			mockedServerInfo
+				.SetupGet(m => m.DatabaseList)
+				.Returns(databaseList);
+			mockedServerInfo
+				.Setup(m => m.GetTablesByDatabase(It.IsAny<Database>()))
+				.Returns(tableList);
+			//mockedServerInfo
+			//	.Setup( m=>m.GetColumnsByTable(It.IsAny<Table>()))
+			//	.Returns(columnList);
+			var mockedSettings = new Mock<ISettings>();
+			mockedSettings
+				.SetupGet(m => m.ConnectionString)
+				.Returns("whatever");
+			mockedSettings
+				.Setup(m => m.DatabaseName)
+				.Returns((string)null);
+			mockedSettings
+				.SetupGet(m => m.DatabaseIndex)
+				.Returns(0);
+			mockedSettings
+				.Setup(m => m.ExcludedTablesRegex)
+				.Returns(ExcludedTablesRegex);
+			var sut = new Parser(mockedLog.Object);
+			mockedDatabaseConnection
+				.Setup(
+				m => m.GetServerInfo(It.IsAny<string>()))
+				.Returns(mockedServerInfo.Object);
+			mockedParserLogic
+				.Setup(m => m.Parse(It.IsAny<IList<Table>>(), ExcludedTablesRegex))
+				.Returns(new DatabaseData());
+
+			sut.UT_SetDatabaseConnection(mockedDatabaseConnection.Object);
+			sut.UT_Settings = mockedSettings.Object;
+			sut.UT_SetParserLogic(mockedParserLogic.Object);
+
+			//	#	Act.
+			sut.Generate();
+
+			//	#	Assert.
+			//	Success.
+			//	What are we really testing here? It is like only happy path and nothing more. Rewriteit to test the different logic, which database to get and so forth and in the end call ParserLogic.Parse.
+		}
 
 		[TestInitialize]
 		public void Initialize()
@@ -84,36 +147,6 @@ namespace St4mpede.Test
 			Assert.AreEqual("myExcludedTablesRegex", sut.UT_Settings.ExcludedTablesRegex);
 			Assert.AreEqual(@"..\..", sut.UT_Settings.ConfigPath);
 			Assert.AreEqual(Path.Combine( MyPath,MyFilename), sut.UT_Settings.InitPathfilename);
-		}
-
-		[TestMethod]
-		public void ParseTablesTest()
-		{
-			//	#	Arrange.
-			const string DatabaseName = "ParseTablesTest.mdf";
-			var connectionString = string.Format(ConnectionStringTemplate,
-				Path.Combine(DatabasePath, DatabaseName));
-			TableCollection tables;
-
-			using (var conn = new SqlConnection(connectionString))
-			{
-				var serverConnection = new ServerConnection(conn);
-				var server = new Server(serverConnection);
-				var db = server.Databases[
-					Path.Combine(DatabasePath, DatabaseName)];
-				tables = db.Tables;
-			}
-			var sut = new Parser();
-
-			//	#	Act.
-			sut.UT_ParseTables(tables, "Project");
-
-			//	#	Assert.
-			Assert.AreEqual(2, sut.UT_ServerData.Tables.Count);
-			Assert.AreEqual("Customer", sut.UT_ServerData.Tables[0].Name);
-			Assert.IsTrue(sut.UT_ServerData.Tables[0].Include);
-			Assert.AreEqual("Project", sut.UT_ServerData.Tables[1].Name);
-			Assert.IsFalse(sut.UT_ServerData.Tables[1].Include);
 		}
 
 		[TestMethod]

@@ -10,6 +10,7 @@ namespace St4mpede.Integration.Test
 		public void GenerateTest()
 		{
 			Assert.Inconclusive("TBA");
+			//	#	Arrange.
 			var sut = new Parser();
 			sut.Generate();
 		}
