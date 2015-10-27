@@ -58,11 +58,11 @@
     <Compile Include="St4mpede\Core\Core.tt.cs" />
     <Compile Include="St4mpede\Core\CoreSettings.tt.cs" />
     <Compile Include="St4mpede\Core\Log.tt.cs" />
-    <Compile Include="St4mpede\DatabaseConnection.tt.cs" />
-    <Compile Include="St4mpede\Parser.tt.cs" />
+    <Compile Include="St4mpede\RdbSchema\DatabaseConnection.tt.cs" />
+    <Compile Include="St4mpede\RdbSchema\Parser.tt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="St4mpede\Core\Exception.tt.cs" />
-    <Compile Include="St4mpede\DatabaseData.tt.cs" />
+    <Compile Include="St4mpede\RdbSchema\DatabaseData.tt.cs" />
     <Compile Include="St4mpede\St4mpede.Poco.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -71,10 +71,10 @@
     <Compile Include="St4mpede\Poco\ClassData.tt.cs" />
     <Compile Include="St4mpede\Poco\PocoGenerator.tt.cs" />
     <Compile Include="St4mpede\Settings.tt.cs" />
-    <Compile Include="St4mpede\St4mpede.cs">
+    <Compile Include="St4mpede\St4mpede.RdbSchema.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>St4mpede.tt</DependentUpon>
+      <DependentUpon>St4mpede.RdbSchema.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -87,20 +87,20 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>RunAll.md</LastGenOutput>
     </Content>
-    <Content Include="St4mpede\St4mpede.xml" />
+    <Content Include="St4mpede\RdbSchema\St4mpede.RdbSchema.xml" />
     <None Include="St4mpede\St4mpede.config.xml">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="St4mpede\St4mpede.tt">
+    <Content Include="St4mpede\St4mpede.RdbSchema.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>St4mpede.cs</LastGenOutput>
+      <LastGenOutput>St4mpede.RdbSchema.cs</LastGenOutput>
     </Content>
     <None Include="St4mpede\RunAll.md">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>RunAll.tt</DependentUpon>
     </None>
-    <None Include="St4mpede\St4mpede.xsd">
+    <None Include="St4mpede\RdbSchema\St4mpede.RdbSchema.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>

@@ -31,11 +31,7 @@ namespace St4mpede
 
 		private IParserLogic _parserLogic;
 
-		//internal static string GetExecutingPath()
-		//{
-		//	var ret = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-		//	return ret;
-		//}
+		private const string ProjectPath = "RdbSchema";
 
 		internal Parser()
 			:this(new Log())
@@ -114,7 +110,7 @@ namespace St4mpede
 			_log.Add("Created xml:");
 			_log.Add(xml);
 
-			xml.Save(Path.Combine(_settings.ConfigPath, _settings.OutputXmlFilename));
+			xml.Save(Path.Combine(_settings.ConfigPath, ProjectPath, _settings.OutputXmlFilename));
 		}
 
 		public string ToInfo()

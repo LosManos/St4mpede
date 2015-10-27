@@ -1,11 +1,11 @@
 ﻿
 
 
-//		The file was generated  by St4mpede.Poco 2015-10-27 13:57:34
+//		The file was generated  by St4mpede.Poco 2015-10-27 16:51:15
 
 
 /* 			
-Reading xml C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede\St4mpede\St4mpede.xml.
+Reading xml C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede\St4mpede\RdbSchema\St4mpede.RdbSchema.xml.
 Read database with tables: __RefactorLog, Customer, User.
 Included classes are:
 Name=Customer

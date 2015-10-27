@@ -33,7 +33,7 @@ namespace St4mpede
 		/// <summary>This is the name of the outputed XML file.
 		/// By the time of writing it is hard coded but when we have the time to make it settable, with default value fall back we might. Check Github for bug #4 https://github.com/LosManos/St4mpede/issues/4
 		/// </summary>
-		public string OutputXmlFilename { get { return "St4mpede.xml"; } }
+		public string OutputXmlFilename { get { return "St4mpede.RdbSchema.xml"; } }
 
 		public string ConnectionString { get; set; }
 

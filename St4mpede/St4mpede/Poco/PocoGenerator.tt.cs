@@ -144,7 +144,8 @@ namespace St4mpede.Poco
 
 		internal void ReadXml()
 		{
-			var xmlPathFile = @"C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede\St4mpede\St4mpede.xml";
+			//TODO:Change to not rooted path.
+			var xmlPathFile = @"C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede\St4mpede\RdbSchema\St4mpede.RdbSchema.xml";
 			_log.Add("Reading xml {0}.", xmlPathFile);
 
 			var doc = _xDocHandler.Load(xmlPathFile);
