@@ -17,15 +17,16 @@ namespace St4mpede.Test
 			const int MyDatabaseIndex = 42;
 			const string MyExcludedTablesRegex = "myExcludedTablesRegex";
 			const string MyDatabaseXmlFile = "myDatabaseXmlFile";
-			
-			var sut = new ParserSettings(
+			const string MyProjectPath = "MyProjectPath";
+            var sut = new ParserSettings(
 				MyConfigPath,
 				MyInitPathfilename,
 				MyConnectionString,
 				MyDatabaseName,
 				MyDatabaseIndex,
 				MyExcludedTablesRegex,
-				MyDatabaseXmlFile);
+				MyDatabaseXmlFile,
+				MyProjectPath);
 
 			//	#	Assert.
 			Assert.AreEqual(MyConfigPath, sut.ConfigPath);
@@ -35,6 +36,7 @@ namespace St4mpede.Test
 			Assert.AreEqual(MyDatabaseIndex, sut.DatabaseIndex);
 			Assert.AreEqual(MyExcludedTablesRegex, sut.ExcludedTablesRegex);
 			Assert.AreEqual(MyDatabaseXmlFile, sut.DatabaseXmlFile);
+			Assert.AreEqual(MyProjectPath, sut.ProjectPath);
 
 			Assert.IsFalse(
 				sut.GetType().GetProperties().Any(p => p.GetValue(sut, null) == null),

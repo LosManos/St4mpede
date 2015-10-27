@@ -1,14 +1,14 @@
 ﻿
 
 
-//		This file was generated  by St4mpede 2015-10-27 23:32:45
+//		This file was generated  by St4mpede 2015-10-28 00:15:09
 
 
 /* 
 Choose server (LocalDB)\MSSQLLocalDB
 Chose database C:\DATA\PROJEKT\ST4MPEDE\St4mpede\ST4MPEDE.TEST\DATABASE\ST4MPEDE.MDF.
 
-Writing database xml What is this? Database.xml.
+Writing database xml St4mpede.RdbSchema.xml.
 Created xml:
 <Database xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Tables>

@@ -134,6 +134,9 @@ namespace St4mpede.Test
 					<Core>
 						<RootFolder>MyRootFolder</RootFolder>
 					</Core>
+					<RdbSchema>
+						<DatabaseXmlFile>MyDatabaseXmlFile</DatabaseXmlFile>
+					</RdbSchema>
 					<Poco>
 						<OutputFolder>MyOutputFolder</OutputFolder>
 						<ProjectPath>MyProjectPath</ProjectPath>
@@ -164,6 +167,7 @@ namespace St4mpede.Test
 			//	#	Arrange.
 			var sut = new PocoGenerator(null, null, null);
 			var coreSettings = new CoreSettings();
+			var rdbSchemaSettings = new ParserSettings();
 			var doc = XDocument.Parse(
 				@"	<Poco>
 		<OutputFolder>MyFolder\WithBackslash</OutputFolder>
@@ -172,7 +176,7 @@ namespace St4mpede.Test
 	</Poco>");
 
 			//	#	Act.
-			sut.UT_Init(coreSettings, doc.Elements().Single());
+			sut.UT_Init(coreSettings, rdbSchemaSettings, doc.Elements().Single());
 
 			//	#	Assert.
 			Assert.AreEqual(@"MyFolder\WithBackslash", sut.UT_PocoSettings.OutputFolder);
@@ -240,6 +244,15 @@ namespace St4mpede.Test
 				.Setup(m => m.Load(It.IsAny<string>()))
 				.Returns(xml);
 			var sut = new PocoGenerator(null, log, mockXDocHandler.Object);
+			sut.UT_CoreSettings = new CoreSettings
+			{
+				RootFolder = "MyRootFolder"
+			};
+			sut.UT_RdbSchema = new ParserSettings
+			{
+				ProjectPath = "MyProjectPath",
+                DatabaseXmlFile = "MyDatabaseXmlFile"
+			};
 
 			//	#	Act.
 			sut.ReadXml();

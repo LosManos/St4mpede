@@ -158,8 +158,6 @@ namespace St4mpede.Test
 			//	#	Arrange.
 			const string ConfigPath = "MyConfigPath";
 			const string ConfigFilename = "MyConfigFilename";
-			var mockedLog = new Mock<ILog>();
-			var sut = new Parser(mockedLog.Object);
 			const string Xml =
 				@"
 <St4mpede>
@@ -180,7 +178,7 @@ namespace St4mpede.Test
 			var doc = XDocument.Parse(Xml);
 
 			//	#	Act.
-			var res = sut.Init(ConfigPath, ConfigFilename, doc);
+			var res = ParserSettings.Init(ConfigPath, ConfigFilename, doc);
 
 			//	#	Assert.
 			Assert.AreEqual(ConfigPath, res.ConfigPath);

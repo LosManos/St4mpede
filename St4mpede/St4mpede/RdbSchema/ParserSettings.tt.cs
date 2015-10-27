@@ -2,6 +2,9 @@
 /*That line above is very carefully constructed to be awesome and make it so this works!*/
 #if NOT_IN_T4
 //Apparently T4 places classes into another class, making namespaces impossible
+using System.IO;
+using System.Xml.Linq;
+
 namespace St4mpede
 {
 	//	Note that when adding namespaces here we also have to add the namespaces to the TT file  import namespace=...
@@ -20,8 +23,9 @@ namespace St4mpede
 		int DatabaseIndex { get; set; }
 		string ExcludedTablesRegex { get; set; }
 		string DatabaseXmlFile { get; set; }
+		string ProjectPath { get; set; }
 	}
-	
+
 	internal class ParserSettings : IParserSettings
 	{
 		public string ConfigPath { get; set; }
@@ -43,14 +47,17 @@ namespace St4mpede
 
 		public string DatabaseXmlFile { get; set; }
 
-        internal static class XmlElements
+		public string ProjectPath { get; set; }
+
+		internal static class XmlElements
 		{
 			internal const string ConnectionString = "ConnectionString";
 			internal const string DatabaseName = "DatabaseName";
 			internal const string DatabaseIndex = "DatabaseIndex";
 			internal const string ExcludedTablesRegex = "ExcludedTablesRegex";
 			internal const string DatabaseXmlFile = "DatabaseXmlFile";
-        }
+			internal const string ProjectPath = "ProjectPath";
+		}
 
 		internal ParserSettings()
 		{
@@ -58,9 +65,10 @@ namespace St4mpede
 
 		/// <summary>This constructor takes every needed property as argument.
 		/// </summary>
-		internal ParserSettings(string configPath, string initPathfilename, 
-			string connectionString, string databaseName, int databaseIndex, 
-			string excludedTablesRegex, string databaseXmlFile)
+		internal ParserSettings(string configPath, string initPathfilename,
+			string connectionString, string databaseName, int databaseIndex,
+			string excludedTablesRegex, string databaseXmlFile,
+			string projectPath)
 		{
 			this.ConfigPath = configPath;
 			this.InitPathfilename = initPathfilename;
@@ -69,7 +77,33 @@ namespace St4mpede
 			this.DatabaseIndex = databaseIndex;
 			this.ExcludedTablesRegex = excludedTablesRegex;
 			this.DatabaseXmlFile = databaseXmlFile;
+			this.ProjectPath = projectPath;
 		}
+
+		internal static ParserSettings Init(string configPath, string configFilename, XDocument doc)
+		{
+			const string RdbSchemaSubElementName = "RdbSchema";
+
+			//	Get the databasename which might be a name or a pathfilename or a number.
+			var databaseName = (string)doc.Root.Element(RdbSchemaSubElementName).Element(ParserSettings.XmlElements.DatabaseName);
+
+			//	If the databasename is a number - put it in databaseindex.
+			int databaseIndex = 0;
+			int.TryParse(databaseName, out databaseIndex);
+
+			//	Create the object with all properties set.
+			return new ParserSettings(
+				configPath,
+				Path.Combine(configPath, configFilename),
+				(string)doc.Root.Element(RdbSchemaSubElementName).Element(ParserSettings.XmlElements.ConnectionString),
+				databaseName,
+				databaseIndex,
+				(string)doc.Root.Element(RdbSchemaSubElementName).Element(ParserSettings.XmlElements.ExcludedTablesRegex),
+				(string)doc.Root.Element(RdbSchemaSubElementName).Element(ParserSettings.XmlElements.DatabaseXmlFile),
+				(string)doc.Root.Element(RdbSchemaSubElementName).Element(ParserSettings.XmlElements.ProjectPath)
+			);
+		}
+
 	}
 
 #if NOT_IN_T4

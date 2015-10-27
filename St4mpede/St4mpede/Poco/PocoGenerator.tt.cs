@@ -38,6 +38,8 @@ namespace St4mpede.Poco
 
 		private PocoSettings _pocoSettings;
 
+		private IParserSettings _rdbSchemaSettings;
+
 		#endregion
 
 		internal static class DatabaseTypes
@@ -98,11 +100,12 @@ namespace St4mpede.Poco
 		{
 			if (null == hostTemplateFile) { throw new ArgumentNullException("hostTemplateFile"); }
 
+			var configPath = Path.GetDirectoryName(hostTemplateFile);
 			configFilename = configFilename ?? Core.DefaultConfigFilename;
 			readConfigFunction = readConfigFunction ?? Core.ReadConfig;
 
 			var doc = readConfigFunction(
-				Path.GetDirectoryName(hostTemplateFile), 
+				configPath,
 				configFilename);
 
 			var settings = (from c in doc.Descendants(PocoElement) select c).SingleOrDefault();
@@ -111,12 +114,13 @@ namespace St4mpede.Poco
 				_log.Add("Configuration does not contain element {0}", PocoElement);
 				return;	//	Bail.
 			}
-			Init(Core.Init(doc), settings);
+			Init(Core.Init(doc), ParserSettings.Init(configPath, configFilename, doc), settings);
 		}
 
-		private void Init( CoreSettings settings, XElement doc)
+		private void Init( CoreSettings settings, IParserSettings rdbSchemaSettings, XElement doc)
 		{
 			_coreSettings = settings;
+			_rdbSchemaSettings = rdbSchemaSettings;
 			_pocoSettings = new PocoSettings(
 				doc.Descendants(OutputFolderElement).Single().Value, 
 				doc.Descendants(ProjectPathElement).Single().Value,
@@ -147,8 +151,13 @@ namespace St4mpede.Poco
 
 		internal void ReadXml()
 		{
-			//TODO:Change to not rooted path.
-			var xmlPathFile = @"C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede\St4mpede\RdbSchema\St4mpede.RdbSchema.xml";
+			var xmlPathFile = Path.Combine(
+				//@"C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede\St4mpede",
+				_coreSettings.RootFolder,
+				//	\RdbSchema",
+				_rdbSchemaSettings.ProjectPath,
+				//St4mpede.RdbSchema.xml";
+				_rdbSchemaSettings.DatabaseXmlFile);
 			_log.Add("Reading xml {0}.", xmlPathFile);
 
 			var doc = _xDocHandler.Load(xmlPathFile);
@@ -279,9 +288,9 @@ namespace St4mpede.Poco
 		}
 
 		[DebuggerStepThrough]
-		internal void UT_Init(CoreSettings coreSettings, XElement settingsElement)
+		internal void UT_Init(CoreSettings coreSettings, IParserSettings rdbSchemaSettings, XElement settingsElement)
 		{
-			Init(coreSettings, settingsElement);
+			Init(coreSettings, rdbSchemaSettings, settingsElement);
 		}
 
 		internal PocoSettings UT_PocoSettings
@@ -295,6 +304,14 @@ namespace St4mpede.Poco
 			get { return _coreSettings; }
 			set { _coreSettings = value; }
 		}
+
+		internal ParserSettings UT_RdbSchema {
+			set
+			{
+				_rdbSchemaSettings = value;
+			}
+		}
+
 
 		internal IList<TypesTuple> UT_Types
 		{

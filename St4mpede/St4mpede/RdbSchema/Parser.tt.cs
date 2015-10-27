@@ -61,30 +61,7 @@ namespace St4mpede
 				configPath, 
 				configFilename);
 			_coreSettings = Core.Init(doc);
-			_settings = Init(configPath, configFilename, doc);
-		}
-
-		internal ParserSettings Init(string configPath, string configFilename, XDocument doc)
-		{
-			const string RdbSchemaSubElementName = "RdbSchema";
-
-			//	Get the databasename which might be a name or a pathfilename or a number.
-			var databaseName = (string)doc.Root.Element(RdbSchemaSubElementName).Element(ParserSettings.XmlElements.DatabaseName);
-
-			//	If the databasename is a number - put it in databaseindex.
-			int databaseIndex = 0;
-			int.TryParse(databaseName, out databaseIndex);
-
-			//	Create the object with all properties set.
-			return new ParserSettings(
-				configPath,
-				Path.Combine(configPath, configFilename),
-				(string)doc.Root.Element(RdbSchemaSubElementName).Element(ParserSettings.XmlElements.ConnectionString),
-				databaseName,
-				databaseIndex,
-				(string)doc.Root.Element(RdbSchemaSubElementName).Element(ParserSettings.XmlElements.ExcludedTablesRegex),
-				(string)doc.Root.Element(RdbSchemaSubElementName).Element(ParserSettings.XmlElements.DatabaseXmlFile)
-			);
+			_settings = ParserSettings.Init(configPath, configFilename, doc);
 		}
 
 		internal void Generate()

@@ -7,7 +7,8 @@
 		<ConnectionString>Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede.Test\Database\St4mpede.mdf;Integrated Security=True;Connect Timeout=30</ConnectionString>
 		<DatabaseName>C:\DATA\PROJEKT\ST4MPEDE\St4mpede\ST4MPEDE.TEST\DATABASE\ST4MPEDE.MDF</DatabaseName>
 		<ExcludedTablesRegex>__RefactorLog</ExcludedTablesRegex>
-		<DatabaseXmlFile>What is this? Database.xml</DatabaseXmlFile>
+		<DatabaseXmlFile>St4mpede.RdbSchema.xml</DatabaseXmlFile>
+		<ProjectPath>RdbSchema</ProjectPath>
 	</RdbSchema>
 	<Poco>
 		<!--	The OutputFolder is combined with Core.RootFolder.	-->
