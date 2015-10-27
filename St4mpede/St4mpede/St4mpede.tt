@@ -37,11 +37,11 @@
 <#= parser.ToInfo  () #>
 */
 
-<#@ include file="St4mpede\Core\Exception.tt.cs" #>
-<#@ include file="St4mpede\Core\Log.tt.cs" #>
-<#@ include file="St4mpede\Core\Core.tt.cs" #>
-<#@ include file="St4mpede\Core\CoreSettings.tt.cs" #>
-<#@ include file="St4mpede\Settings.tt.cs" #>
-<#@ include file="St4mpede\DatabaseData.tt.cs" #>
-<#@ include file="St4mpede\DatabaseConnection.tt.cs" #>
-<#@ include file="St4mpede\Parser.tt.cs" #>
+<#@ include file="Core\Exception.tt.cs" #>
+<#@ include file="Core\Log.tt.cs" #>
+<#@ include file="Core\Core.tt.cs" #>
+<#@ include file="Core\CoreSettings.tt.cs" #>
+<#@ include file="Settings.tt.cs" #>
+<#@ include file="DatabaseData.tt.cs" #>
+<#@ include file="DatabaseConnection.tt.cs" #>
+<#@ include file="Parser.tt.cs" #>

@@ -63,7 +63,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="St4mpede\Core\Exception.tt.cs" />
     <Compile Include="St4mpede\DatabaseData.tt.cs" />
-    <Compile Include="St4mpede.Poco.cs">
+    <Compile Include="St4mpede\St4mpede.Poco.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>St4mpede.Poco.tt</DependentUpon>
@@ -71,14 +71,14 @@
     <Compile Include="St4mpede\Poco\ClassData.tt.cs" />
     <Compile Include="St4mpede\Poco\PocoGenerator.tt.cs" />
     <Compile Include="St4mpede\Settings.tt.cs" />
-    <Compile Include="St4mpede.cs">
+    <Compile Include="St4mpede\St4mpede.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>St4mpede.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="St4mpede.Poco.tt">
+    <Content Include="St4mpede\St4mpede.Poco.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>St4mpede.Poco.cs</LastGenOutput>
     </Content>
@@ -88,10 +88,10 @@
       <LastGenOutput>RunAll.md</LastGenOutput>
     </Content>
     <Content Include="St4mpede\St4mpede.xml" />
-    <None Include="St4mpede.config.xml">
+    <None Include="St4mpede\St4mpede.config.xml">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="St4mpede.tt">
+    <Content Include="St4mpede\St4mpede.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>St4mpede.cs</LastGenOutput>
     </Content>
