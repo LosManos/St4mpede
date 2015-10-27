@@ -10,7 +10,8 @@
 		<DatabaseXmlFile>What is this? Database.xml</DatabaseXmlFile>
 	</RdbSchema>
 	<Poco>
-		<OutputFolder>C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede\Poco</OutputFolder>
+		<!--	The OutputFolder is combined with Core.RootFolder.	-->
+		<OutputFolder>Poco</OutputFolder>
 		<ProjectPath>Poco</ProjectPath>
 		<XmlOutputFilename>PocoGenerator.xml</XmlOutputFilename>
 	</Poco>

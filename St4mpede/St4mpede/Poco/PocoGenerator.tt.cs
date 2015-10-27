@@ -137,9 +137,7 @@ namespace St4mpede.Poco
 				Core.Serialise(_classDataList.ToList()),
 				pathFileForXmlOutput);
 
-			//	TODO: Write output pocos.
-			//	TODO: Make output path settable.
-			var pathForPocoOutput = Path.Combine(_coreSettings.RootFolder, @"..\Poco\");
+			var pathForPocoOutput = Path.Combine(_coreSettings.RootFolder, _pocoSettings.OutputFolder);
 			_log.Add("Writing {0} classes in {1}.", _classDataList.Count, pathForPocoOutput);
 
 			WritePocoClasses(pathForPocoOutput);
