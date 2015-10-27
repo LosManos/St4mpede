@@ -65,9 +65,15 @@ namespace St4mpede
 		{
 			const string CoreSubElementName = "Core";
 			const string RdbSchemaSubElementName = "RdbSchema";
+
+			//	Get the databasename which might be a name or a pathfilename or a number.
 			var databaseName = (string)doc.Root.Element(RdbSchemaSubElementName).Element(Settings.XmlElements.DatabaseName);
+
+			//	If the databasename is a number - put it in databaseindex.
 			int databaseIndex = 0;
 			int.TryParse(databaseName, out databaseIndex);
+
+			//	Create the object with all properties set.
 			return new Settings(
 				configPath,
 				Path.Combine(configPath, configFilename),

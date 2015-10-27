@@ -83,9 +83,9 @@
       <LastGenOutput>St4mpede.Poco.cs</LastGenOutput>
     </Content>
     <Content Include="St4mpede\Poco\PocoGenerator.xml" />
-    <Content Include="St4mpede\RunAll.tt">
+    <Content Include="St4mpede\TODO_RunAll.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>RunAll.md</LastGenOutput>
+      <LastGenOutput>TODO_RunAll.md</LastGenOutput>
     </Content>
     <Content Include="St4mpede\RdbSchema\St4mpede.RdbSchema.xml" />
     <None Include="St4mpede\St4mpede.config.xml">
@@ -95,10 +95,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>St4mpede.RdbSchema.cs</LastGenOutput>
     </Content>
-    <None Include="St4mpede\RunAll.md">
+    <None Include="St4mpede\TODO_RunAll.md">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>RunAll.tt</DependentUpon>
+      <DependentUpon>TODO_RunAll.tt</DependentUpon>
     </None>
     <None Include="St4mpede\RdbSchema\St4mpede.RdbSchema.xsd">
       <SubType>Designer</SubType>
