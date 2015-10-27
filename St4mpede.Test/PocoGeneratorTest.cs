@@ -121,7 +121,7 @@ namespace St4mpede.Test
 				Assert.Fail("Should not come here.");
 			}catch(ArgumentNullException exc)
 			{
-				Assert.AreEqual("configPath", exc.ParamName);
+				Assert.AreEqual("hostTemplateFile", exc.ParamName);
 			}
 		}
 
@@ -131,9 +131,13 @@ namespace St4mpede.Test
 			//	#	Arrange.
 			Func<string, string, XDocument> func = (string configPath, string configFilename) => { return XDocument.Parse(@"
 				<St4mpede>
-					<RootFolder>MyRootFolder</RootFolder>
+					<Core>
+						<RootFolder>MyRootFolder</RootFolder>
+					</Core>
 					<Poco>
 						<OutputFolder>MyOutputFolder</OutputFolder>
+						<ProjectPath>MyProjectPath</ProjectPath>
+						<XmlOutputFilename>MyXmlOutputFilename</XmlOutputFilename>
 					</Poco>
 				</St4mpede>
 "); };
@@ -144,7 +148,9 @@ namespace St4mpede.Test
 			sut.Init("whatever", "whatevar", func);
 
 			//	#	Assert.
-			Assert.AreEqual("MyOutputFolder", sut.UT_OutputFolder);
+			Assert.AreEqual("MyOutputFolder", sut.UT_PocoSettings.OutputFolder);
+			Assert.AreEqual("MyProjectPath", sut.UT_PocoSettings.ProjectPath);
+			Assert.AreEqual("MyXmlOutputFilename", sut.UT_PocoSettings.XmlOutputFilename);
 			Assert.AreEqual("MyRootFolder", sut.UT_CoreSettings.RootFolder);
 		}
 
@@ -161,13 +167,18 @@ namespace St4mpede.Test
 			var doc = XDocument.Parse(
 				@"	<Poco>
 		<OutputFolder>MyFolder\WithBackslash</OutputFolder>
+		<ProjectPath>MyProjectPath</ProjectPath>
+		<XmlOutputFilename>MyXmlOutputFilename</XmlOutputFilename>
 	</Poco>");
 
 			//	#	Act.
 			sut.UT_Init(coreSettings, doc.Elements().Single());
 
 			//	#	Assert.
-			Assert.AreEqual(@"MyFolder\WithBackslash", sut.UT_OutputFolder);
+			Assert.AreEqual(@"MyFolder\WithBackslash", sut.UT_PocoSettings.OutputFolder);
+			Assert.AreEqual("MyProjectPath", sut.UT_PocoSettings.ProjectPath);
+			Assert.AreEqual("MyXmlOutputFilename", sut.UT_PocoSettings.XmlOutputFilename);
+			Assert.AreEqual(@"MyProjectPath\MyXmlOutputFilename", sut.UT_PocoSettings.XmlOutputPathFilename);
 		}
 
 		#endregion
@@ -179,7 +190,10 @@ namespace St4mpede.Test
 			var mockedCore = new Mock<ICore>();
 			mockedCore.Setup(m => m.WriteOutput(It.IsAny<IList<string>>(), It.IsAny<string> ()));
 			var sut = new PocoGenerator(mockedCore.Object, new Log(), null);
-			sut.UT_OutputFolder = @"path\path";
+			sut.UT_PocoSettings = new PocoSettings(
+				@"path\path", 
+				"Poco", 
+				"PocoGenerator.xml");
 			sut.UT_CoreSettings = new CoreSettings()
 			{
 				RootFolder = "MyRootFolder"

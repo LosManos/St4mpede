@@ -58,6 +58,8 @@
     <Compile Include="St4mpede\Core\Core.tt.cs" />
     <Compile Include="St4mpede\Core\CoreSettings.tt.cs" />
     <Compile Include="St4mpede\Core\Log.tt.cs" />
+    <None Include="St4mpede\_Template.tt.cs" />
+    <Compile Include="St4mpede\Poco\PocoSettings.tt.cs" />
     <Compile Include="St4mpede\RdbSchema\DatabaseConnection.tt.cs" />
     <Compile Include="St4mpede\RdbSchema\Parser.tt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -11,5 +11,7 @@
 	</RdbSchema>
 	<Poco>
 		<OutputFolder>C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede\Poco</OutputFolder>
+		<ProjectPath>Poco</ProjectPath>
+		<XmlOutputFilename>PocoGenerator.xml</XmlOutputFilename>
 	</Poco>
 </St4mpede>

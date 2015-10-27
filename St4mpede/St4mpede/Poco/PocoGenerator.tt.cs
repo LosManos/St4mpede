@@ -21,8 +21,10 @@ namespace St4mpede.Poco
 
 		private const string PocoElement = "Poco";
 		private const string OutputFolderElement = "OutputFolder";
-
-		private ICore _core;
+		private const string ProjectPathElement = "ProjectPath";
+		private const string XmlOutputFilenameElement = "XmlOutputFilename";
+		
+        private ICore _core;
 
 		private ILog _log;
 
@@ -32,9 +34,9 @@ namespace St4mpede.Poco
 
 		private DatabaseData _database;
 
-		private string _outputFolder;
-
 		private CoreSettings _coreSettings;
+
+		private PocoSettings _pocoSettings;
 
 		#endregion
 
@@ -94,7 +96,7 @@ namespace St4mpede.Poco
 		internal void Init(string hostTemplateFile, string configFilename, 
 			Func<string, string, XDocument> readConfigFunction)
 		{
-			if (null == hostTemplateFile) { throw new ArgumentNullException("configPath"); }
+			if (null == hostTemplateFile) { throw new ArgumentNullException("hostTemplateFile"); }
 
 			configFilename = configFilename ?? Core.DefaultConfigFilename;
 			readConfigFunction = readConfigFunction ?? Core.ReadConfig;
@@ -103,28 +105,31 @@ namespace St4mpede.Poco
 				Path.GetDirectoryName(hostTemplateFile), 
 				configFilename);
 
-			var coreSettings = Core.Init(doc);
-
 			var settings = (from c in doc.Descendants(PocoElement) select c).SingleOrDefault();
 			if( null == settings)
 			{
 				_log.Add("Configuration does not contain element {0}", PocoElement);
 				return;	//	Bail.
 			}
-			Init(coreSettings, settings);
+			Init(Core.Init(doc), settings);
 		}
 
 		private void Init( CoreSettings settings, XElement doc)
 		{
 			_coreSettings = settings;
-			_outputFolder = doc.Descendants(OutputFolderElement).Single().Value;
+			_pocoSettings = new PocoSettings(
+				doc.Descendants(OutputFolderElement).Single().Value, 
+				doc.Descendants(ProjectPathElement).Single().Value,
+                doc.Descendants(XmlOutputFilenameElement).Single().Value
+			);
 		}
 
 		internal void Output()
 		{
-			//	TODO: Make path and name of xml output file settable.
 			var pathFileForXmlOutput =
-				Path.Combine(_coreSettings.RootFolder, @"Poco\PocoGenerator.xml");
+				Path.Combine(_coreSettings.RootFolder,
+				Path.Combine( _pocoSettings.XmlOutputPathFilename	//	@"Poco\PocoGenerator.xml"
+				));
 
 			_log.Add("Writing the output file {0}.", pathFileForXmlOutput);
 
@@ -281,10 +286,10 @@ namespace St4mpede.Poco
 			Init(coreSettings, settingsElement);
 		}
 
-		internal string UT_OutputFolder
+		internal PocoSettings UT_PocoSettings
 		{
-			get { return _outputFolder; }
-			set { _outputFolder = value; }
+			get { return _pocoSettings; }
+			set { _pocoSettings = value; }
 		}
 
 		internal CoreSettings UT_CoreSettings

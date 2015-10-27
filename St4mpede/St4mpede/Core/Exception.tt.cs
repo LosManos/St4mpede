@@ -10,7 +10,6 @@ namespace St4mpede
 #endif
 	//#	Regular ol' C# classes and code...
 
-	//	TODO:Create proper Exceptions.
 	internal class St4mpedeException : Exception
 	{
 		public St4mpedeException()		{		}
