@@ -20,7 +20,7 @@ namespace St4mpede.Test
 		private const string ConnectionStringTemplate = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={0};Integrated Security=True;Connect Timeout=30";
 
 		[TestMethod]
-		public void GenerateTest()
+		public void Generate_given_HappyPath_should_Succeed()
 		{
 			//	#	Arrange.
 			const string ExcludedTablesRegex = "MyExcludedTablesRegex";
@@ -78,7 +78,8 @@ namespace St4mpede.Test
 			sut.Generate();
 
 			//	#	Assert.
-			Assert.Inconclusive("What are we really testing here? It is like only happy path and nothing more. Rewriteit to test the different logic, which database to get and so forth and in the end call ParserLogic.Parse.");
+			//	Success.
+			//	What are we really testing here? It is like only happy path and nothing more. Rewriteit to test the different logic, which database to get and so forth and in the end call ParserLogic.Parse.
 		}
 
 		[TestInitialize]
