@@ -23,9 +23,13 @@ namespace St4mpede
 	{
         private ILog _log;
 
-		private Settings _settings;
+		private ISettings _settings;
 
 		private DatabaseData _databaseData;
+
+		private IDatabaseConnection _databaseConnection;
+
+		private IParserLogic _parserLogic;
 
 		//internal static string GetExecutingPath()
 		//{
@@ -36,6 +40,8 @@ namespace St4mpede
 		internal Parser()
 			:this(new Log())
 		{
+			_databaseConnection = new DatabaseConnection();
+			_parserLogic = new ParserLogic();
 		}
 
 		internal Parser(ILog log)
@@ -80,33 +86,56 @@ namespace St4mpede
 
 		internal void Generate()
 		{
-			using (var conn = new SqlConnection(_settings.ConnectionString))
+			using (var serverInfo = _databaseConnection.GetServerInfo(_settings.ConnectionString))
 			{
-				var serverConnection = new ServerConnection(conn);
-				try
-				{
-					var server = new Server(serverConnection);
-					_log.Add("Chose server {0}", server.Name);
+				_log.Add("Choose server {0}", serverInfo.Name);
 
-					var database =
-						string.IsNullOrWhiteSpace(_settings.DatabaseName) ?
-						server.Databases[_settings.DatabaseIndex] :    //	Uses index, like for SqlCompact.
-						server.Databases[_settings.DatabaseName];
-					if (null == database) { throw new UnknownDatabaseException(GetDatabasesInfo(server.Databases)); }
-					_log.Add("Chose database {0}.", database.Name);
+				var database =
+					string.IsNullOrWhiteSpace(_settings.DatabaseName) ?
+					serverInfo.DatabaseList[_settings.DatabaseIndex] :    //	Uses index, like for SqlCompact.
+					serverInfo.Databases[_settings.DatabaseName];
+				if (null == database) { throw new UnknownDatabaseException(GetDatabasesInfo(serverInfo.Databases)); }
+				_log.Add("Chose database {0}.", database.Name);
 
-					var tables = database.Tables;
-					_log.Add("Number of tables:{0}.", tables.Count);
+				_databaseData = _parserLogic.Parse(
+					serverInfo.GetTablesByDatabase(database), 
+					_settings.ExcludedTablesRegex);
 
-					ParseTables(tables, _settings.ExcludedTablesRegex);
-					_log.Add("Tables parsed:{0}", string.Join(",", _databaseData.Tables.Select(t => t.Name)));
-					_log.Add(TableDataHelpers.ToInfo(_databaseData.Tables));
-				}
-				finally
-				{
-					serverConnection.Disconnect();
-				}
+				//var tables = serverInfo.GetTablesByDatabase(database);
+				//_log.Add("Number of tables:{0}.", tables.Count);
+
+				//ParseTables(tables, _settings.ExcludedTablesRegex);
+				//_log.Add("Tables parsed:{0}", string.Join(",", _databaseData.Tables.Select(t => t.Name)));
+				//_log.Add(TableDataHelpers.ToInfo(_databaseData.Tables));
 			}
+
+			//using (var conn = new SqlConnection(_settings.ConnectionString))
+			//{
+			//	var serverConnection = new ServerConnection(conn);
+			//	try
+			//	{
+			//		var server = new Server(serverConnection);
+			//		_log.Add("Choose server {0}", server.Name);
+
+			//		var database =
+			//			string.IsNullOrWhiteSpace(_settings.DatabaseName) ?
+			//			server.Databases[_settings.DatabaseIndex] :    //	Uses index, like for SqlCompact.
+			//			server.Databases[_settings.DatabaseName];
+			//		if (null == database) { throw new UnknownDatabaseException(GetDatabasesInfo(server.Databases)); }
+			//		_log.Add("Chose database {0}.", database.Name);
+
+			//		var tables = database.Tables;
+			//		_log.Add("Number of tables:{0}.", tables.Count);
+
+			//		ParseTables(tables, _settings.ExcludedTablesRegex);
+			//		_log.Add("Tables parsed:{0}", string.Join(",", _databaseData.Tables.Select(t => t.Name)));
+			//		_log.Add(TableDataHelpers.ToInfo(_databaseData.Tables));
+			//	}
+			//	finally
+			//	{
+			//		serverConnection.Disconnect();
+			//	}
+			//}
 		}
 
 		internal void Output()
@@ -150,30 +179,43 @@ namespace St4mpede
 			return ret;
 		}
 
-		private void ParseTables(TableCollection tables, string excludedTablesRegex)
-		{
-			var tablesData = new List<TableData>();
-			foreach (Table table in tables)
-			{
-				ParseTable(excludedTablesRegex, tablesData, table);
-			}
-			_databaseData = new DatabaseData
-			{
-				Tables = tablesData
-			};
-		}
+		//private void ParseTables(TableCollection tables, string excludedTablesRegex)
+		//{
+		//	var tableList = new List<Table>();
+		//	for(var i = 0; i<tables.Count; ++i)
+		//	{
+		//		tableList.Add(tables[i]);
+		//	}
+		//	ParseTables(tableList, excludedTablesRegex); ;
+		//}
 
-		private static void ParseTable(string excludedTablesRegex, IList<TableData> tablesData, Table table)
-		{
-			var tableData = 
-			new TableData(
-				table.Name,
-				false == Regex.IsMatch(table.Name, excludedTablesRegex)
-			);
-			tablesData.Add(tableData);
+		//private void ParseTables(IList<Table> tables, string excludedTablesRegex)
+		//{
+		//	var tablesData = new List<TableData>();
+		//	foreach (Table table in tables)
 
-			tableData.Columns = ParseColumns(table.Columns.Cast<Column>().ToList()).ToList();
-        }
+
+		//	{
+		//		ParseTable(table, tablesData, excludedTablesRegex);
+		//	}
+		//	_databaseData = new DatabaseData
+		//	{
+		//		Tables = tablesData
+		//	};
+		//}
+
+		//private static void ParseTable(Table table, IList<TableData> tablesData, string excludedTablesRegex)
+		//{
+		//	var tableData = 
+		//	new TableData(
+		//		table.Name,
+		//		false == Regex.IsMatch(table.Name, excludedTablesRegex)
+		//	);
+		//	tablesData.Add(tableData);
+
+		//	tableData.Columns = ParseColumns(table.Columns.Cast<Column>().ToList()).ToList();
+		//	//tableData.Columns = 
+  //      }
 
 		#endregion
 
@@ -188,15 +230,36 @@ namespace St4mpede
 
 		#region Unit testing work arounds.
 
+		//[DebuggerStepThrough]
+		//internal void UT_ParseTables(TableCollection tables, string excludedTablesRegex)
+		//{
+		//	//TODO:Remove.
+		//	//ParseTables(tables, excludedTablesRegex);
+		//}
+
 		[DebuggerStepThrough]
-		internal void UT_ParseTables(TableCollection tables, string excludedTablesRegex)
+		internal void UT_ParseTables(List<Table> tables, string excludedTablesRegex)
 		{
-			ParseTables(tables, excludedTablesRegex);
+			//	TODO:Remove
+			//ParseTables(tables, excludedTablesRegex);
 		}
 
-		internal Settings UT_Settings { get { return _settings; } }
+		internal ISettings UT_Settings { get { return _settings; }
+			set { _settings = value; } }
 
 		internal DatabaseData UT_ServerData{get{ return _databaseData; } }
+
+		[DebuggerStepThrough]
+		internal void UT_SetDatabaseConnection( IDatabaseConnection databaseConnection)
+		{
+			_databaseConnection = databaseConnection;
+		}
+
+		[DebuggerStepThrough]
+		internal void UT_SetParserLogic( IParserLogic parserLogic)
+		{
+			_parserLogic = parserLogic;
+		}
 
 		[DebuggerStepThrough]
 		internal static XDocument UT_ToXml( DatabaseData serverData)
@@ -205,6 +268,58 @@ namespace St4mpede
 		}
 
 		#endregion
+	}
+
+	internal interface IParserLogic
+	{
+		DatabaseData Parse(IList<Table> tables, string excludedTablesRegex);
+		TableData Parse(Table table, string excludedTablesRegex);
+        IList<ColumnData> Parse(IEnumerable<Column> columns);
+		ColumnData Parse(Column column);
+}
+
+	internal class ParserLogic : IParserLogic
+	{
+		public DatabaseData Parse(IList<Table> tables, string excludedTablesRegex)
+		{
+			var tableDataList = new List<TableData>();
+			foreach( var table in tables)
+			{
+				tableDataList.Add(Parse(table, excludedTablesRegex));
+			}
+			var ret = new DatabaseData
+			{
+				Tables = tableDataList
+			};
+			return ret;
+		}
+
+		public TableData Parse(Table table, string excludedTablesRegex)
+		{
+			var ret = new TableData();
+			ret.Name = table.Name;
+			ret.Include = false == Regex.IsMatch(table.Name, excludedTablesRegex);
+			ret.Columns = Parse(table.Columns.Cast<Column>()).ToList();
+			return ret;
+		}
+
+		public IList<ColumnData> Parse(IEnumerable<Column> columns)
+		{
+			var ret = new List<ColumnData>();
+			foreach( var column in columns)
+			{
+				ret.Add(Parse(column));
+			}
+			return ret;
+		}
+
+		public ColumnData Parse( Column column)
+		{
+			var ret = new ColumnData();
+			ret.Name = column.Name;
+			ret.DatabaseTypeName =column.DataType.ToString();
+			return ret;
+		}
 	}
 
 #if NOT_IN_T4

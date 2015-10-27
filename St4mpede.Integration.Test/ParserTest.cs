@@ -9,7 +9,8 @@ namespace St4mpede.Integration.Test
 		[TestCategory(Common.Constants.TestCategoryIntegration)]
 		public void GenerateTest()
 		{
-			Assert.Inconclusive("TBA");
+			Assert.Inconclusive();
+			//	#	Arrange.
 			var sut = new Parser();
 			sut.Generate();
 		}

@@ -10,30 +10,42 @@ namespace St4mpede
 #endif
 	//#	Regular ol' C# classes and code...
 
-
-		//TODO:Change name to ParserSettings or something alike.
-	internal class Settings
+	internal interface ISettings
 	{
-		internal string ConfigPath { get; set; }
+		string ConfigPath { get; set; }
+		string InitPathfilename { get; set; }
+		string OutputXmlFilename { get; }
+		string ConnectionString { get; set; }
+		string DatabaseName { get; set; }
+		int DatabaseIndex { get; set; }
+		string ExcludedTablesRegex { get; set; }
+		string DatabaseXmlFile { get; set; }
+		string RootFolder { get; set; }
+	}
+	
+	//TODO:Change name to ParserSettings or something alike.
+	internal class Settings : ISettings
+	{
+		public string ConfigPath { get; set; }
 
-		internal string InitPathfilename { get; set; }
+		public string InitPathfilename { get; set; }
 
 		/// <summary>This is the name of the outputed XML file.
 		/// By the time of writing it is hard coded but when we have the time to make it settable, with default value fall back we might. Check Github for bug #4 https://github.com/LosManos/St4mpede/issues/4
 		/// </summary>
-		internal string OutputXmlFilename { get { return "St4mpede.xml"; } }
+		public string OutputXmlFilename { get { return "St4mpede.xml"; } }
 
-		internal string ConnectionString { get; set; }
+		public string ConnectionString { get; set; }
 
-		internal string DatabaseName { get; set; }
+		public string DatabaseName { get; set; }
 
-		internal int DatabaseIndex { get; set; }
+		public int DatabaseIndex { get; set; }
 
-		internal string ExcludedTablesRegex { get; set; }
+		public string ExcludedTablesRegex { get; set; }
 
-		internal string DatabaseXmlFile { get; set; }
+		public string DatabaseXmlFile { get; set; }
 
-		internal string RootFolder { get; set; }
+		public string RootFolder { get; set; }
 
         internal static class XmlElements
 		{
