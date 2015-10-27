@@ -71,8 +71,7 @@ namespace St4mpede
 
 		public override string ToString()
 		{
-			//TODO:Return json format.
-			return string.Format("Name:{0}, Include:{1}.", Name, Include);
+			return Newtonsoft.Json.JsonConvert.SerializeObject(this);
 		}
 	}
 
