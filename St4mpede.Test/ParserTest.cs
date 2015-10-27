@@ -2,12 +2,9 @@
 using System;
 using System.IO;
 using Microsoft.SqlServer.Management.Smo;
-using System.Data.SqlClient;
-using Microsoft.SqlServer.Management.Common;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using System.Xml.Linq;
-using System.Linq;
 using St4mpede.Test.Extensions;
 using Moq;
 
@@ -88,6 +85,8 @@ namespace St4mpede.Test
 			//m_settings = new Settings();
 		}
 
+		#region Init(string,string) tests.
+
 		[TestMethod]
 		public void Init_given_Null_should_ThrowArgumentNullException()
 		{
@@ -148,6 +147,53 @@ namespace St4mpede.Test
 			Assert.AreEqual(@"..\..", sut.UT_Settings.ConfigPath);
 			Assert.AreEqual(Path.Combine( MyPath,MyFilename), sut.UT_Settings.InitPathfilename);
 		}
+
+		#endregion
+
+		#region Init(string,string.xdoc) tests.
+
+		[TestMethod]
+		public void Init_given_ValidData_should_ReturnSettings()
+		{
+			//	#	Arrange.
+			const string ConfigPath = "MyConfigPath";
+			const string ConfigFilename = "MyConfigFilename";
+			var mockedLog = new Mock<ILog>();
+			var sut = new Parser(mockedLog.Object);
+			const string Xml =
+				@"
+<St4mpede>
+	<Core>
+		<RootFolder>MyRootFolder</RootFolder>
+	</Core>
+	<RdbSchema>
+		<ConnectionString>MyConnectionString</ConnectionString>
+		<DatabaseName>MyDatabaseName</DatabaseName>
+		<ExcludedTablesRegex>MyExcludedTablesRegex</ExcludedTablesRegex>
+		<DatabaseXmlFile>MyDatabaseXmlFile</DatabaseXmlFile>
+	</RdbSchema>
+	<Poco>
+		<OutputFolder>MyOutputFolder</OutputFolder>
+	</Poco>
+</St4mpede>																		
+";
+			var doc = XDocument.Parse(Xml);
+
+			//	#	Act.
+			var res = sut.Init(ConfigPath, ConfigFilename, doc);
+
+			//	#	Assert.
+			Assert.AreEqual(ConfigPath, res.ConfigPath);
+			Assert.AreEqual(string.Format(@"{0}\{1}", ConfigPath, ConfigFilename), res.InitPathfilename);
+			Assert.AreEqual("MyConnectionString", res.ConnectionString);
+			Assert.AreEqual("MyDatabaseName", res.DatabaseName);
+			Assert.AreEqual(0, res.DatabaseIndex);
+			Assert.AreEqual("MyExcludedTablesRegex", res.ExcludedTablesRegex);
+			Assert.AreEqual("MyDatabaseXmlFile", res.DatabaseXmlFile);
+			Assert.AreEqual("MyRootFolder", res.RootFolder);
+		}
+
+		#endregion
 
 		[TestMethod]
 		public void ToInfo_should_ReturnLog()

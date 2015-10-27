@@ -6,11 +6,9 @@ namespace St4mpede
 {
 	//	Note that when adding namespaces here we also have to add the namespaces to the TT file  import namespace=...
 	//	The same way any any new assembly reference must be added to the TT file assembly. name=...
-	using Microsoft.SqlServer.Management.Common;
 	using Microsoft.SqlServer.Management.Smo;
 	using System;
 	using System.Collections.Generic;
-	using System.Data.SqlClient;
 	using System.Diagnostics;
 	using System.IO;
 	using System.Linq;
@@ -65,18 +63,20 @@ namespace St4mpede
 
 		internal Settings Init(string configPath, string configFilename, XDocument doc)
 		{
-			var databaseName = (string)doc.Root.Element(Settings.XmlElements.DatabaseName);
+			const string CoreSubElementName = "Core";
+			const string RdbSchemaSubElementName = "RdbSchema";
+			var databaseName = (string)doc.Root.Element(RdbSchemaSubElementName).Element(Settings.XmlElements.DatabaseName);
 			int databaseIndex = 0;
 			int.TryParse(databaseName, out databaseIndex);
 			return new Settings(
 				configPath,
 				Path.Combine(configPath, configFilename),
-				(string)doc.Root.Element(Settings.XmlElements.ConnectionString),
+				(string)doc.Root.Element(RdbSchemaSubElementName).Element(Settings.XmlElements.ConnectionString),
 				databaseName,
 				databaseIndex,
-				(string)doc.Root.Element(Settings.XmlElements.ExcludedTablesRegex),
-				(string)doc.Root.Element(Settings.XmlElements.DatabaseXmlFile),
-				(string)doc.Root.Element(Settings.XmlElements.RootFolder)
+				(string)doc.Root.Element(RdbSchemaSubElementName).Element(Settings.XmlElements.ExcludedTablesRegex),
+				(string)doc.Root.Element(RdbSchemaSubElementName).Element(Settings.XmlElements.DatabaseXmlFile),
+				(string)doc.Root.Element(CoreSubElementName).Element(Settings.XmlElements.RootFolder)
 			);
 		}
 
