@@ -1,6 +1,6 @@
 ﻿<#@ template debug="false" hostspecific="true" language="C#" version="4.6" #>
 <#@ output extension=".cs" #>
-
+<#//#>
 <#@ assembly name="Microsoft.SqlServer.Management.Sdk.Sfc" #>
 <#@ assembly name="Microsoft.SqlServer.Connectioninfo" #>
 <#@ assembly name="Microsoft.SqlServer.Smo" #>
@@ -9,7 +9,13 @@
 <#@ assembly name="System.Runtime.Serialization" #>
 <#@ assembly name="System.Xml" #>
 <#@ assembly name="System.Xml.Linq" #>
-
+<#
+//	In T4 one cannot not just reference assemblies and let VS find the path.
+//	Hence we have to use VS macro to find our way to Newtonsoft.json.
+//	Read more here: http://weblogs.asp.net/lhunt/t4-template-error-assembly-directive-cannot-locate-referenced-assembly-in-visual-studio-2010-project
+#>
+<#@ assembly name="$(SolutionDir)packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll" #>
+<#//#>
 <#@ import namespace="Microsoft.SqlServer.Management.Common" #>
 <#@ import namespace="Microsoft.SqlServer.Management.Smo" #>
 <#@ import namespace="System" #>
@@ -23,9 +29,9 @@
 <#@ import namespace="System.Text.RegularExpressions" #>
 <#@ import namespace="System.Xml.Linq" #>
 <#@ import namespace="System.Xml.Serialization" #>
-
+<#//#>
 //		This file was generated  by St4mpede <#= System.DateTime.Now.ToString() #>
-
+<#//#>
 <#
 	var parser = new Parser();
 	parser.Init(Host.TemplateFile);
