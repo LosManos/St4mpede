@@ -71,9 +71,9 @@ namespace St4mpede.Test
 						Include=true,
 						Columns =new List<ColumnData> {
 							new ColumnData(
-								ColumnOneAName, "nvarchar"),
+								ColumnOneAName, "nvarchar", true),
 							new ColumnData(
-								ColumnOneBName, "int")
+								ColumnOneBName, "int", true)
 						}
 					},
                     new TableData {

@@ -24,12 +24,17 @@ namespace St4mpede
 		[DataMember]
 		public string DatabaseTypeName { get; set; }
 
+		[DataMember(IsRequired=false)]
+		[XmlAttribute()]
+		public bool IsInPrimaryKey { get; set; }
+
 		public ColumnData() { }
 
-		public ColumnData(string name, string typeName)
+		public ColumnData(string name, string typeName, bool isInPrimaryKey)
 		{
 			this.Name = name;
 			this.DatabaseTypeName = typeName;
+			this.IsInPrimaryKey = isInPrimaryKey;
 		}
 	}
 
