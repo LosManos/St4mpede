@@ -210,7 +210,8 @@ namespace St4mpede.Test
 					{
 						new PropertyData(
 							"CustomerID",
-							typeof(int).ToString())
+							typeof(int).ToString(), 
+							true)
 					}
 				}
 			};

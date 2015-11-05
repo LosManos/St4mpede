@@ -1,4 +1,4 @@
-﻿//		This file was generated  by St4mpede 2015-11-02 20:57:26
+﻿//		This file was generated  by St4mpede 2015-11-05 21:11:11
 
 /* 
 Choose server (LocalDB)\MSSQLLocalDB
@@ -12,7 +12,7 @@ Created xml:
       <Name>__RefactorLog</Name>
       <Include>false</Include>
       <Columns>
-        <Column>
+        <Column IsInPrimaryKey="true">
           <Name>OperationKey</Name>
           <DatabaseTypeName>uniqueidentifier</DatabaseTypeName>
         </Column>
@@ -22,11 +22,11 @@ Created xml:
       <Name>Customer</Name>
       <Include>true</Include>
       <Columns>
-        <Column>
+        <Column IsInPrimaryKey="true">
           <Name>CustomerID</Name>
           <DatabaseTypeName>int</DatabaseTypeName>
         </Column>
-        <Column>
+        <Column IsInPrimaryKey="false">
           <Name>Name</Name>
           <DatabaseTypeName>varchar</DatabaseTypeName>
         </Column>
@@ -36,19 +36,19 @@ Created xml:
       <Name>User</Name>
       <Include>true</Include>
       <Columns>
-        <Column>
+        <Column IsInPrimaryKey="true">
           <Name>UserId</Name>
           <DatabaseTypeName>int</DatabaseTypeName>
         </Column>
-        <Column>
+        <Column IsInPrimaryKey="false">
           <Name>UserName</Name>
           <DatabaseTypeName>nvarchar</DatabaseTypeName>
         </Column>
-        <Column>
+        <Column IsInPrimaryKey="false">
           <Name>HashedPassword</Name>
           <DatabaseTypeName>nchar</DatabaseTypeName>
         </Column>
-        <Column>
+        <Column IsInPrimaryKey="false">
           <Name>LastLoggedOnDatetime</Name>
           <DatabaseTypeName>datetime</DatabaseTypeName>
         </Column>

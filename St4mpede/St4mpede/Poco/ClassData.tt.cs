@@ -45,12 +45,16 @@ namespace St4mpede.Poco
 		[DataMember]
 		public string DotnetTypeName { get; set; }
 
+		[DataMember]
+		public bool IsInPrimaryKey { get; set; }
+
 		public PropertyData()		{		}
 
-		public PropertyData(string name, string dotnetTypeName)
+		public PropertyData(string name, string dotnetTypeName, bool isInPrimaryKey)
 		{
 			this.Name = name;
 			this.DotnetTypeName = dotnetTypeName;
+			this.IsInPrimaryKey = isInPrimaryKey;
 		}
 	}
 
