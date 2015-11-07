@@ -220,7 +220,8 @@ namespace St4mpede.Test
 			var table = database.Tables.AddItem(new TableData("MyTableName", true));
 			table.Columns = new List<ColumnData>
 			{
-				new ColumnData("MyColumnName", "MyColType")
+				new ColumnData("MyIdColumnName", "MyColType", true), 
+				new ColumnData("MyOtherColumnName", "OtherColType", false)
 			};
 
 			//	#	Act.
@@ -238,9 +239,13 @@ namespace St4mpede.Test
       <Name>MyTableName</Name>
       <Include>true</Include>
       <Columns>
-        <Column>
-          <Name>MyColumnName</Name>
+        <Column IsInPrimaryKey=""true"">
+          <Name>MyIdColumnName</Name>
           <DatabaseTypeName>MyColType</DatabaseTypeName>
+        </Column>
+        <Column IsInPrimaryKey=""false"">
+          <Name>MyOtherColumnName</Name>
+          <DatabaseTypeName>OtherColType</DatabaseTypeName>
         </Column>
       </Columns>
     </Table>

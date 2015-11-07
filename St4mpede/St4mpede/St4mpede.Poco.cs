@@ -1,4 +1,4 @@
-﻿//		This file was generated  by St4mpede.Poco 2015-11-02 20:57:35
+﻿//		This file was generated  by St4mpede.Poco 2015-11-05 22:44:21
 
 
 /* 			
@@ -8,7 +8,7 @@ Included classes are:
 Name=Customer
 Name=User
 Writing the output file C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede\St4mpede\Poco\PocoGenerator.xml.
-Writing 2 classes in C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede\St4mpede\Poco.
+Writing 2 classes in C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede\St4mpede\..\Poco.
 */
 
 //

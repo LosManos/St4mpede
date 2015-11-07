@@ -81,7 +81,8 @@ namespace St4mpede.Poco
 			   {
 				   classData.Properties.Add(
 					   new PropertyData(column.Name,
-					   ConvertDatabaseTypeToDotnetType(column.DatabaseTypeName)));
+					   ConvertDatabaseTypeToDotnetType(column.DatabaseTypeName), 
+					   column.IsInPrimaryKey));
 			   });
 			   _classDataList.Add(classData);
 		   });
@@ -235,8 +236,8 @@ namespace St4mpede.Poco
 		{
 			foreach( var classData in _classDataList)
 			{
-				var res= MakeClass(classData);
-				_core.WriteOutput(res, Path.Combine(pathForPocoOutput,
+				var cls= MakeClass(classData);
+				_core.WriteOutput(cls, Path.Combine(pathForPocoOutput,
 					AddSuffix(classData.Name)));
             }
 		}
@@ -250,6 +251,11 @@ namespace St4mpede.Poco
 			ret.Add("{");
 			foreach( var property in classData.Properties)
 			{
+				if(property.IsInPrimaryKey)
+				{
+					ret.Add("\t/// <summary>This property is (part of) primary key.");
+					ret.Add("\t/// </summary>");
+				}
 				ret.Add(
 					string.Format(
 						"\tpublic {0} {1} {{ get; set; }}", 
@@ -259,6 +265,10 @@ namespace St4mpede.Poco
 			ret.Add("}");
 			return ret;
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public int MyProperty { get; set; }
 
 		#endregion
 

@@ -19,7 +19,9 @@ namespace St4mpede
 
 	public class Parser
 	{
-        private ILog _log;
+		#region Private properties and schemas.
+
+		private ILog _log;
 
 		private CoreSettings _coreSettings;
 
@@ -32,6 +34,10 @@ namespace St4mpede
 		private IParserLogic _parserLogic;
 
 		private const string ProjectPath = "RdbSchema";
+
+		#endregion
+
+		#region Public methods.
 
 		internal Parser()
 			:this(new Log())
@@ -102,6 +108,8 @@ namespace St4mpede
 			return _log.ToInfo();
 		}
 
+		#endregion
+
 		#region Private methods.
 
 		private static IList<string> GetDatabasesInfo(DatabaseCollection databases)
@@ -119,7 +127,7 @@ namespace St4mpede
 			var ret = new List<ColumnData>();
 			foreach (var column in columns)
 			{
-				ret.Add(new ColumnData(column.Name, column.DataType.ToString()));
+				ret.Add(new ColumnData(column.Name, column.DataType.ToString(), column.InPrimaryKey));
 			}
 			return ret;
 		}
@@ -211,6 +219,7 @@ namespace St4mpede
 			var ret = new ColumnData();
 			ret.Name = column.Name;
 			ret.DatabaseTypeName =column.DataType.ToString();
+			ret.IsInPrimaryKey = column.InPrimaryKey;
 			return ret;
 		}
 	}
