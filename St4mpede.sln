@@ -14,6 +14,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "St4mpede.Test", "St4mpede.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "St4mpede.Integration.Test", "St4mpede.Integration.Test\St4mpede.Integration.Test.csproj", "{6CCCADED-2647-48D6-A283-C4561485C869}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "St4mpede.Code.Test", "St4mpede.Code.Test\St4mpede.Code.Test.csproj", "{8312F702-214E-4484-92F7-9928CACA4102}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "St4mpede.Code", "St4mpede.Code\St4mpede.Code.csproj", "{B0C2D88C-3DDE-457A-A901-119C7DC2D86D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +36,14 @@ Global
 		{6CCCADED-2647-48D6-A283-C4561485C869}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CCCADED-2647-48D6-A283-C4561485C869}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CCCADED-2647-48D6-A283-C4561485C869}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8312F702-214E-4484-92F7-9928CACA4102}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8312F702-214E-4484-92F7-9928CACA4102}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8312F702-214E-4484-92F7-9928CACA4102}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8312F702-214E-4484-92F7-9928CACA4102}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0C2D88C-3DDE-457A-A901-119C7DC2D86D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0C2D88C-3DDE-457A-A901-119C7DC2D86D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0C2D88C-3DDE-457A-A901-119C7DC2D86D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0C2D88C-3DDE-457A-A901-119C7DC2D86D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
