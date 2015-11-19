@@ -5,6 +5,7 @@
 <#@ assembly name="System.Runtime.Serialization" #>
 <#@ assembly name="System.Xml" #>
 <#@ assembly name="System.Xml.Linq" #>
+<#@ assembly name="$(SolutionDir)St4mpede\bin\Debug\St4mpede.Code.dll" #>
 <#
 //	In T4 one cannot not just reference assemblies and let VS find the path.
 //	Hence we have to use VS macro to find our way to Newtonsoft.json.
