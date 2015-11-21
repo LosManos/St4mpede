@@ -21,7 +21,8 @@ namespace St4mpede.Poco
 		#region Private properties and fields.
 
 		private const string PocoElement = "Poco";
-		private const string OutputFolderElement = "OutputFolder";
+		private const string MakePartialElement = "MakePartial";
+        private const string OutputFolderElement = "OutputFolder";
 		private const string ProjectPathElement = "ProjectPath";
 		private const string XmlOutputFilenameElement = "XmlOutputFilename";
 		
@@ -78,6 +79,7 @@ namespace St4mpede.Poco
 			   var classData = new ClassData
 			   {
 				   Name = table.Name,
+				   IsPartial = _pocoSettings.MakePartial,
 				   Properties = new List<PropertyData>()
 			   };
 			   table.Columns
@@ -133,7 +135,8 @@ namespace St4mpede.Poco
 			_coreSettings = settings;
 			_rdbSchemaSettings = rdbSchemaSettings;
 			_pocoSettings = new PocoSettings(
-				doc.Descendants(OutputFolderElement).Single().Value, 
+				bool.Parse( doc.Descendants(MakePartialElement).Single().Value ),
+                doc.Descendants(OutputFolderElement).Single().Value, 
 				doc.Descendants(ProjectPathElement).Single().Value,
                 doc.Descendants(XmlOutputFilenameElement).Single().Value
 			);

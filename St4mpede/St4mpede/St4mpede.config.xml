@@ -44,7 +44,10 @@
 		<XmlOutputFilename>PocoGenerator.xml</XmlOutputFilename>
 		
 		<!--	The name/path of the project.	-->
-		<ProjectPath>Poco</ProjectPath>		
+		<ProjectPath>Poco</ProjectPath>
+	
+		<!--	Set to true to make POCO class partial.	-->
+		<MakePartial>True</MakePartial>
 	</Poco>
 
 </St4mpede>

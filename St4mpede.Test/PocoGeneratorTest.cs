@@ -85,6 +85,10 @@ namespace St4mpede.Test
                 }
 			};
 			sut.UT_DatabaseData= databaseData;
+			sut.UT_PocoSettings = new PocoSettings
+			{
+				MakePartial = true
+			};
 
 			//	#	Act.
 			sut.Generate();
@@ -142,6 +146,7 @@ namespace St4mpede.Test
 						<OutputFolder>MyOutputFolder</OutputFolder>
 						<ProjectPath>MyProjectPath</ProjectPath>
 						<XmlOutputFilename>MyXmlOutputFilename</XmlOutputFilename>
+						<MakePartial>True</MakePartial>
 					</Poco>
 				</St4mpede>
 "); };
@@ -174,6 +179,7 @@ namespace St4mpede.Test
 		<OutputFolder>MyFolder\WithBackslash</OutputFolder>
 		<ProjectPath>MyProjectPath</ProjectPath>
 		<XmlOutputFilename>MyXmlOutputFilename</XmlOutputFilename>
+		<MakePartial>True</MakePartial>
 	</Poco>");
 
 			//	#	Act.
@@ -196,6 +202,7 @@ namespace St4mpede.Test
 			mockedCore.Setup(m => m.WriteOutput(It.IsAny<IList<string>>(), It.IsAny<string> ()));
 			var sut = new PocoGenerator(mockedCore.Object, new Log(), null);
 			sut.UT_PocoSettings = new PocoSettings(
+				true,
 				@"path\path", 
 				"Poco", 
 				"PocoGenerator.xml");
