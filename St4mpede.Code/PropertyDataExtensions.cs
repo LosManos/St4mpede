@@ -14,6 +14,7 @@ namespace St4mpede.Code
 				ret.Add(string.Empty);
 			}
 
+			//	Remove the last empty line.
 			if(ret.Any())
 			{
 				ret.RemoveAt(ret.Count - 1);
