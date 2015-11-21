@@ -9,7 +9,7 @@ namespace St4mpede.Code
 		private const string XmlCommentPrefix = "///";
 		private const string XmlCommentSummary = "summary";
 
-		public IList<string> Summary { get; set; }
+		public List<string> Summary { get; set; }
 
 		public CommentData()		{		}
 
@@ -21,7 +21,7 @@ namespace St4mpede.Code
 			};
 		}
 
-		public CommentData(IList<string> summaryTextRows)
+		public CommentData(List<string> summaryTextRows)
 		{
 			Summary = summaryTextRows;
 		}

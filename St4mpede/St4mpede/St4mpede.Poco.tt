@@ -5,6 +5,7 @@
 <#@ assembly name="System.Runtime.Serialization" #>
 <#@ assembly name="System.Xml" #>
 <#@ assembly name="System.Xml.Linq" #>
+<#@ assembly name="$(SolutionDir)St4mpede\bin\Debug\St4mpede.Code.dll" #>
 <#
 //	In T4 one cannot not just reference assemblies and let VS find the path.
 //	Hence we have to use VS macro to find our way to Newtonsoft.json.
@@ -12,6 +13,7 @@
 #>
 <#@ assembly name="$(SolutionDir)packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll" #>
 <#//#>
+<#@ import namespace="St4mpede.Code" #>
 <#@ import namespace="System" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Diagnostics" #>
@@ -41,5 +43,4 @@
 <#@ include file="RdbSchema\DatabaseData.tt.cs" #>
 <#@ include file="RdbSchema\ParserSettings.tt.cs" #>
 <#@ include file="Poco\PocoSettings.tt.cs" #>
-<#@ include file="Poco\ClassData.tt.cs" #>
 <#@ include file="Poco\PocoGenerator.tt.cs" #>
