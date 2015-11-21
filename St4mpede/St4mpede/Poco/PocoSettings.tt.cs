@@ -14,6 +14,7 @@ namespace St4mpede.Poco
 
 	internal class PocoSettings
 	{
+		internal bool MakePartial { get; set; }
 		internal string OutputFolder { get; set; }
 		public string ProjectPath { get; private set; }
 		public string XmlOutputFilename { get; private set; }
@@ -26,11 +27,17 @@ namespace St4mpede.Poco
 			}
 		}
 
+		public PocoSettings()
+		{
+		}
+
 		public PocoSettings(
+			bool makePartial,
 			string outputFolder, 
 			string projectPath, 
 			string xmlOutputFilename)
 		{
+			this.MakePartial = makePartial;
 			this.OutputFolder = outputFolder;
 			this.ProjectPath = projectPath;
 			this.XmlOutputFilename = xmlOutputFilename;

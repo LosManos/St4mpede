@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfClassData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ClassData>
+    <IsPartial>true</IsPartial>
     <Name>Customer</Name>
     <Properties>
       <PropertyData>
@@ -21,6 +22,7 @@
     </Properties>
   </ClassData>
   <ClassData>
+    <IsPartial>true</IsPartial>
     <Name>User</Name>
     <Properties>
       <PropertyData>
