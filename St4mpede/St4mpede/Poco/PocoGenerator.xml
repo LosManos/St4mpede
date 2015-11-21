@@ -1,43 +1,53 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ArrayOfClass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Class>
+<ArrayOfClassData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ClassData>
     <Name>Customer</Name>
     <Properties>
-      <Property>
+      <PropertyData>
+        <Comment>
+          <Summary>
+            <string>This property is part of the primary key.</string>
+          </Summary>
+        </Comment>
         <Name>CustomerID</Name>
-        <DotnetTypeName>System.Int32</DotnetTypeName>
-        <IsInPrimaryKey>true</IsInPrimaryKey>
-      </Property>
-      <Property>
+        <SystemTypeString>System.Int32</SystemTypeString>
+        <Scope>Public</Scope>
+      </PropertyData>
+      <PropertyData>
         <Name>Name</Name>
-        <DotnetTypeName>System.String</DotnetTypeName>
-        <IsInPrimaryKey>false</IsInPrimaryKey>
-      </Property>
+        <SystemTypeString>System.String</SystemTypeString>
+        <Scope>Public</Scope>
+      </PropertyData>
     </Properties>
-  </Class>
-  <Class>
+  </ClassData>
+  <ClassData>
     <Name>User</Name>
     <Properties>
-      <Property>
+      <PropertyData>
+        <Comment>
+          <Summary>
+            <string>This property is part of the primary key.</string>
+          </Summary>
+        </Comment>
         <Name>UserId</Name>
-        <DotnetTypeName>System.Int32</DotnetTypeName>
-        <IsInPrimaryKey>true</IsInPrimaryKey>
-      </Property>
-      <Property>
+        <SystemTypeString>System.Int32</SystemTypeString>
+        <Scope>Public</Scope>
+      </PropertyData>
+      <PropertyData>
         <Name>UserName</Name>
-        <DotnetTypeName>System.String</DotnetTypeName>
-        <IsInPrimaryKey>false</IsInPrimaryKey>
-      </Property>
-      <Property>
+        <SystemTypeString>System.String</SystemTypeString>
+        <Scope>Public</Scope>
+      </PropertyData>
+      <PropertyData>
         <Name>HashedPassword</Name>
-        <DotnetTypeName>System.Char</DotnetTypeName>
-        <IsInPrimaryKey>false</IsInPrimaryKey>
-      </Property>
-      <Property>
+        <SystemTypeString>System.Char</SystemTypeString>
+        <Scope>Public</Scope>
+      </PropertyData>
+      <PropertyData>
         <Name>LastLoggedOnDatetime</Name>
-        <DotnetTypeName>System.DateTime</DotnetTypeName>
-        <IsInPrimaryKey>false</IsInPrimaryKey>
-      </Property>
+        <SystemTypeString>System.DateTime</SystemTypeString>
+        <Scope>Public</Scope>
+      </PropertyData>
     </Properties>
-  </Class>
-</ArrayOfClass>
+  </ClassData>
+</ArrayOfClassData>

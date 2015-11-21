@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassData.cs" />
+    <Compile Include="ClassDataExtensions.cs" />
     <Compile Include="CommentData.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="DataBaseClass.cs" />

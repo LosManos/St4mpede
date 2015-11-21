@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using St4mpede.Code;
 using St4mpede.Poco;
 using System;
 using System.Collections.Generic;
@@ -98,11 +99,11 @@ namespace St4mpede.Test
 				"Both Columns should be used as 2 Properties.");
 			Assert.AreEqual(ColumnOneAName, theClass.Properties[0].Name, 
 				"The name of the Property is the same as that of the Column.");
-			Assert.AreEqual("System.String", theClass.Properties[0].DotnetTypeName,
+			Assert.AreEqual(typeof(string), theClass.Properties[0].SystemType,
 				"The Property is a string.");
 			Assert.AreEqual(ColumnOneBName, theClass.Properties[1].Name, 
 				"The name of the Property should be teh same as the Column.");
-			Assert.AreEqual("System.Int32", theClass.Properties[1].DotnetTypeName,
+			Assert.AreEqual(typeof(System.Int32), theClass.Properties[1].SystemType,
 				"The Property type is int.");
 		}
 
@@ -208,10 +209,11 @@ namespace St4mpede.Test
 					Name= "Customer",
 					Properties = new List<PropertyData>
 					{
-						new PropertyData(
-							"CustomerID",
-							typeof(int).ToString(), 
-							true)
+						new PropertyData {
+							Name =                          "CustomerID",
+							SystemType= typeof(int) 
+							 //isinprmarykey = true)
+						}
 					}
 				}
 			};

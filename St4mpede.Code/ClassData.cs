@@ -7,8 +7,8 @@ namespace St4mpede.Code
 	{
 		public CommentData Comment { get; set; }
 		public string Name { get; set; }
-		public IList<PropertyData> Properties { get; set; }
-		public IList<MethodData> Methods { get; set; }
+		public List<PropertyData> Properties { get; set; }
+		public List<MethodData> Methods { get; set; }
 
 		public override IList<string> ToCode()
 		{

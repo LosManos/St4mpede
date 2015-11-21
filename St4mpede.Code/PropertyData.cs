@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace St4mpede.Code
 {
@@ -6,7 +8,34 @@ namespace St4mpede.Code
 	{
 		public CommentData Comment { get; set; }
 		public string Name { get; set; }
-		public System.Type SystemType { get; set; }
+
+		[XmlIgnore]	//	One cannot serialise a Type.
+		public Type SystemType { get; set; }
+
+		/// <summary>You probably want SystemType as it is type safe.
+		/// This property is really only here for making serialisation possible.
+		/// </summary>
+		public string SystemTypeString
+		{
+			get
+			{
+				return null == SystemType ?
+					null :
+					SystemType.FullName;    //	AssemblyQualifiedName?
+			}
+			set
+			{
+				if( null == value)
+				{
+					SystemType = null;
+				}
+				else
+				{
+					SystemType = Type.GetType(value);
+				}
+			}
+		}
+
 		public Common.VisibilityScope Scope { get; set; }
 
 		public PropertyData()		{		}

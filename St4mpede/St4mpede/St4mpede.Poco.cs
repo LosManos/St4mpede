@@ -1,4 +1,4 @@
-﻿//		This file was generated  by St4mpede.Poco 2015-11-19 19:47:18
+﻿//		This file was generated  by St4mpede.Poco 2015-11-21 22:13:09
 
 
 /* 			
@@ -11,7 +11,6 @@ Writing the output file C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede\St4mpede\Poco
 Writing 2 classes in C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede\St4mpede\..\Poco.
 */
 
-//
 //
 //
 //
