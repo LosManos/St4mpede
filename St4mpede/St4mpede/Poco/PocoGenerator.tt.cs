@@ -21,6 +21,11 @@ namespace St4mpede.Poco
 		#region Private properties and fields.
 
 		private const string PocoElement = "Poco";
+
+		private const string ConstructorsElement = "Constructors";
+		private const string ConstructorsDefaultElement = "Default";
+		private const string ConstructorsAllPropertiesElement = "AllProperties";
+		private const string ConstructorsAllPropertiesSansPrimaryKeyElement = "AllPropertiesSansPrimaryKey";
 		private const string MakePartialElement = "MakePartial";
         private const string OutputFolderElement = "OutputFolder";
 		private const string ProjectPathElement = "ProjectPath";
@@ -76,12 +81,16 @@ namespace St4mpede.Poco
 				.ToList()
 				.ForEach(table =>
 		   {
+			   //	Set data for the very [class].
 			   var classData = new ClassData
 			   {
 				   Name = table.Name,
 				   IsPartial = _pocoSettings.MakePartial,
-				   Properties = new List<PropertyData>()
+				   Properties = new List<PropertyData>(),
+                   Methods = new List<MethodData>()
 			   };
+
+			   //	Create the properties.
 			   table.Columns
 			   .ForEach(column =>
 			   {
@@ -96,6 +105,38 @@ namespace St4mpede.Poco
 								: null
 					   });
 			   });
+
+			   //	Create the constructors.
+			   if (_pocoSettings.CreateDefaultConstructor)
+			   {
+				   classData.Methods.Add(new MethodData
+				   {
+					   IsConstructor = true,
+					   Name = classData.Name,
+					   Comment = new CommentData("Default constructor needed for instance for de/serialising.")
+				   });
+			   }
+			   if (_pocoSettings.CreateAllPropertiesConstructor)
+			   {
+				   classData.Methods.Add(new MethodData
+				   {
+					   IsConstructor = true,
+					   Name = classData.Name,
+					   Comment = new CommentData("This constructor takes all properties as parameters.")
+					   //TODO:OF:Implement parameters.
+				   });
+			   }
+			   if (_pocoSettings.CreateAllPropertiesSansPrimaryKeyConstructor)
+			   {
+				   classData.Methods.Add(new MethodData
+				   {
+					   IsConstructor = true,
+					   Name = classData.Name,
+					   Comment = new CommentData("This constructor takes all properties, except primary key(s) as parameters.")
+					   //TODO:OF:Implement parameters.
+				   });
+			   }
+
 			   _classDataList.Add(classData);
 		   });
 
@@ -136,7 +177,10 @@ namespace St4mpede.Poco
 			_rdbSchemaSettings = rdbSchemaSettings;
 			_pocoSettings = new PocoSettings(
 				bool.Parse( doc.Descendants(MakePartialElement).Single().Value ),
-                doc.Descendants(OutputFolderElement).Single().Value, 
+				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorsDefaultElement).Single().Value),
+				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorsAllPropertiesElement).Single().Value),
+				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorsAllPropertiesSansPrimaryKeyElement).Single().Value),
+				doc.Descendants(OutputFolderElement).Single().Value, 
 				doc.Descendants(ProjectPathElement).Single().Value,
                 doc.Descendants(XmlOutputFilenameElement).Single().Value
 			);

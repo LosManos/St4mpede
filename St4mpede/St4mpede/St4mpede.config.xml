@@ -48,6 +48,13 @@
 	
 		<!--	Set to true to make POCO class partial.	-->
 		<MakePartial>True</MakePartial>
+		
+		<!--	Decide what constructors to create.	-->
+		<Constructors>
+			<Default>True</Default>
+			<AllProperties>True</AllProperties>
+			<AllPropertiesSansPrimaryKey>True</AllPropertiesSansPrimaryKey>
+		</Constructors>
 	</Poco>
 
 </St4mpede>

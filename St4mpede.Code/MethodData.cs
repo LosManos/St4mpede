@@ -14,7 +14,7 @@ namespace St4mpede.Code
 		{
 			if( false==IsConstructor)
 			{
-				throw new NotImplementedException();
+				throw new NotImplementedException("Not IsConstructor is not implemented.");
 			}
 			var ret = new List<string>();
 			if (null != Comment)

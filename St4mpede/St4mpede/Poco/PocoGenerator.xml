@@ -20,6 +20,38 @@
         <Scope>Public</Scope>
       </PropertyData>
     </Properties>
+    <Methods>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>Default constructor needed for instance for de/serialising.</string>
+          </Summary>
+        </Comment>
+        <Name>Customer</Name>
+        <IsConstructor>true</IsConstructor>
+        <Scope>Public</Scope>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This constructor takes all properties as parameters.</string>
+          </Summary>
+        </Comment>
+        <Name>Customer</Name>
+        <IsConstructor>true</IsConstructor>
+        <Scope>Public</Scope>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This constructor takes all properties, except primary key(s) as parameters.</string>
+          </Summary>
+        </Comment>
+        <Name>Customer</Name>
+        <IsConstructor>true</IsConstructor>
+        <Scope>Public</Scope>
+      </MethodData>
+    </Methods>
   </ClassData>
   <ClassData>
     <IsPartial>true</IsPartial>
@@ -51,5 +83,37 @@
         <Scope>Public</Scope>
       </PropertyData>
     </Properties>
+    <Methods>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>Default constructor needed for instance for de/serialising.</string>
+          </Summary>
+        </Comment>
+        <Name>User</Name>
+        <IsConstructor>true</IsConstructor>
+        <Scope>Public</Scope>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This constructor takes all properties as parameters.</string>
+          </Summary>
+        </Comment>
+        <Name>User</Name>
+        <IsConstructor>true</IsConstructor>
+        <Scope>Public</Scope>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This constructor takes all properties, except primary key(s) as parameters.</string>
+          </Summary>
+        </Comment>
+        <Name>User</Name>
+        <IsConstructor>true</IsConstructor>
+        <Scope>Public</Scope>
+      </MethodData>
+    </Methods>
   </ClassData>
 </ArrayOfClassData>
