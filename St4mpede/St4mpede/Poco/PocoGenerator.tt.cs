@@ -122,8 +122,15 @@ namespace St4mpede.Poco
 				   {
 					   IsConstructor = true,
 					   Name = classData.Name,
-					   Comment = new CommentData("This constructor takes all properties as parameters.")
-					   //TODO:OF:Implement parameters.
+					   Comment = new CommentData("This constructor takes all properties as parameters."),
+					   Parameters = new List<ParameterData>
+					   {
+						   new ParameterData
+						   {
+							   Name="myname",
+							   SystemTypeString=typeof(int).ToString()
+						   }
+					   }
 				   });
 			   }
 			   if (_pocoSettings.CreateAllPropertiesSansPrimaryKeyConstructor)

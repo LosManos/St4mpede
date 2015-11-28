@@ -10,6 +10,9 @@ namespace St4mpede.Code
 		public bool IsConstructor { get; set; }
 		public Common.VisibilityScope Scope { get; set; }
 
+		//TODO:Make an ordered list.
+		public List<ParameterData> Parameters { get; set; }
+
 		public override IList<string> ToCode()
 		{
 			if( false==IsConstructor)
@@ -23,9 +26,14 @@ namespace St4mpede.Code
 			}
 			//TODO:Change scope.
 			ret.Add(string.Format(
-				"{0} {1}()",
+				"{0} {1}({2})",
 				Scope.ToCode(),
-				Name));
+				Name, 
+				null == Parameters
+					?
+					string.Empty
+					:
+					" " + Parameters.ToCode() + " " ));
 			ret.Add("{");
 			ret.Add("}");
 			return ret;

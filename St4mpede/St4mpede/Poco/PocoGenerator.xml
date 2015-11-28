@@ -40,6 +40,12 @@
         <Name>Customer</Name>
         <IsConstructor>true</IsConstructor>
         <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>myname</Name>
+          </ParameterData>
+        </Parameters>
       </MethodData>
       <MethodData>
         <Comment>
@@ -103,6 +109,12 @@
         <Name>User</Name>
         <IsConstructor>true</IsConstructor>
         <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>myname</Name>
+          </ParameterData>
+        </Parameters>
       </MethodData>
       <MethodData>
         <Comment>
