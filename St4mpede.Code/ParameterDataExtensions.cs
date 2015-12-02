@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace St4mpede.Code
 {
 	public static class ParameterDataExtensions
 	{
-		public static IList<string> ToCode( this IList<ParameterData> me)
+		public static IList<string> ToMethodParameterDeclaration(this IList<ParameterData> me)
 		{
-			var ret = new List<string>();
+			return me.Select(p => p.ToDeclaration()).ToList();
+		}
 
-			string.Join(
-				", ",
-				me.ToCode());
-
-			return ret;
+		public static string ToMethodParameterDeclarationString(this IList<ParameterData> me)
+		{
+			return string.Join(", ", me.ToMethodParameterDeclaration());
 		}
 	}
 }

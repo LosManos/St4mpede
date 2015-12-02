@@ -43,19 +43,29 @@
         <Parameters>
           <ParameterData>
             <SystemTypeString>System.Int32</SystemTypeString>
-            <Name>myname</Name>
+            <Name>CustomerID</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>Name</Name>
           </ParameterData>
         </Parameters>
       </MethodData>
       <MethodData>
         <Comment>
           <Summary>
-            <string>This constructor takes all properties, except primary key(s) as parameters.</string>
+            <string>This constructor takes all properties as parameters.</string>
           </Summary>
         </Comment>
         <Name>Customer</Name>
         <IsConstructor>true</IsConstructor>
         <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>Name</Name>
+          </ParameterData>
+        </Parameters>
       </MethodData>
     </Methods>
   </ClassData>
@@ -112,19 +122,45 @@
         <Parameters>
           <ParameterData>
             <SystemTypeString>System.Int32</SystemTypeString>
-            <Name>myname</Name>
+            <Name>UserId</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>UserName</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.Char</SystemTypeString>
+            <Name>HashedPassword</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.DateTime</SystemTypeString>
+            <Name>LastLoggedOnDatetime</Name>
           </ParameterData>
         </Parameters>
       </MethodData>
       <MethodData>
         <Comment>
           <Summary>
-            <string>This constructor takes all properties, except primary key(s) as parameters.</string>
+            <string>This constructor takes all properties as parameters.</string>
           </Summary>
         </Comment>
         <Name>User</Name>
         <IsConstructor>true</IsConstructor>
         <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>UserName</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.Char</SystemTypeString>
+            <Name>HashedPassword</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.DateTime</SystemTypeString>
+            <Name>LastLoggedOnDatetime</Name>
+          </ParameterData>
+        </Parameters>
       </MethodData>
     </Methods>
   </ClassData>

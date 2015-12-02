@@ -118,29 +118,34 @@ namespace St4mpede.Poco
 			   }
 			   if (_pocoSettings.CreateAllPropertiesConstructor)
 			   {
-				   classData.Methods.Add(new MethodData
+				   classData.Methods.Add( new MethodData
 				   {
 					   IsConstructor = true,
 					   Name = classData.Name,
 					   Comment = new CommentData("This constructor takes all properties as parameters."),
-					   Parameters = new List<ParameterData>
+					   Parameters = table.Columns.Select(p =>
+					   new ParameterData
 					   {
-						   new ParameterData
-						   {
-							   Name="myname",
-							   SystemTypeString=typeof(int).ToString()
-						   }
-					   }
+						   Name = p.Name,
+						   SystemTypeString =ConvertDatabaseTypeToDotnetTypeString( p.DatabaseTypeName)
+					   }).ToList()
 				   });
-			   }
+               }
 			   if (_pocoSettings.CreateAllPropertiesSansPrimaryKeyConstructor)
 			   {
 				   classData.Methods.Add(new MethodData
 				   {
 					   IsConstructor = true,
 					   Name = classData.Name,
-					   Comment = new CommentData("This constructor takes all properties, except primary key(s) as parameters.")
-					   //TODO:OF:Implement parameters.
+					   Comment = new CommentData("This constructor takes all properties as parameters."),
+					   Parameters = table.Columns
+						.Where(p=>false == p.IsInPrimaryKey)
+						.Select(p =>
+						   new ParameterData
+						   {
+							   Name = p.Name,
+							   SystemTypeString = ConvertDatabaseTypeToDotnetTypeString( p.DatabaseTypeName)
+						   }).ToList()
 				   });
 			   }
 

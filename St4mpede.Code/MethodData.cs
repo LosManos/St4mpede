@@ -24,16 +24,16 @@ namespace St4mpede.Code
 			{
 				ret.AddRange(Comment.ToCode());
 			}
-			//TODO:Change scope.
+
 			ret.Add(string.Format(
 				"{0} {1}({2})",
 				Scope.ToCode(),
-				Name, 
+				Name,
 				null == Parameters
 					?
 					string.Empty
 					:
-					" " + Parameters.ToCode() + " " ));
+					" " + Parameters.ToMethodParameterDeclarationString() + " "));
 			ret.Add("{");
 			ret.Add("}");
 			return ret;
