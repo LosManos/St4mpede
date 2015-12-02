@@ -14,5 +14,12 @@ namespace St4mpede.Code
 		{
 			return string.Join(", ", me.ToMethodParameterDeclaration());
 		}
-	}
+
+		public static IList<string> ToPropertyAssignmentList(this IList<ParameterData> me, Indent indent)
+		{
+			return me
+				.Select(p => string.Format("{0}this.{1} = {2};",indent.IndentString(), p.Name, p.Name))
+				.ToList();
+		}
+    }
 }

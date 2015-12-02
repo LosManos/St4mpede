@@ -45,6 +45,7 @@
     <Compile Include="CommentData.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="DataBaseClass.cs" />
+    <Compile Include="Indent.cs" />
     <Compile Include="IToCode.cs" />
     <Compile Include="MethodData.cs" />
     <Compile Include="MethodDataExtensions.cs" />

@@ -137,7 +137,7 @@ namespace St4mpede.Poco
 				   {
 					   IsConstructor = true,
 					   Name = classData.Name,
-					   Comment = new CommentData("This constructor takes all properties as parameters."),
+					   Comment = new CommentData("This constructor takes all properties but primary keys as parameters."),
 					   Parameters = table.Columns
 						.Where(p=>false == p.IsInPrimaryKey)
 						.Select(p =>

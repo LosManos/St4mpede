@@ -25,12 +25,12 @@ namespace St4mpede.Code
 			res.Add("{");
 			if (null != Properties)
 			{
-				res.AddRange(Properties.ToCode(_indentLevel + 1));
+				res.AddRange(Properties.ToCode(_indent.Add(1)));
 				res.Add(string.Empty);
 			}
 			if (null != Methods)
 			{
-				res.AddRange(Methods.ToCode(_indentLevel + 1));
+				res.AddRange(Methods.ToCode(_indent.Add( 1)));
 			}
 			res.Add("}");
 			return res;

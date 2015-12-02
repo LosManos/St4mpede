@@ -35,6 +35,10 @@ namespace St4mpede.Code
 					:
 					" " + Parameters.ToMethodParameterDeclarationString() + " "));
 			ret.Add("{");
+			if(IsConstructor && Parameters != null)
+			{
+				ret.AddRange(Parameters.ToPropertyAssignmentList(_indent.Add(1)));
+			}
 			ret.Add("}");
 			return ret;
 		}

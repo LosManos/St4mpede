@@ -54,7 +54,7 @@
       <MethodData>
         <Comment>
           <Summary>
-            <string>This constructor takes all properties as parameters.</string>
+            <string>This constructor takes all properties but primary keys as parameters.</string>
           </Summary>
         </Comment>
         <Name>Customer</Name>
@@ -141,7 +141,7 @@
       <MethodData>
         <Comment>
           <Summary>
-            <string>This constructor takes all properties as parameters.</string>
+            <string>This constructor takes all properties but primary keys as parameters.</string>
           </Summary>
         </Comment>
         <Name>User</Name>
