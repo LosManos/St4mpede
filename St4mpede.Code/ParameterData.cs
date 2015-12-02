@@ -38,7 +38,7 @@ namespace St4mpede.Code
 
 		public string ToDeclaration()
 		{
-			return string.Format("{0} {1}", SystemTypeString, Name);
+			return string.Format("{0} {1}", SystemTypeString, Common.Safe( Common.ToCamelCase(Name)));
 		}
 
 		public override IList<string> ToCode()

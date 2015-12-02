@@ -20,8 +20,8 @@ namespace St4mpede.Code.Test
 				},
 				new ParameterData
 				{
-					Name="MyName2",
-					SystemTypeString="MyType2"
+					Name="string",
+					SystemTypeString="int"
 				}
 			};
 
@@ -31,8 +31,8 @@ namespace St4mpede.Code.Test
 			//	#	Assert.
 			CollectionAssert.AreEqual(
 				new[] {
-					"MyType1 MyName1",
-					"MyType2 MyName2"
+					"MyType1 myName1",
+					"int @string"
 					},
 				res.ToList());
 		}
@@ -60,7 +60,7 @@ namespace St4mpede.Code.Test
 
 			//	#	Assert.
 			Assert.AreEqual(
-				"MyType1 MyName1, MyType2 MyName2",
+				"MyType1 myName1, MyType2 myName2",
 				res);
 		}
 	}

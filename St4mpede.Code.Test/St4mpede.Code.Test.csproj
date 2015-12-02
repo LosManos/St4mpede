@@ -52,6 +52,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CommonTest.cs" />
     <Compile Include="ParameterDataExtensionsTest.cs" />
     <Compile Include="PropertyDataTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

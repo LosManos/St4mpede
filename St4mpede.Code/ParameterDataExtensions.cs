@@ -18,7 +18,7 @@ namespace St4mpede.Code
 		public static IList<string> ToPropertyAssignmentList(this IList<ParameterData> me, Indent indent)
 		{
 			return me
-				.Select(p => string.Format("{0}this.{1} = {2};",indent.IndentString(), p.Name, p.Name))
+				.Select(p => string.Format("{0}this.{1} = {2};",indent.IndentString(), p.Name, Common.ToCamelCase(p.Name)))
 				.ToList();
 		}
     }

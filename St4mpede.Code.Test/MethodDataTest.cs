@@ -47,12 +47,12 @@ namespace St4mpede.Code.Test
 				{
 					new ParameterData
 					{
-						Name="customerId",
+						Name="CustomerId",
 						SystemTypeString = typeof(int).ToString()
 					},
 					new ParameterData
 					{
-						Name="customerName",
+						Name="CustomerName",
 						SystemTypeString = typeof(string).ToString()
 					}
 				}
@@ -67,6 +67,8 @@ namespace St4mpede.Code.Test
 				{
 					"internal Customer( System.Int32 customerId, System.String customerName )",
 					"{",
+					"\tthis.CustomerId = customerId;",
+					"\tthis.CustomerName = customerName;",
 					"}"
 				},
 				res.ToList());
