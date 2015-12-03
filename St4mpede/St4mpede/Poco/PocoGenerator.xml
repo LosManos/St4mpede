@@ -67,6 +67,28 @@
           </ParameterData>
         </Parameters>
       </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This is the copy constructor</string>
+          </Summary>
+        </Comment>
+        <Name>Customer</Name>
+        <IsConstructor>true</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>Customer</SystemTypeString>
+            <Name>Customer</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>this.CustomerID = customer.CustomerID;</string>
+            <string>this.Name = customer.Name;</string>
+          </Lines>
+        </Body>
+      </MethodData>
     </Methods>
   </ClassData>
   <ClassData>
@@ -161,6 +183,30 @@
             <Name>LastLoggedOnDatetime</Name>
           </ParameterData>
         </Parameters>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This is the copy constructor</string>
+          </Summary>
+        </Comment>
+        <Name>User</Name>
+        <IsConstructor>true</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>User</SystemTypeString>
+            <Name>User</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>this.UserId = user.UserId;</string>
+            <string>this.UserName = user.UserName;</string>
+            <string>this.HashedPassword = user.HashedPassword;</string>
+            <string>this.LastLoggedOnDatetime = user.LastLoggedOnDatetime;</string>
+          </Lines>
+        </Body>
       </MethodData>
     </Methods>
   </ClassData>

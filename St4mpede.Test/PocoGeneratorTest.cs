@@ -151,6 +151,7 @@ namespace St4mpede.Test
 							<Default>True</Default>
 							<AllProperties>True</AllProperties>
 							<AllPropertiesSansPrimaryKey>True</AllPropertiesSansPrimaryKey>
+							<CopyConstructor>True</CopyConstructor>
 						</Constructors>
 					</Poco>
 				</St4mpede>
@@ -169,6 +170,7 @@ namespace St4mpede.Test
 			Assert.IsTrue( sut.UT_PocoSettings.CreateDefaultConstructor);
 			Assert.IsTrue( sut.UT_PocoSettings.CreateAllPropertiesConstructor);
 			Assert.IsTrue(sut.UT_PocoSettings.CreateAllPropertiesSansPrimaryKeyConstructor);
+			Assert.IsTrue(sut.UT_PocoSettings.CreateCopyConstructor);
 
 			Assert.AreEqual("MyRootFolder", sut.UT_CoreSettings.RootFolder);
 		}
@@ -194,6 +196,7 @@ namespace St4mpede.Test
 			<Default>True</Default>
 			<AllProperties>True</AllProperties>
 			<AllPropertiesSansPrimaryKey>True</AllPropertiesSansPrimaryKey>
+			<CopyConstructor>True</CopyConstructor>
 		</Constructors>
 	</Poco>");
 
@@ -209,6 +212,7 @@ namespace St4mpede.Test
 			Assert.IsTrue(sut.UT_PocoSettings.CreateDefaultConstructor);
 			Assert.IsTrue(sut.UT_PocoSettings.CreateAllPropertiesConstructor);
 			Assert.IsTrue(sut.UT_PocoSettings.CreateAllPropertiesSansPrimaryKeyConstructor);
+			Assert.IsTrue(sut.UT_PocoSettings.CreateCopyConstructor);
 		}
 
 		#endregion
@@ -221,6 +225,7 @@ namespace St4mpede.Test
 			mockedCore.Setup(m => m.WriteOutput(It.IsAny<IList<string>>(), It.IsAny<string> ()));
 			var sut = new PocoGenerator(mockedCore.Object, new Log(), null);
 			sut.UT_PocoSettings = new PocoSettings(
+				true,
 				true,
 				true,
 				true,

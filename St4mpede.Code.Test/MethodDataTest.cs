@@ -73,5 +73,50 @@ namespace St4mpede.Code.Test
 				},
 				res.ToList());
 		}
+
+		[TestMethod]
+		public void ToCode_given_ConstructorDataWithBody_should_ReturnProper()
+		{
+			//	#	Arrange.
+			const string ClassName = "Customer";
+
+			var sut = new MethodData
+			{
+				IsConstructor = true,
+				Scope = Common.VisibilityScope.Internal,
+				Name = ClassName,
+				Parameters = new List<ParameterData>
+				{
+					new ParameterData
+					{
+						Name=ClassName,
+						SystemTypeString = ClassName
+					}
+				}, 
+				Body = new BodyData
+				{
+					Lines= new List<string>
+					{
+						"this.CustomerId = customer.CustomerId;", 
+						"this.CustomerName = customer.CustomerName;"
+					}
+				}
+			};
+
+			//	#	Act.
+			var res = sut.ToCode();
+
+			//	#	Assert.
+			CollectionAssert.AreEqual(
+				new[]
+				{
+					"internal Customer( Customer customer )",
+					"{",
+					"\tthis.CustomerId = customer.CustomerId;",
+					"\tthis.CustomerName = customer.CustomerName;",
+					"}"
+				},
+				res.ToList());
+		}
 	}
 }

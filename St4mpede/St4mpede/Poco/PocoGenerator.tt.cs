@@ -26,7 +26,8 @@ namespace St4mpede.Poco
 		private const string ConstructorsDefaultElement = "Default";
 		private const string ConstructorsAllPropertiesElement = "AllProperties";
 		private const string ConstructorsAllPropertiesSansPrimaryKeyElement = "AllPropertiesSansPrimaryKey";
-		private const string MakePartialElement = "MakePartial";
+		private const string ConstructorCopy = "CopyConstructor";
+        private const string MakePartialElement = "MakePartial";
         private const string OutputFolderElement = "OutputFolder";
 		private const string ProjectPathElement = "ProjectPath";
 		private const string XmlOutputFilenameElement = "XmlOutputFilename";
@@ -148,6 +149,30 @@ namespace St4mpede.Poco
 						   }).ToList()
 				   });
 			   }
+			   if(_pocoSettings.CreateCopyConstructor)
+			   {
+				   classData.Methods.Add(new MethodData
+				   {
+					   IsConstructor = true,
+					   Name = classData.Name,
+					   Comment = new CommentData("This is the copy constructor."),
+					   Parameters = new List<ParameterData>
+					   {
+						   new ParameterData
+						   {
+							   Name = classData.Name,
+							   SystemTypeString = classData.Name
+						   }
+					   },
+					   Body = new BodyData
+					   {
+						   Lines = table.Columns
+							.Select(p => string.Format("this.{0} = {1}.{2};",
+							p.Name, Common.Safe(Common.ToCamelCase(table.Name)), p.Name))
+							.ToList()
+					   }
+				   });
+			   }
 
 			   _classDataList.Add(classData);
 		   });
@@ -189,9 +214,12 @@ namespace St4mpede.Poco
 			_rdbSchemaSettings = rdbSchemaSettings;
 			_pocoSettings = new PocoSettings(
 				bool.Parse( doc.Descendants(MakePartialElement).Single().Value ),
+				
 				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorsDefaultElement).Single().Value),
 				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorsAllPropertiesElement).Single().Value),
 				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorsAllPropertiesSansPrimaryKeyElement).Single().Value),
+				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorCopy).Single().Value),
+
 				doc.Descendants(OutputFolderElement).Single().Value, 
 				doc.Descendants(ProjectPathElement).Single().Value,
                 doc.Descendants(XmlOutputFilenameElement).Single().Value

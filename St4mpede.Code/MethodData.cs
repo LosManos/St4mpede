@@ -7,11 +7,14 @@ namespace St4mpede.Code
 	{
 		public CommentData Comment { get; set; }
 		public string Name { get; set; }
+
 		public bool IsConstructor { get; set; }
 		public Common.VisibilityScope Scope { get; set; }
 
 		//TODO:Make an ordered list.
 		public List<ParameterData> Parameters { get; set; }
+
+		public BodyData Body { get; set; }
 
 		public override IList<string> ToCode()
 		{
@@ -35,9 +38,13 @@ namespace St4mpede.Code
 					:
 					" " + Parameters.ToMethodParameterDeclarationString() + " "));
 			ret.Add("{");
-			if(IsConstructor && Parameters != null)
+			if (IsConstructor && Parameters != null && Body == null)
 			{
 				ret.AddRange(Parameters.ToPropertyAssignmentList(_indent.Add(1)));
+			}
+			if( Body != null)
+			{
+				ret.AddRange(Body.ToCode(_indent.Add(1)));
 			}
 			ret.Add("}");
 			return ret;

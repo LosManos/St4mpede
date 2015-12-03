@@ -54,6 +54,7 @@
 			<Default>True</Default>
 			<AllProperties>True</AllProperties>
 			<AllPropertiesSansPrimaryKey>True</AllPropertiesSansPrimaryKey>
+			<CopyConstructor>True</CopyConstructor>
 		</Constructors>
 	</Poco>
 
