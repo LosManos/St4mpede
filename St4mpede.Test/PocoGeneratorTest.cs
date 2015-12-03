@@ -147,6 +147,12 @@ namespace St4mpede.Test
 						<ProjectPath>MyProjectPath</ProjectPath>
 						<XmlOutputFilename>MyXmlOutputFilename</XmlOutputFilename>
 						<MakePartial>True</MakePartial>
+						<Constructors>
+							<Default>True</Default>
+							<AllProperties>True</AllProperties>
+							<AllPropertiesSansPrimaryKey>True</AllPropertiesSansPrimaryKey>
+							<CopyConstructor>True</CopyConstructor>
+						</Constructors>
 					</Poco>
 				</St4mpede>
 "); };
@@ -160,6 +166,12 @@ namespace St4mpede.Test
 			Assert.AreEqual("MyOutputFolder", sut.UT_PocoSettings.OutputFolder);
 			Assert.AreEqual("MyProjectPath", sut.UT_PocoSettings.ProjectPath);
 			Assert.AreEqual("MyXmlOutputFilename", sut.UT_PocoSettings.XmlOutputFilename);
+			Assert.IsTrue( sut.UT_PocoSettings.MakePartial);
+			Assert.IsTrue( sut.UT_PocoSettings.CreateDefaultConstructor);
+			Assert.IsTrue( sut.UT_PocoSettings.CreateAllPropertiesConstructor);
+			Assert.IsTrue(sut.UT_PocoSettings.CreateAllPropertiesSansPrimaryKeyConstructor);
+			Assert.IsTrue(sut.UT_PocoSettings.CreateCopyConstructor);
+
 			Assert.AreEqual("MyRootFolder", sut.UT_CoreSettings.RootFolder);
 		}
 
@@ -180,6 +192,12 @@ namespace St4mpede.Test
 		<ProjectPath>MyProjectPath</ProjectPath>
 		<XmlOutputFilename>MyXmlOutputFilename</XmlOutputFilename>
 		<MakePartial>True</MakePartial>
+		<Constructors>
+			<Default>True</Default>
+			<AllProperties>True</AllProperties>
+			<AllPropertiesSansPrimaryKey>True</AllPropertiesSansPrimaryKey>
+			<CopyConstructor>True</CopyConstructor>
+		</Constructors>
 	</Poco>");
 
 			//	#	Act.
@@ -190,6 +208,11 @@ namespace St4mpede.Test
 			Assert.AreEqual("MyProjectPath", sut.UT_PocoSettings.ProjectPath);
 			Assert.AreEqual("MyXmlOutputFilename", sut.UT_PocoSettings.XmlOutputFilename);
 			Assert.AreEqual(@"MyProjectPath\MyXmlOutputFilename", sut.UT_PocoSettings.XmlOutputPathFilename);
+			Assert.IsTrue(sut.UT_PocoSettings.MakePartial);
+			Assert.IsTrue(sut.UT_PocoSettings.CreateDefaultConstructor);
+			Assert.IsTrue(sut.UT_PocoSettings.CreateAllPropertiesConstructor);
+			Assert.IsTrue(sut.UT_PocoSettings.CreateAllPropertiesSansPrimaryKeyConstructor);
+			Assert.IsTrue(sut.UT_PocoSettings.CreateCopyConstructor);
 		}
 
 		#endregion
@@ -202,6 +225,10 @@ namespace St4mpede.Test
 			mockedCore.Setup(m => m.WriteOutput(It.IsAny<IList<string>>(), It.IsAny<string> ()));
 			var sut = new PocoGenerator(mockedCore.Object, new Log(), null);
 			sut.UT_PocoSettings = new PocoSettings(
+				true,
+				true,
+				true,
+				true,
 				true,
 				@"path\path", 
 				"Poco", 

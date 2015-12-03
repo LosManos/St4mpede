@@ -21,7 +21,13 @@ namespace St4mpede.Poco
 		#region Private properties and fields.
 
 		private const string PocoElement = "Poco";
-		private const string MakePartialElement = "MakePartial";
+
+		private const string ConstructorsElement = "Constructors";
+		private const string ConstructorsDefaultElement = "Default";
+		private const string ConstructorsAllPropertiesElement = "AllProperties";
+		private const string ConstructorsAllPropertiesSansPrimaryKeyElement = "AllPropertiesSansPrimaryKey";
+		private const string ConstructorCopy = "CopyConstructor";
+        private const string MakePartialElement = "MakePartial";
         private const string OutputFolderElement = "OutputFolder";
 		private const string ProjectPathElement = "ProjectPath";
 		private const string XmlOutputFilenameElement = "XmlOutputFilename";
@@ -76,12 +82,16 @@ namespace St4mpede.Poco
 				.ToList()
 				.ForEach(table =>
 		   {
+			   //	Set data for the very [class].
 			   var classData = new ClassData
 			   {
 				   Name = table.Name,
 				   IsPartial = _pocoSettings.MakePartial,
-				   Properties = new List<PropertyData>()
+				   Properties = new List<PropertyData>(),
+                   Methods = new List<MethodData>()
 			   };
+
+			   //	Create the properties.
 			   table.Columns
 			   .ForEach(column =>
 			   {
@@ -96,6 +106,74 @@ namespace St4mpede.Poco
 								: null
 					   });
 			   });
+
+			   //	Create the constructors.
+			   if (_pocoSettings.CreateDefaultConstructor)
+			   {
+				   classData.Methods.Add(new MethodData
+				   {
+					   IsConstructor = true,
+					   Name = classData.Name,
+					   Comment = new CommentData("Default constructor needed for instance for de/serialising.")
+				   });
+			   }
+			   if (_pocoSettings.CreateAllPropertiesConstructor)
+			   {
+				   classData.Methods.Add( new MethodData
+				   {
+					   IsConstructor = true,
+					   Name = classData.Name,
+					   Comment = new CommentData("This constructor takes all properties as parameters."),
+					   Parameters = table.Columns.Select(p =>
+					   new ParameterData
+					   {
+						   Name = p.Name,
+						   SystemTypeString =ConvertDatabaseTypeToDotnetTypeString( p.DatabaseTypeName)
+					   }).ToList()
+				   });
+               }
+			   if (_pocoSettings.CreateAllPropertiesSansPrimaryKeyConstructor)
+			   {
+				   classData.Methods.Add(new MethodData
+				   {
+					   IsConstructor = true,
+					   Name = classData.Name,
+					   Comment = new CommentData("This constructor takes all properties but primary keys as parameters."),
+					   Parameters = table.Columns
+						.Where(p=>false == p.IsInPrimaryKey)
+						.Select(p =>
+						   new ParameterData
+						   {
+							   Name = p.Name,
+							   SystemTypeString = ConvertDatabaseTypeToDotnetTypeString( p.DatabaseTypeName)
+						   }).ToList()
+				   });
+			   }
+			   if(_pocoSettings.CreateCopyConstructor)
+			   {
+				   classData.Methods.Add(new MethodData
+				   {
+					   IsConstructor = true,
+					   Name = classData.Name,
+					   Comment = new CommentData("This is the copy constructor."),
+					   Parameters = new List<ParameterData>
+					   {
+						   new ParameterData
+						   {
+							   Name = classData.Name,
+							   SystemTypeString = classData.Name
+						   }
+					   },
+					   Body = new BodyData
+					   {
+						   Lines = table.Columns
+							.Select(p => string.Format("this.{0} = {1}.{2};",
+							p.Name, Common.Safe(Common.ToCamelCase(table.Name)), p.Name))
+							.ToList()
+					   }
+				   });
+			   }
+
 			   _classDataList.Add(classData);
 		   });
 
@@ -136,7 +214,13 @@ namespace St4mpede.Poco
 			_rdbSchemaSettings = rdbSchemaSettings;
 			_pocoSettings = new PocoSettings(
 				bool.Parse( doc.Descendants(MakePartialElement).Single().Value ),
-                doc.Descendants(OutputFolderElement).Single().Value, 
+				
+				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorsDefaultElement).Single().Value),
+				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorsAllPropertiesElement).Single().Value),
+				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorsAllPropertiesSansPrimaryKeyElement).Single().Value),
+				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorCopy).Single().Value),
+
+				doc.Descendants(OutputFolderElement).Single().Value, 
 				doc.Descendants(ProjectPathElement).Single().Value,
                 doc.Descendants(XmlOutputFilenameElement).Single().Value
 			);

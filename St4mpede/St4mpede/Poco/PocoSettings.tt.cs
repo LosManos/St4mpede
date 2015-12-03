@@ -14,7 +14,11 @@ namespace St4mpede.Poco
 
 	internal class PocoSettings
 	{
-		internal bool MakePartial { get; set; }
+		public bool CreateDefaultConstructor { get; set; }
+		public bool CreateAllPropertiesConstructor { get; set; }
+		public bool CreateAllPropertiesSansPrimaryKeyConstructor { get; set; }
+		public bool CreateCopyConstructor { get; set; }
+        internal bool MakePartial { get; set; }
 		internal string OutputFolder { get; set; }
 		public string ProjectPath { get; private set; }
 		public string XmlOutputFilename { get; private set; }
@@ -33,11 +37,19 @@ namespace St4mpede.Poco
 
 		public PocoSettings(
 			bool makePartial,
-			string outputFolder, 
+			bool createDefaultConstructor, 
+			bool createAllPropertiesConstructor, 
+			bool createAllPropertiesSansPrimaryKeyConstructor,
+			bool createCopyConstructor,
+            string outputFolder, 
 			string projectPath, 
 			string xmlOutputFilename)
 		{
 			this.MakePartial = makePartial;
+			this.CreateDefaultConstructor = createDefaultConstructor;
+			this.CreateAllPropertiesConstructor = createAllPropertiesConstructor;
+			this.CreateAllPropertiesSansPrimaryKeyConstructor = createAllPropertiesSansPrimaryKeyConstructor;
+			this.CreateCopyConstructor = createCopyConstructor;
 			this.OutputFolder = outputFolder;
 			this.ProjectPath = projectPath;
 			this.XmlOutputFilename = xmlOutputFilename;

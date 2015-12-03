@@ -5,15 +5,17 @@ namespace St4mpede.Code
 {
 	public abstract class DataBaseClass 
 	{
-		internal int _indentLevel = 0;
-
-		internal string _indentString = "\t";
+		internal Indent _indent = new Indent
+		{
+			Level = 0,
+			WhiteSpace = "\t"
+		};
 
 		public abstract IList<string> ToCode();
 
-		public IList<string> ToCode(int indentLevel)
+		public IList<string> ToCode(Indent indent)
 		{
-			return ToCode().Select(row => _indentString + row).ToList();
+			return ToCode().Select(row => _indent.IndentString(indent.Level) + row).ToList();
 		}
 
 	}
