@@ -96,7 +96,7 @@
       <MethodData>
         <Comment>
           <Summary>
-            <string>This is the equals method.</string>
+            <string>This is the Equals method.</string>
           </Summary>
         </Comment>
         <Name>Equals</Name>
@@ -120,6 +120,26 @@
             <string>return</string>
             <string>	this.CustomerID == obj.CustomerID &amp;&amp;</string>
             <string>	this.Name == obj.Name;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This is the GetHasCode method.</string>
+          </Summary>
+        </Comment>
+        <Name>GetHashCode</Name>
+        <ReturnTypeString>System.Int32</ReturnTypeString>
+        <Override>true</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Body>
+          <Lines>
+            <string>int hash = 13;</string>
+            <string>hash = (hash*7) + /*check for null*/ this.CustomerID.GetHashCode();</string>
+            <string>hash = (hash*7) + /*check for null*/ this.Name.GetHashCode();</string>
+            <string>return hash;</string>
           </Lines>
         </Body>
       </MethodData>
@@ -249,7 +269,7 @@
       <MethodData>
         <Comment>
           <Summary>
-            <string>This is the equals method.</string>
+            <string>This is the Equals method.</string>
           </Summary>
         </Comment>
         <Name>Equals</Name>
@@ -275,6 +295,28 @@
             <string>	this.UserName == obj.UserName &amp;&amp;</string>
             <string>	this.HashedPassword == obj.HashedPassword &amp;&amp;</string>
             <string>	this.LastLoggedOnDatetime == obj.LastLoggedOnDatetime;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This is the GetHasCode method.</string>
+          </Summary>
+        </Comment>
+        <Name>GetHashCode</Name>
+        <ReturnTypeString>System.Int32</ReturnTypeString>
+        <Override>true</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Body>
+          <Lines>
+            <string>int hash = 13;</string>
+            <string>hash = (hash*7) + /*check for null*/ this.UserId.GetHashCode();</string>
+            <string>hash = (hash*7) + /*check for null*/ this.UserName.GetHashCode();</string>
+            <string>hash = (hash*7) + /*check for null*/ this.HashedPassword.GetHashCode();</string>
+            <string>hash = (hash*7) + /*check for null*/ this.LastLoggedOnDatetime.GetHashCode();</string>
+            <string>return hash;</string>
           </Lines>
         </Body>
       </MethodData>

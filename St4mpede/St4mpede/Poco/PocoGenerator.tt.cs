@@ -135,7 +135,7 @@ namespace St4mpede.Poco
 					   new ParameterData
 					   {
 						   Name = p.Name,
-						   SystemTypeString =ConvertDatabaseTypeToDotnetTypeString( p.DatabaseTypeName)
+						   SystemTypeString = ConvertDatabaseTypeToDotnetTypeString( p.DatabaseTypeName)
 					   }).ToList()
 				   });
                }
@@ -184,46 +184,13 @@ namespace St4mpede.Poco
 			   }
 
 			   //	#	Create the methods.
-			   if( _pocoSettings.CreateMethodEquals && Regex.IsMatch(classData.Name, _pocoSettings.CreateMethodEqualsRegex))
+			   if (_pocoSettings.CreateMethodEquals && Regex.IsMatch(classData.Name, _pocoSettings.CreateMethodEqualsRegex))
 			   {
-				   const string ParameterName = "o";
+				   classData.Methods.Add(
+					   CreateEqualsMethod(table, classData, "o"));
 
-				   var bodyLines = new List<string>
-					{
-						string.Format("var obj = {0} as {1};", ParameterName, classData.Name),
-						"if( obj == null ){", 
-						"\treturn false;",
-						"}",
-						string.Empty,
-						"return"
-					};
-					bodyLines.AddRange(table.Columns.Select(c =>
-						string.Format("\tthis.{0} == obj.{0} &&", 
-						c.Name, 
-						ParameterName
-					)));
-				   bodyLines[bodyLines.Count-1] = bodyLines.Last().Replace(" &&", ";");
-
-				   classData.Methods.Add(new MethodData
-				   {
-					   IsConstructor = false,
-					   Name = "Equals",
-					   Override = true,
-					   ReturnTypeString = typeof(bool).ToString(),
-					   Comment = new CommentData("This is the equals method."),
-					   Parameters = new List<ParameterData>
-						{
-							new ParameterData
-							{
-								Name = ParameterName,
-								SystemTypeString = typeof(object).ToString()
-							}
-						},
-						Body =new BodyData
-						{
-							Lines = bodyLines
-						}
-					});
+				   classData.Methods.Add(
+					   CreateHashMethod(table, classData));
 			   }
 
 			   _classDataList.Add(classData);
@@ -258,27 +225,6 @@ namespace St4mpede.Poco
 				return;	//	Bail.
 			}
 			Init(Core.Init(doc), ParserSettings.Init(configPath, configFilename, doc), settings);
-		}
-
-		private void Init( CoreSettings settings, IParserSettings rdbSchemaSettings, XElement doc)
-		{
-			_coreSettings = settings;
-			_rdbSchemaSettings = rdbSchemaSettings;
-			_pocoSettings = new PocoSettings(
-				bool.Parse(doc.Descendants(MakePartialElement).Single().Value),
-
-				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorsDefaultElement).Single().Value),
-				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorsAllPropertiesElement).Single().Value),
-				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorsAllPropertiesSansPrimaryKeyElement).Single().Value),
-				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorCopy).Single().Value),
-
-				bool.Parse(doc.Descendants(MethodsElement).Single().Descendants(MethodsEqualsElement).Single().Value),
-				doc.Descendants(MethodsElement).Single().Descendants(MethodsEqualsElement).Single().Attributes(MethodsEqualsRegexAttribute).Single().Value,
-
-				doc.Descendants(OutputFolderElement).Single().Value, 
-				doc.Descendants(ProjectPathElement).Single().Value,
-                doc.Descendants(XmlOutputFilenameElement).Single().Value
-			);
 		}
 
 		internal void Output()
@@ -331,6 +277,7 @@ namespace St4mpede.Poco
 		{
 			XDocument Load(string pathfile);
 		}
+
 		internal class XDocHandler : IXDocHandler
 		{
 			XDocument IXDocHandler.Load( string pathfile)
@@ -340,6 +287,97 @@ namespace St4mpede.Poco
 		}
 
 		#region Private methods.
+
+		private static IList<string> CreateBodyForEqualsMethod(TableData table, ClassData classData, string parameterName)
+		{
+			var bodyLines = new List<string>
+					{
+						string.Format("var obj = {0} as {1};", parameterName, classData.Name),
+						"if( obj == null ){",
+						"\treturn false;",
+						"}",
+						string.Empty,
+						"return"
+					};
+			bodyLines.AddRange(table.Columns.Select(c =>
+				string.Format("\tthis.{0} == obj.{0} &&",
+				c.Name,
+				parameterName
+			)));
+			bodyLines[bodyLines.Count - 1] = bodyLines.Last().Replace(" &&", ";");
+			return bodyLines;
+		}
+
+		private IList<string> CreateBodyForGetHashCodeMethod(TableData table, ClassData classData)
+		{
+			var bodyLines = new List<string>
+			{
+				"int hash = 13;"
+			};
+			bodyLines.AddRange(table.Columns.Select(c =>
+				string.Format("hash = (hash*7) + /*check for null*/ this.{0}.GetHashCode();", c.Name)
+			));
+			bodyLines.Add("return hash;");
+			return bodyLines;
+		}
+
+		private static MethodData CreateEqualsMethod(TableData table, ClassData classData, string ParameterName)
+		{
+			return new MethodData
+			{
+				IsConstructor = false,
+				Name = "Equals",
+				Override = true,
+				ReturnTypeString = typeof(bool).ToString(),
+				Comment = new CommentData("This is the Equals method."),
+				Parameters = new List<ParameterData>
+						{
+							new ParameterData
+							{
+								Name = ParameterName,
+								SystemTypeString = typeof(object).ToString()
+							}
+						},
+				Body = new BodyData(
+									   CreateBodyForEqualsMethod(table, classData, ParameterName)
+									   )
+			};
+		}
+
+		private MethodData CreateHashMethod(TableData table, ClassData classData)
+		{
+			return new MethodData
+			{
+				IsConstructor = false,
+				Name = "GetHashCode",
+				Override = true,
+				ReturnTypeString = typeof(int).ToString(),
+				Comment = new CommentData("This is the GetHasCode method."),
+				Parameters = null,
+				Body = new BodyData(CreateBodyForGetHashCodeMethod(table, classData))
+			};
+		}
+
+		private void Init(CoreSettings settings, IParserSettings rdbSchemaSettings, XElement doc)
+		{
+			_coreSettings = settings;
+			_rdbSchemaSettings = rdbSchemaSettings;
+			_pocoSettings = new PocoSettings(
+				bool.Parse(doc.Descendants(MakePartialElement).Single().Value),
+
+				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorsDefaultElement).Single().Value),
+				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorsAllPropertiesElement).Single().Value),
+				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorsAllPropertiesSansPrimaryKeyElement).Single().Value),
+				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorCopy).Single().Value),
+
+				bool.Parse(doc.Descendants(MethodsElement).Single().Descendants(MethodsEqualsElement).Single().Value),
+				doc.Descendants(MethodsElement).Single().Descendants(MethodsEqualsElement).Single().Attributes(MethodsEqualsRegexAttribute).Single().Value,
+
+				doc.Descendants(OutputFolderElement).Single().Value,
+				doc.Descendants(ProjectPathElement).Single().Value,
+				doc.Descendants(XmlOutputFilenameElement).Single().Value
+			);
+		}
 
 		internal class TypesTuple
 		{
