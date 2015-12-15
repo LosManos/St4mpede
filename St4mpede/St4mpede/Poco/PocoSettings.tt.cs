@@ -18,7 +18,11 @@ namespace St4mpede.Poco
 		public bool CreateAllPropertiesConstructor { get; set; }
 		public bool CreateAllPropertiesSansPrimaryKeyConstructor { get; set; }
 		public bool CreateCopyConstructor { get; set; }
-        internal bool MakePartial { get; set; }
+
+		public bool CreateMethodEquals { get; set; }
+		public string CreateMethodEqualsRegex { get; set; }
+
+		internal bool MakePartial { get; set; }
 		internal string OutputFolder { get; set; }
 		public string ProjectPath { get; private set; }
 		public string XmlOutputFilename { get; private set; }
@@ -41,6 +45,8 @@ namespace St4mpede.Poco
 			bool createAllPropertiesConstructor, 
 			bool createAllPropertiesSansPrimaryKeyConstructor,
 			bool createCopyConstructor,
+			bool createMethodEquals, 
+			string createMethodEqualsRegex,
             string outputFolder, 
 			string projectPath, 
 			string xmlOutputFilename)
@@ -50,6 +56,10 @@ namespace St4mpede.Poco
 			this.CreateAllPropertiesConstructor = createAllPropertiesConstructor;
 			this.CreateAllPropertiesSansPrimaryKeyConstructor = createAllPropertiesSansPrimaryKeyConstructor;
 			this.CreateCopyConstructor = createCopyConstructor;
+
+			this.CreateMethodEquals = createMethodEquals;
+			this.CreateMethodEqualsRegex = createMethodEqualsRegex;
+
 			this.OutputFolder = outputFolder;
 			this.ProjectPath = projectPath;
 			this.XmlOutputFilename = xmlOutputFilename;

@@ -12,6 +12,7 @@ namespace St4mpede.Poco
 	using System.Diagnostics;
 	using System.IO;
 	using System.Linq;
+	using System.Text.RegularExpressions;
 	using System.Xml.Linq;
 #endif
 	//#	Regular ol' C# classes and code...
@@ -27,7 +28,12 @@ namespace St4mpede.Poco
 		private const string ConstructorsAllPropertiesElement = "AllProperties";
 		private const string ConstructorsAllPropertiesSansPrimaryKeyElement = "AllPropertiesSansPrimaryKey";
 		private const string ConstructorCopy = "CopyConstructor";
-        private const string MakePartialElement = "MakePartial";
+
+		private const string MethodsElement = "Methods";
+		private const string MethodsEqualsElement = "Equals";
+		private const string MethodsEqualsRegexAttribute = "Regex";
+
+		private const string MakePartialElement = "MakePartial";
         private const string OutputFolderElement = "OutputFolder";
 		private const string ProjectPathElement = "ProjectPath";
 		private const string XmlOutputFilenameElement = "XmlOutputFilename";
@@ -91,7 +97,7 @@ namespace St4mpede.Poco
                    Methods = new List<MethodData>()
 			   };
 
-			   //	Create the properties.
+			   //	#	Create the properties.
 			   table.Columns
 			   .ForEach(column =>
 			   {
@@ -107,7 +113,7 @@ namespace St4mpede.Poco
 					   });
 			   });
 
-			   //	Create the constructors.
+			   //	#	Create the constructors.
 			   if (_pocoSettings.CreateDefaultConstructor)
 			   {
 				   classData.Methods.Add(new MethodData
@@ -117,6 +123,7 @@ namespace St4mpede.Poco
 					   Comment = new CommentData("Default constructor needed for instance for de/serialising.")
 				   });
 			   }
+
 			   if (_pocoSettings.CreateAllPropertiesConstructor)
 			   {
 				   classData.Methods.Add( new MethodData
@@ -132,6 +139,7 @@ namespace St4mpede.Poco
 					   }).ToList()
 				   });
                }
+
 			   if (_pocoSettings.CreateAllPropertiesSansPrimaryKeyConstructor)
 			   {
 				   classData.Methods.Add(new MethodData
@@ -149,6 +157,7 @@ namespace St4mpede.Poco
 						   }).ToList()
 				   });
 			   }
+
 			   if(_pocoSettings.CreateCopyConstructor)
 			   {
 				   classData.Methods.Add(new MethodData
@@ -172,6 +181,49 @@ namespace St4mpede.Poco
 							.ToList()
 					   }
 				   });
+			   }
+
+			   //	#	Create the methods.
+			   if( _pocoSettings.CreateMethodEquals && Regex.IsMatch(classData.Name, _pocoSettings.CreateMethodEqualsRegex))
+			   {
+				   const string ParameterName = "o";
+
+				   var bodyLines = new List<string>
+					{
+						string.Format("var obj = {0} as {1};", ParameterName, classData.Name),
+						"if( obj == null ){", 
+						"\treturn false;",
+						"}",
+						string.Empty,
+						"return"
+					};
+					bodyLines.AddRange(table.Columns.Select(c =>
+						string.Format("\tthis.{0} == obj.{0} &&", 
+						c.Name, 
+						ParameterName
+					)));
+				   bodyLines[bodyLines.Count-1] = bodyLines.Last().Replace(" &&", ";");
+
+				   classData.Methods.Add(new MethodData
+				   {
+					   IsConstructor = false,
+					   Name = "Equals",
+					   Override = true,
+					   ReturnTypeString = typeof(bool).ToString(),
+					   Comment = new CommentData("This is the equals method."),
+					   Parameters = new List<ParameterData>
+						{
+							new ParameterData
+							{
+								Name = ParameterName,
+								SystemTypeString = typeof(object).ToString()
+							}
+						},
+						Body =new BodyData
+						{
+							Lines = bodyLines
+						}
+					});
 			   }
 
 			   _classDataList.Add(classData);
@@ -213,12 +265,15 @@ namespace St4mpede.Poco
 			_coreSettings = settings;
 			_rdbSchemaSettings = rdbSchemaSettings;
 			_pocoSettings = new PocoSettings(
-				bool.Parse( doc.Descendants(MakePartialElement).Single().Value ),
-				
+				bool.Parse(doc.Descendants(MakePartialElement).Single().Value),
+
 				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorsDefaultElement).Single().Value),
 				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorsAllPropertiesElement).Single().Value),
 				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorsAllPropertiesSansPrimaryKeyElement).Single().Value),
 				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorCopy).Single().Value),
+
+				bool.Parse(doc.Descendants(MethodsElement).Single().Descendants(MethodsEqualsElement).Single().Value),
+				doc.Descendants(MethodsElement).Single().Descendants(MethodsEqualsElement).Single().Attributes(MethodsEqualsRegexAttribute).Single().Value,
 
 				doc.Descendants(OutputFolderElement).Single().Value, 
 				doc.Descendants(ProjectPathElement).Single().Value,

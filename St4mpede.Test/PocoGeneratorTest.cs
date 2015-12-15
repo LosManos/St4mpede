@@ -153,6 +153,9 @@ namespace St4mpede.Test
 							<AllPropertiesSansPrimaryKey>True</AllPropertiesSansPrimaryKey>
 							<CopyConstructor>True</CopyConstructor>
 						</Constructors>
+						<Methods>
+							<Equals Regex='.*'>True</Equals>
+						</Methods>
 					</Poco>
 				</St4mpede>
 "); };
@@ -171,6 +174,8 @@ namespace St4mpede.Test
 			Assert.IsTrue( sut.UT_PocoSettings.CreateAllPropertiesConstructor);
 			Assert.IsTrue(sut.UT_PocoSettings.CreateAllPropertiesSansPrimaryKeyConstructor);
 			Assert.IsTrue(sut.UT_PocoSettings.CreateCopyConstructor);
+			Assert.IsTrue(sut.UT_PocoSettings.CreateMethodEquals);
+			Assert.AreEqual(".*", sut.UT_PocoSettings.CreateMethodEqualsRegex);
 
 			Assert.AreEqual("MyRootFolder", sut.UT_CoreSettings.RootFolder);
 		}
@@ -198,6 +203,9 @@ namespace St4mpede.Test
 			<AllPropertiesSansPrimaryKey>True</AllPropertiesSansPrimaryKey>
 			<CopyConstructor>True</CopyConstructor>
 		</Constructors>
+		<Methods>
+			<Equals Regex='.*'>True</Equals>
+		</Methods>
 	</Poco>");
 
 			//	#	Act.
@@ -213,6 +221,8 @@ namespace St4mpede.Test
 			Assert.IsTrue(sut.UT_PocoSettings.CreateAllPropertiesConstructor);
 			Assert.IsTrue(sut.UT_PocoSettings.CreateAllPropertiesSansPrimaryKeyConstructor);
 			Assert.IsTrue(sut.UT_PocoSettings.CreateCopyConstructor);
+			Assert.IsTrue(sut.UT_PocoSettings.CreateMethodEquals);
+			Assert.AreEqual(".*", sut.UT_PocoSettings.CreateMethodEqualsRegex);
 		}
 
 		#endregion
@@ -230,6 +240,8 @@ namespace St4mpede.Test
 				true,
 				true,
 				true,
+				true, 
+				".*",
 				@"path\path", 
 				"Poco", 
 				"PocoGenerator.xml");
