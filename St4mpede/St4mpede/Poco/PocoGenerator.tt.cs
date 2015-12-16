@@ -315,8 +315,14 @@ namespace St4mpede.Poco
 				"int hash = 13;"
 			};
 			bodyLines.AddRange(table.Columns.Select(c =>
-				string.Format("hash = (hash*7) + /*check for null*/ this.{0}.GetHashCode();", c.Name)
-			));
+				"hash = (hash*7) + " +
+				(
+					DefaultValueIsNull( ConvertDatabaseTypeToDotnetType(c.DatabaseTypeName))
+				?   //	It is a parameter that cannot be null.
+                    string.Format("( null == {0} ? 0 : this.{0}.GetHashCode();", c.Name)
+				:	//	It is a value that can be null.
+					string.Format("this.{0}.GetHashCode();", c.Name)
+			)));
 			bodyLines.Add("return hash;");
 			return bodyLines;
 		}
@@ -331,16 +337,16 @@ namespace St4mpede.Poco
 				ReturnTypeString = typeof(bool).ToString(),
 				Comment = new CommentData("This is the Equals method."),
 				Parameters = new List<ParameterData>
-						{
-							new ParameterData
-							{
-								Name = ParameterName,
-								SystemTypeString = typeof(object).ToString()
-							}
-						},
+				{
+					new ParameterData
+					{
+						Name = ParameterName,
+						SystemTypeString = typeof(object).ToString()
+					}
+				},
 				Body = new BodyData(
-									   CreateBodyForEqualsMethod(table, classData, ParameterName)
-									   )
+					CreateBodyForEqualsMethod(table, classData, ParameterName)
+					)
 			};
 		}
 
@@ -352,10 +358,20 @@ namespace St4mpede.Poco
 				Name = "GetHashCode",
 				Override = true,
 				ReturnTypeString = typeof(int).ToString(),
-				Comment = new CommentData("This is the GetHasCode method."),
+				Comment = new CommentData("This is the GetHashCode method."),
 				Parameters = null,
 				Body = new BodyData(CreateBodyForGetHashCodeMethod(table, classData))
 			};
+		}
+
+		/// <summary>This method returns true if the default value of the parameter type is null. The reason this is in a method of its own (instead of calling (Type).IsValueType is that I have read, but not verified, that Nullable(of) might behave as a value type while it is still null for St4mpede.Poco logic.
+		/// This way we can unit test.
+		/// </summary>
+		/// <param name="type"></param>
+		/// <returns></returns>
+		private static bool DefaultValueIsNull( Type type)
+		{
+			return false == type.IsValueType;
 		}
 
 		private void Init(CoreSettings settings, IParserSettings rdbSchemaSettings, XElement doc)

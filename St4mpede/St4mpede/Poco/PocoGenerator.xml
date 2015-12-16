@@ -137,8 +137,8 @@
         <Body>
           <Lines>
             <string>int hash = 13;</string>
-            <string>hash = (hash*7) + /*check for null*/ this.CustomerID.GetHashCode();</string>
-            <string>hash = (hash*7) + /*check for null*/ this.Name.GetHashCode();</string>
+            <string>hash = (hash*7) + this.CustomerID.GetHashCode();</string>
+            <string>hash = (hash*7) + ( null == Name ? 0 : this.Name.GetHashCode();</string>
             <string>return hash;</string>
           </Lines>
         </Body>
@@ -312,10 +312,10 @@
         <Body>
           <Lines>
             <string>int hash = 13;</string>
-            <string>hash = (hash*7) + /*check for null*/ this.UserId.GetHashCode();</string>
-            <string>hash = (hash*7) + /*check for null*/ this.UserName.GetHashCode();</string>
-            <string>hash = (hash*7) + /*check for null*/ this.HashedPassword.GetHashCode();</string>
-            <string>hash = (hash*7) + /*check for null*/ this.LastLoggedOnDatetime.GetHashCode();</string>
+            <string>hash = (hash*7) + this.UserId.GetHashCode();</string>
+            <string>hash = (hash*7) + ( null == UserName ? 0 : this.UserName.GetHashCode();</string>
+            <string>hash = (hash*7) + this.HashedPassword.GetHashCode();</string>
+            <string>hash = (hash*7) + this.LastLoggedOnDatetime.GetHashCode();</string>
             <string>return hash;</string>
           </Lines>
         </Body>
