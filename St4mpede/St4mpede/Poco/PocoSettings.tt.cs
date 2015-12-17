@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace St4mpede.Poco
+namespace St4mpede.St4mpede.Poco
 {
 	//	Note that when adding namespaces here we also have to add the namespaces to the TT file  import namespace=...
 	//	The same way any any new assembly reference must be added to the TT file assembly. name=...

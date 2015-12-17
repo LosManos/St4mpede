@@ -1,13 +1,13 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using St4mpede.Code;
-using St4mpede.Poco;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Xml.Linq;
+using St4mpede.St4mpede.Poco;
 
 namespace St4mpede.Test
 {
@@ -318,6 +318,12 @@ namespace St4mpede.Test
 					</RdbSchema>
 					<Poco>
 						<OutputFolder>MyOutputFolder</OutputFolder>
+						<NameSpace Name='MyNameSpace'>
+							<Comments>
+								<Comment>Resharper comment.</Comment>
+								<Comment>Other comment.</Comment>
+							</Comments>
+						</NameSpace>
 						<ProjectPath>MyProjectPath</ProjectPath>
 						<XmlOutputFilename>MyXmlOutputFilename</XmlOutputFilename>
 						<MakePartial>True</MakePartial>
@@ -341,6 +347,10 @@ namespace St4mpede.Test
 
 			//	#	Assert.
 			Assert.AreEqual("MyOutputFolder", sut.UT_PocoSettings.OutputFolder);
+			Assert.AreEqual("MyNameSpace", sut.UT_PocoSettings.NameSpace);
+			Assert.AreEqual(2, sut.UT_PocoSettings.NameSpaceComments.Count);
+			Assert.AreEqual("Resharper comment.", sut.UT_PocoSettings.NameSpaceComments[0]);
+			Assert.AreEqual("Other comment.", sut.UT_PocoSettings.NameSpaceComments[1]);
 			Assert.AreEqual("MyProjectPath", sut.UT_PocoSettings.ProjectPath);
 			Assert.AreEqual("MyXmlOutputFilename", sut.UT_PocoSettings.XmlOutputFilename);
 			Assert.IsTrue( sut.UT_PocoSettings.MakePartial);
@@ -368,6 +378,12 @@ namespace St4mpede.Test
 			var doc = XDocument.Parse(
 				@"	<Poco>
 		<OutputFolder>MyFolder\WithBackslash</OutputFolder>
+		<NameSpace Name='MyNameSpace'>
+			<Comments>
+				<Comment>Resharper comment.</Comment>
+				<Comment>Other comment.</Comment>
+			</Comments>
+		</NameSpace>
 		<ProjectPath>MyProjectPath</ProjectPath>
 		<XmlOutputFilename>MyXmlOutputFilename</XmlOutputFilename>
 		<MakePartial>True</MakePartial>
@@ -387,6 +403,10 @@ namespace St4mpede.Test
 
 			//	#	Assert.
 			Assert.AreEqual(@"MyFolder\WithBackslash", sut.UT_PocoSettings.OutputFolder);
+			Assert.AreEqual("MyNameSpace", sut.UT_PocoSettings.NameSpace);
+			Assert.AreEqual(2, sut.UT_PocoSettings.NameSpaceComments.Count);
+			Assert.AreEqual("Resharper comment.", sut.UT_PocoSettings.NameSpaceComments[0]);
+			Assert.AreEqual("Other comment.", sut.UT_PocoSettings.NameSpaceComments[1]);
 			Assert.AreEqual("MyProjectPath", sut.UT_PocoSettings.ProjectPath);
 			Assert.AreEqual("MyXmlOutputFilename", sut.UT_PocoSettings.XmlOutputFilename);
 			Assert.AreEqual(@"MyProjectPath\MyXmlOutputFilename", sut.UT_PocoSettings.XmlOutputPathFilename);
