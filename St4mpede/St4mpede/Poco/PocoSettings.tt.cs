@@ -2,7 +2,9 @@
 /*That line above is very carefully constructed to be awesome and make it so this works!*/
 #if NOT_IN_T4
 //Apparently T4 places classes into another class, making namespaces impossible
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace St4mpede.Poco
 {
@@ -28,6 +30,8 @@ namespace St4mpede.Poco
 		public string ProjectPath { get; private set; }
 		public string XmlOutputFilename { get; private set; }
 
+		public List<string> NameSpaceComments { get; private set; } 
+
 		public string XmlOutputPathFilename
 		{
 			get
@@ -43,6 +47,7 @@ namespace St4mpede.Poco
 		public PocoSettings(
 			bool makePartial,
 			string nameSpace,
+			IList<string> nameSpaceComments,
 			bool createDefaultConstructor, 
 			bool createAllPropertiesConstructor, 
 			bool createAllPropertiesSansPrimaryKeyConstructor,
@@ -55,6 +60,7 @@ namespace St4mpede.Poco
 		{
 			this.MakePartial = makePartial;
 			this.NameSpace = nameSpace;
+			this.NameSpaceComments = nameSpaceComments.ToList();
 			this.CreateDefaultConstructor = createDefaultConstructor;
 			this.CreateAllPropertiesConstructor = createAllPropertiesConstructor;
 			this.CreateAllPropertiesSansPrimaryKeyConstructor = createAllPropertiesSansPrimaryKeyConstructor;

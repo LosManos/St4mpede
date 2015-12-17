@@ -411,6 +411,7 @@ namespace St4mpede.Test
 			sut.UT_PocoSettings = new PocoSettings(
 				true,
 				"MyNameSpace",
+				new List<string> {"Resharper comment.","Other comment."},
 				true,
 				true,
 				true,

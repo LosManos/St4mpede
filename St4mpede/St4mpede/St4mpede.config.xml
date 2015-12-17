@@ -40,7 +40,17 @@
 		<!--	The OutputFolder is combined with Core.RootFolder.	-->
 		<OutputFolder>..\..\TheDAL\Poco</OutputFolder>
 
-		<NameSpace>TheDAL.Poco</NameSpace>
+		<!--	The name space the resulting classes should be in.	-->
+		<!--	To this name space one can also add comments. A typical use is to get rid of Resharper's warnings.  -->
+		<NameSpace Name="TheDAL.Poco">
+			<Comments>
+				<Comment>ReSharper disable BuiltInTypeReferenceStyle</Comment>
+				<Comment>ReSharper disable BuiltInTypeReferenceStyle</Comment>
+				<Comment>ReSharper disable NonReadonlyMemberInGetHashCode</Comment>
+				<Comment>ReSharper disable ArrangeThisQualifier</Comment>
+				<Comment>ReSharper disable PartialTypeWithSinglePart</Comment>
+			</Comments>
+		</NameSpace>
 		
 		<!--	The name of the resulting file goes here. Besides the POCOs that is.	-->
 		<XmlOutputFilename>PocoGenerator.xml</XmlOutputFilename>
@@ -63,6 +73,7 @@
 		<Methods>
 			<Equals Regex=".*">True</Equals>
 		</Methods>
+		
 	</Poco>
 
 </St4mpede>
