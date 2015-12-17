@@ -308,7 +308,7 @@ namespace St4mpede.Poco
 			return bodyLines;
 		}
 
-		private IList<string> CreateBodyForGetHashCodeMethod(TableData table, ClassData classData)
+		private IList<string> CreateBodyForGetHashCodeMethod(TableData table)
 		{
 			var bodyLines = new List<string>
 			{
@@ -319,7 +319,7 @@ namespace St4mpede.Poco
 				(
 					DefaultValueIsNull( ConvertDatabaseTypeToDotnetType(c.DatabaseTypeName))
 				?   //	It is a parameter that cannot be null.
-                    string.Format("( null == {0} ? 0 : this.{0}.GetHashCode();", c.Name)
+                    string.Format("( null == {0} ? 0 : this.{0}.GetHashCode() );", c.Name)
 				:	//	It is a value that can be null.
 					string.Format("this.{0}.GetHashCode();", c.Name)
 			)));
@@ -360,7 +360,7 @@ namespace St4mpede.Poco
 				ReturnTypeString = typeof(int).ToString(),
 				Comment = new CommentData("This is the GetHashCode method."),
 				Parameters = null,
-				Body = new BodyData(CreateBodyForGetHashCodeMethod(table, classData))
+				Body = new BodyData(CreateBodyForGetHashCodeMethod(table))
 			};
 		}
 
@@ -371,6 +371,10 @@ namespace St4mpede.Poco
 		/// <returns></returns>
 		private static bool DefaultValueIsNull( Type type)
 		{
+			if(type.IsGenericType)
+			{
+				return true;
+			}
 			return false == type.IsValueType;
 		}
 
@@ -408,7 +412,9 @@ namespace St4mpede.Poco
 
 		/// <summary>This is a dictionary of how the database types match to dotnet types.
 		/// TODO:Create a dictionary of this list. Maybe we can get rid of the case of not ubiquitous data too.
-		/// <para>It cannot be static as it messes up the test. We have a test that tests if we have a not ubuquitous type conversion and for that we manipulate this dictionar to be in a not correct way. If it is static this erroneous Types stays put before next test that then fails. Run next test by itself and the test succeeds. Hard error to track down that is.</para>
+		/// <para>
+		/// NOTE: It cannot be static as it messes up the test. 
+		/// We have a test that tests if we have a not ubuquitous type conversion and for that we manipulate this dictionary to be in a not correct way. If it is static this erroneous Types stays put before next test that then fails. Run next test by itself and the test succeeds. Hard error to track down that is.</para>
 		/// </summary>
 		private IList<TypesTuple> Types = new List<TypesTuple>
 		{
@@ -503,6 +509,24 @@ namespace St4mpede.Poco
 		}
 
 		[DebuggerStepThrough]
+		internal static IList<string> UT_CreateBodyForEqualsMethod(TableData table, ClassData classData, string parameterName)
+		{
+			return CreateBodyForEqualsMethod(table, classData,parameterName);
+        }
+
+		[DebuggerStepThrough]
+		internal IList<string> UT_CreateBodyForGetHashCodeMethod(TableData table)
+		{
+			return CreateBodyForGetHashCodeMethod(table);
+        }
+
+		[DebuggerStepThrough]
+		internal static bool UT_DefaultValueIsNull(Type type)
+		{
+			return DefaultValueIsNull(type);
+		}
+
+		[DebuggerStepThrough]
 		internal void UT_Init(CoreSettings coreSettings, IParserSettings rdbSchemaSettings, XElement settingsElement)
 		{
 			Init(coreSettings, rdbSchemaSettings, settingsElement);
@@ -526,7 +550,6 @@ namespace St4mpede.Poco
 				_rdbSchemaSettings = value;
 			}
 		}
-
 
 		internal IList<TypesTuple> UT_Types
 		{

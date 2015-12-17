@@ -126,7 +126,7 @@
       <MethodData>
         <Comment>
           <Summary>
-            <string>This is the GetHasCode method.</string>
+            <string>This is the GetHashCode method.</string>
           </Summary>
         </Comment>
         <Name>GetHashCode</Name>
@@ -138,7 +138,7 @@
           <Lines>
             <string>int hash = 13;</string>
             <string>hash = (hash*7) + this.CustomerID.GetHashCode();</string>
-            <string>hash = (hash*7) + ( null == Name ? 0 : this.Name.GetHashCode();</string>
+            <string>hash = (hash*7) + ( null == Name ? 0 : this.Name.GetHashCode() );</string>
             <string>return hash;</string>
           </Lines>
         </Body>
@@ -301,7 +301,7 @@
       <MethodData>
         <Comment>
           <Summary>
-            <string>This is the GetHasCode method.</string>
+            <string>This is the GetHashCode method.</string>
           </Summary>
         </Comment>
         <Name>GetHashCode</Name>
@@ -313,7 +313,7 @@
           <Lines>
             <string>int hash = 13;</string>
             <string>hash = (hash*7) + this.UserId.GetHashCode();</string>
-            <string>hash = (hash*7) + ( null == UserName ? 0 : this.UserName.GetHashCode();</string>
+            <string>hash = (hash*7) + ( null == UserName ? 0 : this.UserName.GetHashCode() );</string>
             <string>hash = (hash*7) + this.HashedPassword.GetHashCode();</string>
             <string>hash = (hash*7) + this.LastLoggedOnDatetime.GetHashCode();</string>
             <string>return hash;</string>
