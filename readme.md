@@ -2,8 +2,9 @@
 
 St4mpede is a T4 solution for creating a full data access layer from a relational database.
 
-All intermediary steps create output XMLs. This makes St4mpede extensible.  
-For instance: One St4mpede project retrieves the schema from the database.  The next project, the POCO generator, does not know about the innards of Sqlserver but knows how to translate the tables of an RDB schema to POCOs.
+All intermediary steps create output [XML](//github.com/LosManos/St4mpede/blob/master/St4mpede/St4mpede/RdbSchema/St4mpede.RdbSchema.xml)s. This makes St4mpede extensible.  
+For instance: One St4mpede project retrieves the schema from the database.It writes it down in an [XML](//github.com/LosManos/St4mpede/blob/master/St4mpede/St4mpede/RdbSchema/St4mpede.RdbSchema.xml).  
+The next project, the POCO generator, does not know about the innards of Sqlserver but knows how to translate the XML above to an [XML describing classes](https://github.com/LosManos/St4mpede/blob/master/St4mpede/St4mpede/Poco/PocoGenerator.xml) before creating   [POCO](//github.com/LosManos/St4mpede/tree/master/TheDAL/Poco)s from it. 
 
 It is still an alpha so right now it only creates the [POCOs](//github.com/LosManos/St4mpede/tree/master/TheDAL/Poco).
 
