@@ -57,8 +57,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Poco\Customer.cs" />
-    <Compile Include="Poco\User.cs" />
     <Compile Include="St4mpede\Core\Core.tt.cs" />
     <Compile Include="St4mpede\Core\CoreSettings.tt.cs" />
     <Compile Include="St4mpede\Core\Log.tt.cs" />

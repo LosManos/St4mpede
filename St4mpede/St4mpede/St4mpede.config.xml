@@ -38,8 +38,10 @@
 	<!--	Poco contains settings for the creation of the POCO files.	-->
 	<Poco>
 		<!--	The OutputFolder is combined with Core.RootFolder.	-->
-		<OutputFolder>..\Poco</OutputFolder>
+		<OutputFolder>..\..\TheDAL\Poco</OutputFolder>
 
+		<NameSpace>TheDAL.Poco</NameSpace>
+		
 		<!--	The name of the resulting file goes here. Besides the POCOs that is.	-->
 		<XmlOutputFilename>PocoGenerator.xml</XmlOutputFilename>
 		

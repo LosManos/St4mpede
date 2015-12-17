@@ -410,6 +410,7 @@ namespace St4mpede.Test
 			var sut = new PocoGenerator(mockedCore.Object, new Log(), null);
 			sut.UT_PocoSettings = new PocoSettings(
 				true,
+				"MyNameSpace",
 				true,
 				true,
 				true,

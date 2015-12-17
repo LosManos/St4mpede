@@ -11,6 +11,11 @@ namespace St4mpede.Code
 		{
 		}
 
+		public Indent(int level)
+			:this(level,null)
+		{
+		}
+
 		public Indent(int level, string whiteSpace)
 		{
 			this.Level = level;

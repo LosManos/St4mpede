@@ -5,7 +5,7 @@ namespace St4mpede.Code
 {
 	public abstract class DataBaseClass 
 	{
-		internal Indent _indent = new Indent
+		protected Indent _indent = new Indent
 		{
 			Level = 0,
 			WhiteSpace = "\t"
