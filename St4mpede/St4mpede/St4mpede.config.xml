@@ -40,6 +40,8 @@
 		<!--	The OutputFolder is combined with Core.RootFolder.	-->
 		<OutputFolder>..\..\TheDAL\Poco</OutputFolder>
 
+		<NameSpace>TheDAL.Poco</NameSpace>
+		
 		<!--	The name of the resulting file goes here. Besides the POCOs that is.	-->
 		<XmlOutputFilename>PocoGenerator.xml</XmlOutputFilename>
 		

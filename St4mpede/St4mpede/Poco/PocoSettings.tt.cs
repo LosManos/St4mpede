@@ -23,6 +23,7 @@ namespace St4mpede.Poco
 		public string CreateMethodEqualsRegex { get; set; }
 
 		internal bool MakePartial { get; set; }
+		internal string NameSpace { get; set; }
 		internal string OutputFolder { get; set; }
 		public string ProjectPath { get; private set; }
 		public string XmlOutputFilename { get; private set; }
@@ -41,6 +42,7 @@ namespace St4mpede.Poco
 
 		public PocoSettings(
 			bool makePartial,
+			string nameSpace,
 			bool createDefaultConstructor, 
 			bool createAllPropertiesConstructor, 
 			bool createAllPropertiesSansPrimaryKeyConstructor,
@@ -52,6 +54,7 @@ namespace St4mpede.Poco
 			string xmlOutputFilename)
 		{
 			this.MakePartial = makePartial;
+			this.NameSpace = nameSpace;
 			this.CreateDefaultConstructor = createDefaultConstructor;
 			this.CreateAllPropertiesConstructor = createAllPropertiesConstructor;
 			this.CreateAllPropertiesSansPrimaryKeyConstructor = createAllPropertiesSansPrimaryKeyConstructor;
