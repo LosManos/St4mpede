@@ -15,6 +15,7 @@ The code is unit- and integration tested. Very uncommon with T4 solutions.
 
 Point St4mpede to a relational database  
 and it generates:  
+* all POCOs.
 * the whole data access layer.  
 * a fat client user interface.  
 * a REST API.  
