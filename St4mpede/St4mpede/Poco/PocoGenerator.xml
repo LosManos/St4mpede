@@ -28,6 +28,7 @@
           </Summary>
         </Comment>
         <Name>Customer</Name>
+        <Override>false</Override>
         <IsConstructor>true</IsConstructor>
         <Scope>Public</Scope>
       </MethodData>
@@ -38,6 +39,7 @@
           </Summary>
         </Comment>
         <Name>Customer</Name>
+        <Override>false</Override>
         <IsConstructor>true</IsConstructor>
         <Scope>Public</Scope>
         <Parameters>
@@ -58,6 +60,7 @@
           </Summary>
         </Comment>
         <Name>Customer</Name>
+        <Override>false</Override>
         <IsConstructor>true</IsConstructor>
         <Scope>Public</Scope>
         <Parameters>
@@ -70,10 +73,11 @@
       <MethodData>
         <Comment>
           <Summary>
-            <string>This is the copy constructor</string>
+            <string>This is the copy constructor.</string>
           </Summary>
         </Comment>
         <Name>Customer</Name>
+        <Override>false</Override>
         <IsConstructor>true</IsConstructor>
         <Scope>Public</Scope>
         <Parameters>
@@ -86,6 +90,56 @@
           <Lines>
             <string>this.CustomerID = customer.CustomerID;</string>
             <string>this.Name = customer.Name;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This is the Equals method.</string>
+          </Summary>
+        </Comment>
+        <Name>Equals</Name>
+        <ReturnTypeString>System.Boolean</ReturnTypeString>
+        <Override>true</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>System.Object</SystemTypeString>
+            <Name>o</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>var obj = o as Customer;</string>
+            <string>if( obj == null ){</string>
+            <string>	return false;</string>
+            <string>}</string>
+            <string />
+            <string>return</string>
+            <string>	this.CustomerID == obj.CustomerID &amp;&amp;</string>
+            <string>	this.Name == obj.Name;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This is the GetHashCode method.</string>
+          </Summary>
+        </Comment>
+        <Name>GetHashCode</Name>
+        <ReturnTypeString>System.Int32</ReturnTypeString>
+        <Override>true</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Body>
+          <Lines>
+            <string>int hash = 13;</string>
+            <string>hash = (hash*7) + this.CustomerID.GetHashCode();</string>
+            <string>hash = (hash*7) + ( null == Name ? 0 : this.Name.GetHashCode() );</string>
+            <string>return hash;</string>
           </Lines>
         </Body>
       </MethodData>
@@ -129,6 +183,7 @@
           </Summary>
         </Comment>
         <Name>User</Name>
+        <Override>false</Override>
         <IsConstructor>true</IsConstructor>
         <Scope>Public</Scope>
       </MethodData>
@@ -139,6 +194,7 @@
           </Summary>
         </Comment>
         <Name>User</Name>
+        <Override>false</Override>
         <IsConstructor>true</IsConstructor>
         <Scope>Public</Scope>
         <Parameters>
@@ -167,6 +223,7 @@
           </Summary>
         </Comment>
         <Name>User</Name>
+        <Override>false</Override>
         <IsConstructor>true</IsConstructor>
         <Scope>Public</Scope>
         <Parameters>
@@ -187,10 +244,11 @@
       <MethodData>
         <Comment>
           <Summary>
-            <string>This is the copy constructor</string>
+            <string>This is the copy constructor.</string>
           </Summary>
         </Comment>
         <Name>User</Name>
+        <Override>false</Override>
         <IsConstructor>true</IsConstructor>
         <Scope>Public</Scope>
         <Parameters>
@@ -205,6 +263,60 @@
             <string>this.UserName = user.UserName;</string>
             <string>this.HashedPassword = user.HashedPassword;</string>
             <string>this.LastLoggedOnDatetime = user.LastLoggedOnDatetime;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This is the Equals method.</string>
+          </Summary>
+        </Comment>
+        <Name>Equals</Name>
+        <ReturnTypeString>System.Boolean</ReturnTypeString>
+        <Override>true</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>System.Object</SystemTypeString>
+            <Name>o</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>var obj = o as User;</string>
+            <string>if( obj == null ){</string>
+            <string>	return false;</string>
+            <string>}</string>
+            <string />
+            <string>return</string>
+            <string>	this.UserId == obj.UserId &amp;&amp;</string>
+            <string>	this.UserName == obj.UserName &amp;&amp;</string>
+            <string>	this.HashedPassword == obj.HashedPassword &amp;&amp;</string>
+            <string>	this.LastLoggedOnDatetime == obj.LastLoggedOnDatetime;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This is the GetHashCode method.</string>
+          </Summary>
+        </Comment>
+        <Name>GetHashCode</Name>
+        <ReturnTypeString>System.Int32</ReturnTypeString>
+        <Override>true</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Body>
+          <Lines>
+            <string>int hash = 13;</string>
+            <string>hash = (hash*7) + this.UserId.GetHashCode();</string>
+            <string>hash = (hash*7) + ( null == UserName ? 0 : this.UserName.GetHashCode() );</string>
+            <string>hash = (hash*7) + this.HashedPassword.GetHashCode();</string>
+            <string>hash = (hash*7) + this.LastLoggedOnDatetime.GetHashCode();</string>
+            <string>return hash;</string>
           </Lines>
         </Body>
       </MethodData>

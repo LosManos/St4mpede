@@ -56,6 +56,11 @@
 			<AllPropertiesSansPrimaryKey>True</AllPropertiesSansPrimaryKey>
 			<CopyConstructor>True</CopyConstructor>
 		</Constructors>
+
+		<!--	Decide what methods to create. If the regex matches the class name the method is created.   -->
+		<Methods>
+			<Equals Regex=".*">True</Equals>
+		</Methods>
 	</Poco>
 
 </St4mpede>

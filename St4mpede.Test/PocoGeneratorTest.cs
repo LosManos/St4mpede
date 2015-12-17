@@ -5,6 +5,8 @@ using St4mpede.Poco;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Xml.Linq;
 
 namespace St4mpede.Test
@@ -53,6 +55,178 @@ namespace St4mpede.Test
 			//	#	Assert.
 			Assert.IsTrue(res.Contains("ERROR"));
 		}
+
+		#region CreateBodyForEqualsMethod tests.
+
+		[TestMethod]
+		public void CreateBodyForEqualsMethod_given_HappyPath_should_ReturnProper()
+		{
+			//	#	Arrange.
+			var table = new TableData
+			{
+				Columns = new List<ColumnData>
+				{
+					new ColumnData
+					{
+						Name = "CustomerID"
+					}, 
+					new ColumnData
+					{
+						Name="Name"
+					}
+				}
+			};
+			var classData = new ClassData
+			{
+				Name = "Customer"
+			};
+			const string ParameterName = "o";
+
+			//	#	Act.
+			var res = PocoGenerator.UT_CreateBodyForEqualsMethod(table, classData, ParameterName);
+
+			//	# Assert.
+			CollectionAssert.AreEqual(new[]
+			{
+				"var obj = o as Customer;",
+				"if( obj == null ){",
+				"\treturn false;",
+				"}",
+				string.Empty,
+				"return",
+				"\tthis.CustomerID == obj.CustomerID &&",
+				"\tthis.Name == obj.Name;"
+			},
+			res.ToList());
+        }
+
+		#endregion
+
+		#region CreateBodyForGetHashCodeMethod tests.
+
+		[TestMethod]
+		public void CreateBodyForGetHashCodeMethod_given_HappyPath_should_ReturnProper()
+		{
+			//	#	Arrange.
+			var table = new TableData
+			{
+				Columns = new List<ColumnData>
+				{
+					new ColumnData
+					{
+						Name = "CustomerID", 
+						DatabaseTypeName="int"
+					},
+					new ColumnData
+					{
+						Name="Name", 
+						DatabaseTypeName="varchar"
+					}
+				}
+			};
+			var sut = new PocoGenerator();
+
+			//	#	Act.
+			var res = sut.UT_CreateBodyForGetHashCodeMethod(table);
+
+			//	#	Assert.
+			CollectionAssert.AreEqual(new[]
+			{
+				"int hash = 13;",
+				"hash = (hash*7) + this.CustomerID.GetHashCode();",
+				"hash = (hash*7) + ( null == Name ? 0 : this.Name.GetHashCode() );",
+				"return hash;"
+			},
+			res.ToList());
+		}
+
+		#endregion
+
+		#region DefaultValueIsNull tests.
+
+		class MyCustomClass { }
+
+		struct MyCustomStruct { }
+
+
+		[TestMethod]
+		public void DefaultValueIsNull_given_Class_should_ReturnTrue()
+		{
+			//	#	Act.
+			var res = PocoGenerator.UT_DefaultValueIsNull(typeof(Tuple<int>));
+
+			//	#	Assert.
+			Assert.IsTrue(res);
+        }
+
+		[TestMethod]
+		public void DefaultValueIsNull_given_CustomClass_should_ReturnFalse()
+		{
+			//	#	Arrange.
+
+			//	#	Act.
+			var res = PocoGenerator.UT_DefaultValueIsNull(typeof(MyCustomClass));
+
+			//	#	Assert.
+			Assert.IsTrue(res);
+		}
+
+		[TestMethod]
+		public void DefaultValueIsNull_given_CustomStruct_should_ReturnFalse()
+		{
+			//	#	Arrange.
+
+			//	#	Act.
+			var res = PocoGenerator.UT_DefaultValueIsNull(typeof(MyCustomStruct));
+
+			//	#	Assert.
+			Assert.IsFalse(res);
+		}
+
+		[TestMethod]
+		public void DefaultValueIsNull_given_Int_should_ReturnFalse()
+		{
+			//	#	Act.
+			var res = PocoGenerator.UT_DefaultValueIsNull(typeof(int));
+
+			//	#	Assert.
+			Assert.IsFalse(res);
+		}
+
+		[TestMethod]
+		public void DefaultValueIsNull_given_Nullable_should_ReturnFalse()
+		{
+			//	#	Arrange.
+
+			//	#	Act.
+			var res = PocoGenerator.UT_DefaultValueIsNull(typeof(Nullable<int>));
+
+			//	#	Assert.
+			Assert.IsTrue(res);
+		}
+
+
+		[TestMethod]
+		public void DefaultValueIsNull_given_Object_should_ReturnFalse()
+		{
+			//	#	Act.
+			var res = PocoGenerator.UT_DefaultValueIsNull(typeof(object));
+
+			//	#	Assert.
+			Assert.IsTrue(res);
+		}
+
+		[TestMethod]
+		public void DefaultValueIsNull_given_String_should_ReturnTrue()
+		{
+			//	#	Act.
+			var res = PocoGenerator.UT_DefaultValueIsNull(typeof(string));
+
+			//	#	Assert.
+			Assert.IsTrue(res);
+		}
+
+		#endregion
 
 		[TestMethod]
 		public void Generate_given_Tables_should_CreateOnlyIncludedAsClass()
@@ -153,6 +327,9 @@ namespace St4mpede.Test
 							<AllPropertiesSansPrimaryKey>True</AllPropertiesSansPrimaryKey>
 							<CopyConstructor>True</CopyConstructor>
 						</Constructors>
+						<Methods>
+							<Equals Regex='.*'>True</Equals>
+						</Methods>
 					</Poco>
 				</St4mpede>
 "); };
@@ -171,6 +348,8 @@ namespace St4mpede.Test
 			Assert.IsTrue( sut.UT_PocoSettings.CreateAllPropertiesConstructor);
 			Assert.IsTrue(sut.UT_PocoSettings.CreateAllPropertiesSansPrimaryKeyConstructor);
 			Assert.IsTrue(sut.UT_PocoSettings.CreateCopyConstructor);
+			Assert.IsTrue(sut.UT_PocoSettings.CreateMethodEquals);
+			Assert.AreEqual(".*", sut.UT_PocoSettings.CreateMethodEqualsRegex);
 
 			Assert.AreEqual("MyRootFolder", sut.UT_CoreSettings.RootFolder);
 		}
@@ -198,6 +377,9 @@ namespace St4mpede.Test
 			<AllPropertiesSansPrimaryKey>True</AllPropertiesSansPrimaryKey>
 			<CopyConstructor>True</CopyConstructor>
 		</Constructors>
+		<Methods>
+			<Equals Regex='.*'>True</Equals>
+		</Methods>
 	</Poco>");
 
 			//	#	Act.
@@ -213,6 +395,8 @@ namespace St4mpede.Test
 			Assert.IsTrue(sut.UT_PocoSettings.CreateAllPropertiesConstructor);
 			Assert.IsTrue(sut.UT_PocoSettings.CreateAllPropertiesSansPrimaryKeyConstructor);
 			Assert.IsTrue(sut.UT_PocoSettings.CreateCopyConstructor);
+			Assert.IsTrue(sut.UT_PocoSettings.CreateMethodEquals);
+			Assert.AreEqual(".*", sut.UT_PocoSettings.CreateMethodEqualsRegex);
 		}
 
 		#endregion
@@ -230,6 +414,8 @@ namespace St4mpede.Test
 				true,
 				true,
 				true,
+				true, 
+				".*",
 				@"path\path", 
 				"Poco", 
 				"PocoGenerator.xml");
@@ -258,6 +444,51 @@ namespace St4mpede.Test
 			//	#	Assert.
 			mockedCore.Verify(m => m.WriteOutput(It.IsAny<IList<string>>(), It.IsAny<string>()), Times.Once());
 		}
+
+		[TestMethod]
+		public void TypesPropertyMustNotBeStatic()
+		{
+			//	Here we use UT_Types for a workaround that Type should not be static.
+			//	To be honest it doesn't work - UT_Types can be non-static while Types can.
+			//	But the code is kept as a memory and a, albeit dysfunctional, gate to keep someone from tyrning Types to static.
+			//	An easy solution would be to make Types internal and remove UT_Types.
+			//	Another solution could be using refletion and search for private "Types".
+			//	A third solution would be to create 2 instances of SUT and add an item to Types and see if one instance affected the other; in that case it would be the static we are trying to avoid.
+			//	Let's save this for a rainy day.
+
+			//	#	Arrange.
+			var sut = new PocoGenerator();
+			var typeType = sut.UT_Types.GetType();
+			var typeName = GetMemberInfo((PocoGenerator pg) => pg.UT_Types).Name;
+
+			//	#	Act.
+			var res = typeType.GetProperties(System.Reflection.BindingFlags.Static).FirstOrDefault(p => p.Name == typeName);
+
+			//	#	Assert.
+			Assert.IsNull(res, "We are retrieving all static properties and Types should not be one of them.");	
+		}
+
+		private static MemberInfo GetMemberInfo<T, U>(Expression<Func<T, U>> expression)
+		{
+			var member = expression.Body as MemberExpression;
+			if (member != null)
+				return member.Member;
+
+			throw new ArgumentException("Expression is not a member access", "expression");
+		}
+
+		//private static string GetName(Expression<Func<object>> exp)
+		//{
+		//	MemberExpression body = exp.Body as MemberExpression;
+
+		//	if (body == null)
+		//	{
+		//		UnaryExpression ubody = (UnaryExpression)exp.Body;
+		//		body = ubody.Operand as MemberExpression;
+		//	}
+
+		//	return body.Member.Name;
+		//}
 
 		[TestMethod]
 		public void ReadXml_given_XDoxWith2Tables_should_ReturnPocosWith2Tables()

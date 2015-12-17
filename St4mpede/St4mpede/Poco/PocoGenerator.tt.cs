@@ -12,6 +12,7 @@ namespace St4mpede.Poco
 	using System.Diagnostics;
 	using System.IO;
 	using System.Linq;
+	using System.Text.RegularExpressions;
 	using System.Xml.Linq;
 #endif
 	//#	Regular ol' C# classes and code...
@@ -27,7 +28,12 @@ namespace St4mpede.Poco
 		private const string ConstructorsAllPropertiesElement = "AllProperties";
 		private const string ConstructorsAllPropertiesSansPrimaryKeyElement = "AllPropertiesSansPrimaryKey";
 		private const string ConstructorCopy = "CopyConstructor";
-        private const string MakePartialElement = "MakePartial";
+
+		private const string MethodsElement = "Methods";
+		private const string MethodsEqualsElement = "Equals";
+		private const string MethodsEqualsRegexAttribute = "Regex";
+
+		private const string MakePartialElement = "MakePartial";
         private const string OutputFolderElement = "OutputFolder";
 		private const string ProjectPathElement = "ProjectPath";
 		private const string XmlOutputFilenameElement = "XmlOutputFilename";
@@ -91,7 +97,7 @@ namespace St4mpede.Poco
                    Methods = new List<MethodData>()
 			   };
 
-			   //	Create the properties.
+			   //	#	Create the properties.
 			   table.Columns
 			   .ForEach(column =>
 			   {
@@ -107,7 +113,7 @@ namespace St4mpede.Poco
 					   });
 			   });
 
-			   //	Create the constructors.
+			   //	#	Create the constructors.
 			   if (_pocoSettings.CreateDefaultConstructor)
 			   {
 				   classData.Methods.Add(new MethodData
@@ -117,6 +123,7 @@ namespace St4mpede.Poco
 					   Comment = new CommentData("Default constructor needed for instance for de/serialising.")
 				   });
 			   }
+
 			   if (_pocoSettings.CreateAllPropertiesConstructor)
 			   {
 				   classData.Methods.Add( new MethodData
@@ -128,10 +135,11 @@ namespace St4mpede.Poco
 					   new ParameterData
 					   {
 						   Name = p.Name,
-						   SystemTypeString =ConvertDatabaseTypeToDotnetTypeString( p.DatabaseTypeName)
+						   SystemTypeString = ConvertDatabaseTypeToDotnetTypeString( p.DatabaseTypeName)
 					   }).ToList()
 				   });
                }
+
 			   if (_pocoSettings.CreateAllPropertiesSansPrimaryKeyConstructor)
 			   {
 				   classData.Methods.Add(new MethodData
@@ -149,6 +157,7 @@ namespace St4mpede.Poco
 						   }).ToList()
 				   });
 			   }
+
 			   if(_pocoSettings.CreateCopyConstructor)
 			   {
 				   classData.Methods.Add(new MethodData
@@ -172,6 +181,16 @@ namespace St4mpede.Poco
 							.ToList()
 					   }
 				   });
+			   }
+
+			   //	#	Create the methods.
+			   if (_pocoSettings.CreateMethodEquals && Regex.IsMatch(classData.Name, _pocoSettings.CreateMethodEqualsRegex))
+			   {
+				   classData.Methods.Add(
+					   CreateEqualsMethod(table, classData, "o"));
+
+				   classData.Methods.Add(
+					   CreateHashMethod(table, classData));
 			   }
 
 			   _classDataList.Add(classData);
@@ -206,24 +225,6 @@ namespace St4mpede.Poco
 				return;	//	Bail.
 			}
 			Init(Core.Init(doc), ParserSettings.Init(configPath, configFilename, doc), settings);
-		}
-
-		private void Init( CoreSettings settings, IParserSettings rdbSchemaSettings, XElement doc)
-		{
-			_coreSettings = settings;
-			_rdbSchemaSettings = rdbSchemaSettings;
-			_pocoSettings = new PocoSettings(
-				bool.Parse( doc.Descendants(MakePartialElement).Single().Value ),
-				
-				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorsDefaultElement).Single().Value),
-				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorsAllPropertiesElement).Single().Value),
-				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorsAllPropertiesSansPrimaryKeyElement).Single().Value),
-				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorCopy).Single().Value),
-
-				doc.Descendants(OutputFolderElement).Single().Value, 
-				doc.Descendants(ProjectPathElement).Single().Value,
-                doc.Descendants(XmlOutputFilenameElement).Single().Value
-			);
 		}
 
 		internal void Output()
@@ -276,6 +277,7 @@ namespace St4mpede.Poco
 		{
 			XDocument Load(string pathfile);
 		}
+
 		internal class XDocHandler : IXDocHandler
 		{
 			XDocument IXDocHandler.Load( string pathfile)
@@ -285,6 +287,117 @@ namespace St4mpede.Poco
 		}
 
 		#region Private methods.
+
+		private static IList<string> CreateBodyForEqualsMethod(TableData table, ClassData classData, string parameterName)
+		{
+			var bodyLines = new List<string>
+					{
+						string.Format("var obj = {0} as {1};", parameterName, classData.Name),
+						"if( obj == null ){",
+						"\treturn false;",
+						"}",
+						string.Empty,
+						"return"
+					};
+			bodyLines.AddRange(table.Columns.Select(c =>
+				string.Format("\tthis.{0} == obj.{0} &&",
+				c.Name,
+				parameterName
+			)));
+			bodyLines[bodyLines.Count - 1] = bodyLines.Last().Replace(" &&", ";");
+			return bodyLines;
+		}
+
+		private IList<string> CreateBodyForGetHashCodeMethod(TableData table)
+		{
+			var bodyLines = new List<string>
+			{
+				"int hash = 13;"
+			};
+			bodyLines.AddRange(table.Columns.Select(c =>
+				"hash = (hash*7) + " +
+				(
+					DefaultValueIsNull( ConvertDatabaseTypeToDotnetType(c.DatabaseTypeName))
+				?   //	It is a parameter that cannot be null.
+                    string.Format("( null == {0} ? 0 : this.{0}.GetHashCode() );", c.Name)
+				:	//	It is a value that can be null.
+					string.Format("this.{0}.GetHashCode();", c.Name)
+			)));
+			bodyLines.Add("return hash;");
+			return bodyLines;
+		}
+
+		private static MethodData CreateEqualsMethod(TableData table, ClassData classData, string ParameterName)
+		{
+			return new MethodData
+			{
+				IsConstructor = false,
+				Name = "Equals",
+				Override = true,
+				ReturnTypeString = typeof(bool).ToString(),
+				Comment = new CommentData("This is the Equals method."),
+				Parameters = new List<ParameterData>
+				{
+					new ParameterData
+					{
+						Name = ParameterName,
+						SystemTypeString = typeof(object).ToString()
+					}
+				},
+				Body = new BodyData(
+					CreateBodyForEqualsMethod(table, classData, ParameterName)
+					)
+			};
+		}
+
+		private MethodData CreateHashMethod(TableData table, ClassData classData)
+		{
+			return new MethodData
+			{
+				IsConstructor = false,
+				Name = "GetHashCode",
+				Override = true,
+				ReturnTypeString = typeof(int).ToString(),
+				Comment = new CommentData("This is the GetHashCode method."),
+				Parameters = null,
+				Body = new BodyData(CreateBodyForGetHashCodeMethod(table))
+			};
+		}
+
+		/// <summary>This method returns true if the default value of the parameter type is null. The reason this is in a method of its own (instead of calling (Type).IsValueType is that I have read, but not verified, that Nullable(of) might behave as a value type while it is still null for St4mpede.Poco logic.
+		/// This way we can unit test.
+		/// </summary>
+		/// <param name="type"></param>
+		/// <returns></returns>
+		private static bool DefaultValueIsNull( Type type)
+		{
+			if(type.IsGenericType)
+			{
+				return true;
+			}
+			return false == type.IsValueType;
+		}
+
+		private void Init(CoreSettings settings, IParserSettings rdbSchemaSettings, XElement doc)
+		{
+			_coreSettings = settings;
+			_rdbSchemaSettings = rdbSchemaSettings;
+			_pocoSettings = new PocoSettings(
+				bool.Parse(doc.Descendants(MakePartialElement).Single().Value),
+
+				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorsDefaultElement).Single().Value),
+				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorsAllPropertiesElement).Single().Value),
+				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorsAllPropertiesSansPrimaryKeyElement).Single().Value),
+				bool.Parse(doc.Descendants(ConstructorsElement).Single().Descendants(ConstructorCopy).Single().Value),
+
+				bool.Parse(doc.Descendants(MethodsElement).Single().Descendants(MethodsEqualsElement).Single().Value),
+				doc.Descendants(MethodsElement).Single().Descendants(MethodsEqualsElement).Single().Attributes(MethodsEqualsRegexAttribute).Single().Value,
+
+				doc.Descendants(OutputFolderElement).Single().Value,
+				doc.Descendants(ProjectPathElement).Single().Value,
+				doc.Descendants(XmlOutputFilenameElement).Single().Value
+			);
+		}
 
 		internal class TypesTuple
 		{
@@ -299,7 +412,9 @@ namespace St4mpede.Poco
 
 		/// <summary>This is a dictionary of how the database types match to dotnet types.
 		/// TODO:Create a dictionary of this list. Maybe we can get rid of the case of not ubiquitous data too.
-		/// <para>It cannot be static as it messes up the test. We have a test that tests if we have a not ubuquitous type conversion and for that we manipulate this dictionar to be in a not correct way. If it is static this erroneous Types stays put before next test that then fails. Run next test by itself and the test succeeds. Hard error to track down that is.</para>
+		/// <para>
+		/// NOTE: It cannot be static as it messes up the test. 
+		/// We have a test that tests if we have a not ubuquitous type conversion and for that we manipulate this dictionary to be in a not correct way. If it is static this erroneous Types stays put before next test that then fails. Run next test by itself and the test succeeds. Hard error to track down that is.</para>
 		/// </summary>
 		private IList<TypesTuple> Types = new List<TypesTuple>
 		{
@@ -394,6 +509,24 @@ namespace St4mpede.Poco
 		}
 
 		[DebuggerStepThrough]
+		internal static IList<string> UT_CreateBodyForEqualsMethod(TableData table, ClassData classData, string parameterName)
+		{
+			return CreateBodyForEqualsMethod(table, classData,parameterName);
+        }
+
+		[DebuggerStepThrough]
+		internal IList<string> UT_CreateBodyForGetHashCodeMethod(TableData table)
+		{
+			return CreateBodyForGetHashCodeMethod(table);
+        }
+
+		[DebuggerStepThrough]
+		internal static bool UT_DefaultValueIsNull(Type type)
+		{
+			return DefaultValueIsNull(type);
+		}
+
+		[DebuggerStepThrough]
 		internal void UT_Init(CoreSettings coreSettings, IParserSettings rdbSchemaSettings, XElement settingsElement)
 		{
 			Init(coreSettings, rdbSchemaSettings, settingsElement);
@@ -417,7 +550,6 @@ namespace St4mpede.Poco
 				_rdbSchemaSettings = value;
 			}
 		}
-
 
 		internal IList<TypesTuple> UT_Types
 		{

@@ -8,6 +8,9 @@ namespace St4mpede.Code
 		public CommentData Comment { get; set; }
 		public string Name { get; set; }
 
+		public string ReturnTypeString { get; set; }
+		public bool Override { get; set; }
+
 		public bool IsConstructor { get; set; }
 		public Common.VisibilityScope Scope { get; set; }
 
@@ -18,25 +21,38 @@ namespace St4mpede.Code
 
 		public override IList<string> ToCode()
 		{
-			if( false==IsConstructor)
-			{
-				throw new NotImplementedException("Not IsConstructor is not implemented.");
-			}
 			var ret = new List<string>();
 			if (null != Comment)
 			{
 				ret.AddRange(Comment.ToCode());
 			}
 
-			ret.Add(string.Format(
-				"{0} {1}({2})",
-				Scope.ToCode(),
-				Name,
-				null == Parameters
-					?
-					string.Empty
-					:
-					" " + Parameters.ToMethodParameterDeclarationString() + " "));
+			if (IsConstructor)
+			{
+				ret.Add(string.Format(
+					"{0} {1}({2})",
+					Scope.ToCode(),
+					Name,
+					null == Parameters
+						?
+						string.Empty
+						:
+						" " + Parameters.ToMethodParameterDeclarationString() + " "));
+			}
+			else
+			{
+				ret.Add(string.Format(
+					"{0} {1}{2} {3}({4})",
+					Scope.ToCode(),
+					Override ? "override " : string.Empty,
+					ReturnTypeString,
+					Name,
+					null == Parameters
+						?
+						string.Empty
+						:
+						" " + Parameters.ToMethodParameterDeclarationString() + " "));
+			}
 			ret.Add("{");
 			if (IsConstructor && Parameters != null && Body == null)
 			{
