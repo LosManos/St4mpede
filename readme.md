@@ -6,8 +6,6 @@ All intermediary steps create output XMLs. This makes St4mpede extensible.
 For instance: One St4mpede project retrieves the schema from the database.It writes it down in an [XML](//github.com/LosManos/St4mpede/blob/master/St4mpede/St4mpede/RdbSchema/St4mpede.RdbSchema.xml).  
 The next project, the POCO generator, does not know about the innards of Sqlserver but knows how to translate the XML above to an [XML describing classes](https://github.com/LosManos/St4mpede/blob/master/St4mpede/St4mpede/Poco/PocoGenerator.xml) before creating   [POCO](//github.com/LosManos/St4mpede/tree/master/TheDAL/Poco)s from it. 
 
-It is still an alpha so right now it only creates the [POCOs](//github.com/LosManos/St4mpede/tree/master/TheDAL/Poco).
-
 The idea is to point a [config](//github.com/LosManos/St4mpede/blob/master/St4mpede/St4mpede/St4mpede.config.xml) to a relational database. St4mpede then examines its schema and creates POCOs and the rest of the DAL for simple CRUD operations. It is in no way perfect for the big solution but it makes you land with your feet running.
 
 The code is unit- and integration tested. Very uncommon with T4 solutions.  
@@ -16,7 +14,9 @@ The code is unit- and integration tested. Very uncommon with T4 solutions.
 
 Point St4mpede to a relational database  
 and it generates:  
-* all POCOs.
+* all POCOs, one per table.
+
+Should I (you) have the stamina it will also generate:
 * the whole data access layer.  
 * a fat client user interface.  
 * a REST API.  
