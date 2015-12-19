@@ -77,11 +77,11 @@
     <Compile Include="SettingsTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\St4mpede.Code\St4mpede.Code.csproj">
+    <ProjectReference Include="..\..\St4mpede.Code\St4mpede.Code.csproj">
       <Project>{b0c2d88c-3dde-457a-a901-119c7dc2d86d}</Project>
       <Name>St4mpede.Code</Name>
     </ProjectReference>
-    <ProjectReference Include="..\St4mpede\St4mpede.csproj">
+    <ProjectReference Include="..\..\St4mpede\St4mpede.csproj">
       <Project>{e4e14d98-28a2-466b-8f77-82e6ba2e681b}</Project>
       <Name>St4mpede</Name>
     </ProjectReference>

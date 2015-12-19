@@ -10,7 +10,7 @@ namespace St4mpede.Integration.Test
 	[TestClass]
 	public class ParserLogicTest
 	{
-		private const string DatabasePath = @"ST4MPEDE.TEST\DATABASE\";
+		private const string DatabasePath = @"Test\ST4MPEDE.TEST\DATABASE\";
 		private const string ConnectionStringTemplate = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={0};Integrated Security=True;Connect Timeout=30";
 
 		public TestContext TestContext { get; set; }

@@ -62,7 +62,7 @@
     <Compile Include="ParserLogicTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\St4mpede\St4mpede.csproj">
+    <ProjectReference Include="..\..\St4mpede\St4mpede.csproj">
       <Project>{e4e14d98-28a2-466b-8f77-82e6ba2e681b}</Project>
       <Name>St4mpede</Name>
     </ProjectReference>
