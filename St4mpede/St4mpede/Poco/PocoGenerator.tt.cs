@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using St4mpede.Code;
+using St4mpede.St4mpede.Core;
 
 namespace St4mpede.St4mpede.Poco
 {
@@ -76,8 +77,12 @@ namespace St4mpede.St4mpede.Poco
 		#region Constructors.
 
 		internal PocoGenerator()
-			:this(new Core(), new Log(), new XDocHandler())
-		{	}
+#if NOT_IN_T4
+			:this(new Core.Core(), new Log(), new XDocHandler())
+#else
+			: this(new Core(), new Log(), new XDocHandler())
+#endif
+		{ }
 
 		internal PocoGenerator(ICore core, ILog log, IXDocHandler xDocHandler)
 		{
@@ -86,7 +91,7 @@ namespace St4mpede.St4mpede.Poco
 			_xDocHandler = xDocHandler;
 		}
 
-		#endregion
+#endregion
 
 		internal void Generate()
 		{
@@ -219,8 +224,8 @@ namespace St4mpede.St4mpede.Poco
 			if (null == hostTemplateFile) { throw new ArgumentNullException("hostTemplateFile"); }
 
 			var configPath = Path.GetDirectoryName(hostTemplateFile);
-			configFilename = configFilename ?? Core.DefaultConfigFilename;
-			readConfigFunction = readConfigFunction ?? Core.ReadConfig;
+			configFilename = configFilename ?? Core.Core.DefaultConfigFilename;
+			readConfigFunction = readConfigFunction ?? Core.Core.ReadConfig;
 
 			var doc = readConfigFunction(
 				configPath,
@@ -232,7 +237,7 @@ namespace St4mpede.St4mpede.Poco
 				_log.Add("Configuration does not contain element {0}", PocoElement);
 				return;	//	Bail.
 			}
-			Init(Core.Init(doc), ParserSettings.Init(configPath, configFilename, doc), settings);
+			Init(Core.Core.Init(doc), ParserSettings.Init(configPath, configFilename, doc), settings);
 		}
 
 		internal void Output()
@@ -245,7 +250,7 @@ namespace St4mpede.St4mpede.Poco
 			_log.Add("Writing the output file {0}.", pathFileForXmlOutput);
 
 			_core.WriteOutput(
-				Core.Serialise(_classDataList.ToList()),
+				Core.Core.Serialise(_classDataList.ToList()),
 				pathFileForXmlOutput);
 
 			var pathForPocoOutput = Path.Combine(_coreSettings.RootFolder, _pocoSettings.OutputFolder);
@@ -269,7 +274,7 @@ namespace St4mpede.St4mpede.Poco
 
 			var doc = _xDocHandler.Load(xmlPathFile);
 
-			var database = Core.Deserialise<DatabaseData>(doc);
+			var database = Core.Core.Deserialise<DatabaseData>(doc);
 
 			this._database = database;
 			_log.Add(string.Format("Read database with tables: {0}.",
@@ -281,20 +286,7 @@ namespace St4mpede.St4mpede.Poco
 			return _log.ToInfo();
 		}
 
-		internal interface IXDocHandler
-		{
-			XDocument Load(string pathfile);
-		}
-
-		internal class XDocHandler : IXDocHandler
-		{
-			XDocument IXDocHandler.Load( string pathfile)
-			{
-				return XDocument.Load(pathfile);
-			}
-		}
-
-		#region Private methods.
+#region Private methods.
 
 		private static IList<string> CreateBodyForEqualsMethod(TableData table, ClassData classData, string parameterName)
 		{
@@ -499,9 +491,9 @@ namespace St4mpede.St4mpede.Poco
 			return ret;
 		}
 
-		#endregion
+#endregion
 
-		#region Methods and properties for making automatic testing possible without altering the architecture.
+#region Methods and properties for making automatic testing possible without altering the architecture.
 
 		internal IList<ClassData> UT_ClassData
 		{
@@ -577,7 +569,7 @@ namespace St4mpede.St4mpede.Poco
 			}
 		}
 
-		#endregion
+#endregion
 	}
 
 #if NOT_IN_T4

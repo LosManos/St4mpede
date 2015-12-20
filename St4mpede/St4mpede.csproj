@@ -61,7 +61,14 @@
     <Compile Include="St4mpede\Core\CoreSettings.tt.cs" />
     <Compile Include="St4mpede\Core\Log.tt.cs" />
     <None Include="packages.config" />
+    <None Include="St4mpede\St4mpede.Dal.md">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>St4mpede.Dal.tt</DependentUpon>
+    </None>
     <None Include="St4mpede\_Template.tt.cs" />
+    <Compile Include="St4mpede\Core\XDocHandler.tt.cs" />
+    <Compile Include="St4mpede\Dal\DalGenerator.tt.cs" />
     <Compile Include="St4mpede\Poco\PocoSettings.tt.cs" />
     <Compile Include="St4mpede\RdbSchema\DatabaseConnection.tt.cs" />
     <Compile Include="St4mpede\RdbSchema\Parser.tt.cs" />
@@ -82,6 +89,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="St4mpede\St4mpede.Dal.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>St4mpede.Dal.md</LastGenOutput>
+    </Content>
     <Content Include="St4mpede\St4mpede.Poco.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>St4mpede.Poco.cs</LastGenOutput>
@@ -117,6 +128,7 @@
       <Name>St4mpede.Code</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -3,9 +3,9 @@
 #if NOT_IN_T4
 namespace St4mpede
 {
-	using System;
 	//	Note that when adding namespaces here we also have to add the namespaces to the TT file  import namespace=...
 	//	The same way any any new assembly reference must be added to the TT file assembly. name=...
+	using System;
 	using System.Collections.Generic;
 	using System.Xml.Linq;
 #endif

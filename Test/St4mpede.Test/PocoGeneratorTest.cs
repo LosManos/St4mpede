@@ -7,6 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Xml.Linq;
+using St4mpede.St4mpede.Core;
 using St4mpede.St4mpede.Poco;
 
 namespace St4mpede.Test
@@ -529,7 +530,7 @@ namespace St4mpede.Test
   </Tables>
 </Database>
 ");
-			var mockXDocHandler = new Mock<PocoGenerator.IXDocHandler>();
+			var mockXDocHandler = new Mock<St4mpede.Core.IXDocHandler>();
 			mockXDocHandler
 				.Setup(m => m.Load(It.IsAny<string>()))
 				.Returns(xml);

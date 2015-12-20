@@ -228,7 +228,7 @@ namespace St4mpede.Test
 			var res = Parser.UT_ToXml(database);
 
 			//	#	Assert.
-			var resServer =global::St4mpede.Core.Deserialise<DatabaseData>(res);
+			var resServer = St4mpede.Core.Core.Deserialise<DatabaseData>(res);
 
 			Assert.AreEqual(1, resServer.Tables.Count);
 

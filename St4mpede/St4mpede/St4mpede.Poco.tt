@@ -41,6 +41,7 @@
 <#@ include file="Core\Log.tt.cs" #>
 <#@ include file="Core\CoreSettings.tt.cs" #>
 <#@ include file="Core\Core.tt.cs" #>
+<#@ include file="Core\XDocHandler.tt.cs" #>
 <#@ include file="RdbSchema\DatabaseData.tt.cs" #>
 <#@ include file="RdbSchema\ParserSettings.tt.cs" #>
 <#@ include file="Poco\PocoSettings.tt.cs" #>
