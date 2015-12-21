@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Xml.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace St4mpede.Settings.Test
 {
@@ -12,7 +13,7 @@ namespace St4mpede.Settings.Test
 		<RootFolder>C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede\St4mpede</RootFolder>
 	</Core>
 	<RdbSchema>
-		<ConnectionString>Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename=C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede.Test\Database\St4mpede.mdf;Integrated Security = True; Connect Timeout = 30 </ ConnectionString >
+		<ConnectionString>Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename=C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede.Test\Database\St4mpede.mdf;Integrated Security = True; Connect Timeout = 30 </ConnectionString>
 		<DatabaseName>C:\DATA\PROJEKT\ST4MPEDE\St4mpede\ST4MPEDE.TEST\DATABASE\ST4MPEDE.MDF</DatabaseName>
 		<DatabaseIndex/>
 		<ExcludedTablesRegex>__RefactorLog</ExcludedTablesRegex>
@@ -21,9 +22,9 @@ namespace St4mpede.Settings.Test
 	</RdbSchema>
 	<Poco>
 		<OutputFolder>..\..\TheDAL\Poco</OutputFolder>
-		<NameSpace Name = 'TheDAL.Poco' >
-            < Comments >
-                < Comment > R	eSharper disable BuiltInTypeReferenceStyle</Comment>
+		<NameSpace Name = 'TheDAL.Poco'>
+            <Comments>
+                <Comment> ReSharper disable BuiltInTypeReferenceStyle</Comment>
 				<Comment>ReSharper disable BuiltInTypeReferenceStyle</Comment>
 				<Comment>ReSharper disable NonReadonlyMemberInGetHashCode</Comment>
 				<Comment>ReSharper disable ArrangeThisQualifier</Comment>
@@ -40,10 +41,12 @@ namespace St4mpede.Settings.Test
 			<CopyConstructor>True</CopyConstructor>
 		</Constructors>
 		<Methods>
-			<Equals Regex = '.*' > True </ Equals >
-        </ Methods >
-	</ Poco >
-</ St4mpede >";
+			<Equals Regex = '.*'>True</Equals>
+        </Methods>
+	</Poco>
+</St4mpede >";
+
+		#region MenuXml
 
 		private const string MenuXml = @"<Menu>
   <SubMenus>
@@ -75,6 +78,7 @@ namespace St4mpede.Settings.Test
   </MenuItems>
 </Menu>";
 
+#endregion
 
 		[TestMethod]
 		public void TestMethod1()
@@ -85,12 +89,25 @@ namespace St4mpede.Settings.Test
         }
 
 		[TestMethod]
-		public void GetFromXmlTest()
+		public void GetMenuFromXmlTest()
 		{
 			var sut = new Settings();
-			var res = sut.GetFromXml(MenuXml);
+			var res = sut.GetMenuFromXml(MenuXml);
 
 			Assert.AreEqual(2, res.MenuItems.Count);
+		}
+
+		[TestMethod]
+		public void GetSettingsFromXmlTest()
+		{
+			var sut = new Settings();
+			var xml = XDocument.Parse(Xml).Element("St4mpede").Element("Core");
+			var res = sut.GetFromXml(xml);
+
+			Assert.IsNotNull(res);
+			Assert.AreEqual(@"C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede\St4mpede", res.RootFolder);
+
+			Assert.Fail("TBA");
 		}
 	}
 }

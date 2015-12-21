@@ -6,6 +6,11 @@ using AutoMapper;
 
 namespace St4mpede.Settings
 {
+	/// <summary>This class initialises the automapping.
+	/// Read more about how it works here:
+	/// http://stackoverflow.com/questions/6543659/automapper-to-create-object-from-xml
+	/// http://www.codeproject.com/Articles/706992/Using-AutoMapper-with-Complex-XML-Data
+	/// </summary>
 	public static class MapInitializer
 	{
 		private static Func<XElement, string, string, List<XElement>> _mapItems =
@@ -35,6 +40,14 @@ namespace St4mpede.Settings
 					opt => opt.MapFrom(src => _mapItems(src, "MenuItems", "MenuItem")))
 				.ForMember(dest => dest.SubMenus,
 					opt => opt.MapFrom(src => _mapItems(src, "SubMenus", "Menu")));
+		}
+
+		public static void CreateSettingsMap()
+		{
+			Mapper.CreateMap<XElement, Core>()
+				.ForMember(dest => dest.RootFolder,
+					opt => opt.ResolveUsing<XElementResolver<string>>()
+						.ConstructedBy(() => new XElementResolver<string>()));
 		}
 	}
 }

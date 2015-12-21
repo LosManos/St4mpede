@@ -25,16 +25,23 @@ namespace St4mpede.Settings
 	{
 		static Settings()
 		{
-			MapInitializer.CreateMenuMap();
+			//MapInitializer.CreateMenuMap();
+			MapInitializer.CreateSettingsMap();
 			//Mapper.Initialize(cfg => cfg.CreateMap<Entity, Dto>());
 		}
 
-		public Menu GetFromXml(string xmlString)
+		public Menu GetMenuFromXml(string xmlString)
 		{
 			var xml = XDocument.Parse(xmlString);
 			var menu  = Mapper.Map<XElement,Menu>
 			(xml.Element("Menu"));
 			return menu;
+		}
+
+		public Core GetFromXml(XElement xml)
+		{
+			var settings = Mapper.Map<XElement, Core>(xml.Elements().Single());
+			return settings;
 		}
 
 		public T GetFFromElement<T>(string xPath) where T : new()

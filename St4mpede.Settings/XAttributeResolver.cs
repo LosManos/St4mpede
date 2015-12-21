@@ -6,12 +6,12 @@ namespace St4mpede.Settings
 {
 	public class XAttributeResolver<T> : ValueResolver<XElement, T>
 	{
+		public string Name { get; set; }
+
 		public XAttributeResolver(string attributeName)
 		{
 			Name = attributeName;
 		}
-
-		public string Name { get; set; }
 
 		protected override T ResolveCore(XElement source)
 		{
@@ -22,6 +22,16 @@ namespace St4mpede.Settings
 				return default(T);
 
 			return (T)Convert.ChangeType(attribute.Value, typeof(T));
+		}
+	}
+
+	public class XElementResolver<T> : ValueResolver<XElement, T>
+	{
+		protected override T ResolveCore(XElement source)
+		{
+			if (source == null || string.IsNullOrEmpty(source.Value))
+				return default(T);
+			return (T)Convert.ChangeType(source.Value, typeof(T));
 		}
 	}
 }
