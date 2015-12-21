@@ -22,6 +22,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "St4mpede.Integration.Test",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "St4mpede.Test", "Test\St4mpede.Test\St4mpede.Test.csproj", "{CE9769B0-10A8-48F3-A370-B9B6115BB7F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "St4mpede.Settings", "St4mpede.Settings\St4mpede.Settings.csproj", "{8E5863A3-E523-417F-BA8D-ACBD40B5A4B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "St4mpede.Settings.Test", "Test\St4mpede.Settings.Test\St4mpede.Settings.Test.csproj", "{00317A00-BEEC-43CA-9705-BC61F8E059E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +56,14 @@ Global
 		{CE9769B0-10A8-48F3-A370-B9B6115BB7F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE9769B0-10A8-48F3-A370-B9B6115BB7F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE9769B0-10A8-48F3-A370-B9B6115BB7F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E5863A3-E523-417F-BA8D-ACBD40B5A4B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E5863A3-E523-417F-BA8D-ACBD40B5A4B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E5863A3-E523-417F-BA8D-ACBD40B5A4B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E5863A3-E523-417F-BA8D-ACBD40B5A4B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00317A00-BEEC-43CA-9705-BC61F8E059E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00317A00-BEEC-43CA-9705-BC61F8E059E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00317A00-BEEC-43CA-9705-BC61F8E059E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00317A00-BEEC-43CA-9705-BC61F8E059E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,5 +72,6 @@ Global
 		{8312F702-214E-4484-92F7-9928CACA4102} = {AB2B3CBA-1507-4415-BB4E-E1E603D4DE8B}
 		{6CCCADED-2647-48D6-A283-C4561485C869} = {AB2B3CBA-1507-4415-BB4E-E1E603D4DE8B}
 		{CE9769B0-10A8-48F3-A370-B9B6115BB7F4} = {AB2B3CBA-1507-4415-BB4E-E1E603D4DE8B}
+		{00317A00-BEEC-43CA-9705-BC61F8E059E2} = {AB2B3CBA-1507-4415-BB4E-E1E603D4DE8B}
 	EndGlobalSection
 EndGlobal
