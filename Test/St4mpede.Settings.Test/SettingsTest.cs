@@ -1,4 +1,8 @@
-﻿using System.Xml.Linq;
+﻿using System;
+using System.ComponentModel.Design.Serialization;
+using System.Xml.Linq;
+using AutoMapper;
+using AutoMapper.Mappers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace St4mpede.Settings.Test
@@ -78,17 +82,10 @@ namespace St4mpede.Settings.Test
   </MenuItems>
 </Menu>";
 
-#endregion
+		#endregion
 
 		[TestMethod]
-		public void TestMethod1()
-        {
-	        var sut = new Settings();
-			var res = sut.GetFFromElement<Dto> (null);
-			Assert.AreEqual(42, res.CustomerID);
-        }
-
-		[TestMethod]
+		[Ignore]
 		public void GetMenuFromXmlTest()
 		{
 			var sut = new Settings();
@@ -98,16 +95,95 @@ namespace St4mpede.Settings.Test
 		}
 
 		[TestMethod]
-		public void GetSettingsFromXmlTest()
+		public void GetFromXml_given_CoreElement_should_ReturnPopulatedCoreSettings()
 		{
 			var sut = new Settings();
 			var xml = XDocument.Parse(Xml).Element("St4mpede").Element("Core");
-			var res = sut.GetFromXml(xml);
+			var res = sut.GetCoreFromXml(xml);
 
 			Assert.IsNotNull(res);
 			Assert.AreEqual(@"C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede\St4mpede", res.RootFolder);
+		}
 
-			Assert.Fail("TBA");
+		internal class RootClass
+		{
+			public int Customer { get; set; }
+			public string CustomerName { get; set; }
+			public string ProjectName { get; set; }
+			public int CustomerId { get; set; }
+		}
+
+		[TestMethod]
+		public void GetFromXml_given_SimpleElements_should_Populate()
+		{
+			//	#	Arrange.
+			const string XmlString = @"
+<Root>
+	<Customer>42</Customer>
+	<Project>Main</Project>
+</Root>";
+			var mappingConfigStore = new ConfigurationStore(new TypeMapFactory(), MapperRegistry.Mappers);
+			mappingConfigStore.CreateMap<XElement, RootClass>()
+				.ForMember(dest => dest.Customer,
+					opt => opt.ResolveUsing<XElementResolver<string>>()
+						.ConstructedBy(() => new XElementResolver<string>("Customer")))
+				.ForMember(dest => dest.ProjectName,
+					opt => opt.ResolveUsing<XElementResolver<string>>()
+						.ConstructedBy(() => new XElementResolver<string>("Project")));
+
+			var sut = new Settings(new MappingEngine(mappingConfigStore));
+			var xml = XDocument.Parse(XmlString);
+
+			//	#	Act.
+			var res = sut.GetFromXml<RootClass>(xml.Element("Root"));
+
+			//	#	Arrange.
+			Assert.AreEqual(42,res.Customer);
+			Assert.AreEqual("Main", res.ProjectName);
+		}
+
+		[TestMethod]
+		public void GetFromXml_given_Attributes_should_Populate()
+		{
+			//	#	Arrange.
+			const string XmlString = @"
+<Root>
+	<Customer name='Bengt'>42</Customer>
+	<Project customerId='42'>Main</Project>
+</Root>";
+
+			var mappingConfigStore = new ConfigurationStore(new TypeMapFactory(), MapperRegistry.Mappers);
+			mappingConfigStore.CreateMap<XElement, RootClass>()
+
+				.ForMember(dest => dest.Customer,
+					opt => opt.ResolveUsing<XElementResolver<string>>()
+						.ConstructedBy(() => new XElementResolver<string>("Customer")))
+
+				.ForMember(dest => dest.CustomerName,
+					opt => opt.ResolveUsing<XAttributeResolver<string>>()
+						.FromMember(src => src.Element("Customer"))
+						.ConstructedBy(() => new XAttributeResolver<string>("name")))
+
+				.ForMember(dest => dest.ProjectName,
+					opt => opt.ResolveUsing<XElementResolver<string>>()
+						.ConstructedBy(() => new XElementResolver<string>("Project")))
+
+				.ForMember(dest => dest.CustomerId,
+					opt => opt.ResolveUsing<XAttributeResolver<int>>()
+						.FromMember(src => src.Element("Project"))
+						.ConstructedBy(() => new XAttributeResolver<int>("customerId")));
+
+			var sut = new Settings(new MappingEngine(mappingConfigStore));
+			var xml = XDocument.Parse(XmlString);
+			
+			//	#	Act.
+			var res = sut.GetFromXml<RootClass>(xml.Element("Root"));
+
+			//	#	Arrange.
+			Assert.AreEqual(42, res.Customer);
+			Assert.AreEqual("Bengt", res.CustomerName);
+			Assert.AreEqual("Main", res.ProjectName);
+			Assert.AreEqual(42, res.CustomerId);
 		}
 	}
 }

@@ -23,11 +23,22 @@ namespace St4mpede.Settings
 
 	public class Settings
 	{
+		private readonly MappingEngine _mappingEngine;
+
 		static Settings()
 		{
 			//MapInitializer.CreateMenuMap();
 			MapInitializer.CreateSettingsMap();
 			//Mapper.Initialize(cfg => cfg.CreateMap<Entity, Dto>());
+		}
+
+		public Settings()
+		{ }
+
+		public Settings(MappingEngine mappingEngine )
+		{
+			//	http://www.damirscorner.com/blog/posts/20141222-UsingNonStaticAutoMapperConfiguration.html
+			_mappingEngine = mappingEngine;
 		}
 
 		public Menu GetMenuFromXml(string xmlString)
@@ -38,17 +49,20 @@ namespace St4mpede.Settings
 			return menu;
 		}
 
-		public Core GetFromXml(XElement xml)
+		public Core GetCoreFromXml(XElement xml)
 		{
 			var settings = Mapper.Map<XElement, Core>(xml.Elements().Single());
 			return settings;
 		}
 
-		public T GetFFromElement<T>(string xPath) where T : new()
+		public T GetFromXml<T>(XElement xmlElement)
 		{
-			var entity = new Entity {CustomerID = 42};
-			var dto = Mapper.Map<Dto>(entity);
-			return (T) (object) dto;
-		}
+			var res = ((null == _mappingEngine)
+				? Mapper.Engine
+				: _mappingEngine)
+				.Map<XElement, T>(xmlElement);
+
+			return res;
+		} 
 	}
 }

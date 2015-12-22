@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using AutoMapper;
+using AutoMapper.Mappers;
 
 namespace St4mpede.Settings
 {
@@ -17,6 +18,7 @@ namespace St4mpede.Settings
 			(src, collectionName, elementName) =>
 				(src.Element(collectionName) ?? new XElement(collectionName)).Elements(elementName).ToList();
 
+		[Obsolete("For getting stuff in the air only.", true)]
 		public static void CreateMenuMap()
 		{
 			//MenuItem map
@@ -48,6 +50,14 @@ namespace St4mpede.Settings
 				.ForMember(dest => dest.RootFolder,
 					opt => opt.ResolveUsing<XElementResolver<string>>()
 						.ConstructedBy(() => new XElementResolver<string>()));
+			//var config = new ConfigurationStore(new TypeMapFactory(), MapperRegistry.Mappers);
+			//config.CreateMap<XElement, Core>()
+			//	.ForMember(dest => dest.RootFolder,
+			//		opt => opt.ResolveUsing<XElementResolver<string>>()
+			//			.ConstructedBy(() => new XElementResolver<string>()));
+
+			//var mappingEngine = new MappingEngine();
+			//Mapper.Configuration.ad
 		}
 	}
 }
