@@ -20,7 +20,7 @@ namespace St4mpede.Settings
 				return default(T);
 			}
 			var attribute = source.Attribute(Name);
-			if (attribute == null || String.IsNullOrEmpty(attribute.Value))
+			if (attribute == null || string.IsNullOrEmpty(attribute.Value))
 			{
 				return default(T);
 			}
