@@ -1,8 +1,8 @@
-﻿//		This file was generated  by St4mpede 2015-12-17 22:42:25
+﻿//		This file was generated  by St4mpede 2016-01-13 13:33:23
 
 /* 
 Choose server (LocalDB)\MSSQLLocalDB
-Chose database C:\DATA\PROJEKT\ST4MPEDE\St4mpede\ST4MPEDE.TEST\DATABASE\ST4MPEDE.MDF.
+Chose database C:\DATA\PROJEKT\ST4MPEDE\St4mpede\Test\ST4MPEDE.TEST\DATABASE\ST4MPEDE.MDF.
 
 Writing database xml St4mpede.RdbSchema.xml.
 Created xml:

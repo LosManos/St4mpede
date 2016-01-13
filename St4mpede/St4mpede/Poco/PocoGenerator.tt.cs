@@ -224,8 +224,17 @@ namespace St4mpede.St4mpede.Poco
 			if (null == hostTemplateFile) { throw new ArgumentNullException("hostTemplateFile"); }
 
 			var configPath = Path.GetDirectoryName(hostTemplateFile);
-			configFilename = configFilename ?? Core.Core.DefaultConfigFilename;
-			readConfigFunction = readConfigFunction ?? Core.Core.ReadConfig;
+			configFilename = configFilename ??
+#if NOT_IN_T4
+				Core.
+#endif
+			Core.DefaultConfigFilename;
+
+			readConfigFunction = readConfigFunction ??
+#if NOT_IN_T4
+				Core.
+#endif
+				Core.ReadConfig;
 
 			var doc = readConfigFunction(
 				configPath,
@@ -237,7 +246,11 @@ namespace St4mpede.St4mpede.Poco
 				_log.Add("Configuration does not contain element {0}", PocoElement);
 				return;	//	Bail.
 			}
-			Init(Core.Core.Init(doc), ParserSettings.Init(configPath, configFilename, doc), settings);
+			Init(
+#if NOT_IN_T4
+				Core.
+#endif
+				Core.Init(doc), ParserSettings.Init(configPath, configFilename, doc), settings);
 		}
 
 		internal void Output()
@@ -250,7 +263,10 @@ namespace St4mpede.St4mpede.Poco
 			_log.Add("Writing the output file {0}.", pathFileForXmlOutput);
 
 			_core.WriteOutput(
-				Core.Core.Serialise(_classDataList.ToList()),
+#if NOT_IN_T4
+				Core.
+#endif
+				Core.Serialise(_classDataList.ToList()),
 				pathFileForXmlOutput);
 
 			var pathForPocoOutput = Path.Combine(_coreSettings.RootFolder, _pocoSettings.OutputFolder);
@@ -274,7 +290,11 @@ namespace St4mpede.St4mpede.Poco
 
 			var doc = _xDocHandler.Load(xmlPathFile);
 
-			var database = Core.Core.Deserialise<DatabaseData>(doc);
+			var database =
+#if NOT_IN_T4
+				Core.
+#endif
+				Core.Deserialise<DatabaseData>(doc);
 
 			this._database = database;
 			_log.Add(string.Format("Read database with tables: {0}.",

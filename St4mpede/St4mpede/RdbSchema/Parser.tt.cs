@@ -1,8 +1,5 @@
 ﻿//<#+
 /*That line above is very carefully constructed to be awesome and make it so this works!*/
-
-using St4mpede.St4mpede.Core;
-
 #if NOT_IN_T4
 //Apparently T4 places classes into another class, making namespaces impossible
 namespace St4mpede
@@ -17,6 +14,8 @@ namespace St4mpede
 	using System.Linq;
 	using System.Text.RegularExpressions;
 	using System.Xml.Linq;
+	using St4mpede.Core;
+
 #endif
 	//#	Regular ol' C# classes and code...
 

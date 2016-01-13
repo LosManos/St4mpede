@@ -13,6 +13,7 @@ namespace St4mpede.St4mpede.Core
 	using System.Linq;
 	using System.Collections.Generic;
 #endif
+
 	internal interface ICore
 	{
 		void WriteOutput(XDocument doc, string pathFilename);
@@ -24,7 +25,8 @@ namespace St4mpede.St4mpede.Core
 	{
 		private const string ElementRootFolder = "RootFolder";
 
-		internal static readonly string DefaultConfigFilename = "St4mpede.config.xml";
+		internal static readonly string 
+			DefaultConfigFilename = "St4mpede.config.xml";
 		internal static readonly string DefaultSt4mpedePath = "St4mpede";
 
 		internal static XDocument ReadConfig( string configPath, string configFilename)
