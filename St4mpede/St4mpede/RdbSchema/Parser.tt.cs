@@ -14,7 +14,6 @@ namespace St4mpede
 	using System.Linq;
 	using System.Text.RegularExpressions;
 	using System.Xml.Linq;
-	//using St4mpede.St4mpede.Core;
 #endif
 	//#	Regular ol' C# classes and code...
 
@@ -64,14 +63,23 @@ namespace St4mpede
 			var configPath = Path.GetDirectoryName(hostTemplateFile);
 			configFilename = configFilename ??
 #if NOT_IN_T4
-				Core.
+				St4mpede.Core.
 #endif
-				DefaultConfigFilename;
+				Core.DefaultConfigFilename;
 
-			var doc = Core.ReadConfig(
+			var doc =
+#if NOT_IN_T4
+				St4mpede.Core.
+#endif
+				Core.ReadConfig(
 				configPath, 
 				configFilename);
-			_coreSettings = Core.Init(doc);
+
+			_coreSettings = 
+#if NOT_IN_T4
+				St4mpede.Core.
+#endif
+				Core.Init(doc);
 			_settings = ParserSettings.Init(configPath, configFilename, doc);
 		}
 
@@ -145,7 +153,11 @@ namespace St4mpede
 		/// <returns></returns>
 		private static XDocument ToXml(DatabaseData databaseData)
 		{
-			return Core.Serialise(databaseData);
+			return 
+#if NOT_IN_T4
+				St4mpede.Core.
+#endif
+				Core.Serialise(databaseData);
 		}
 
 		#region Unit testing work arounds.

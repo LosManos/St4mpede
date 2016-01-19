@@ -17,10 +17,10 @@
 	<RdbSchema>
 	
 		<!--	The connection string.	-->
-		<ConnectionString>Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede.Test\Database\St4mpede.mdf;Integrated Security=True;Connect Timeout=30</ConnectionString>
+		<ConnectionString>Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\DATA\PROJEKT\St4mpede\St4mpede\Test\St4mpede.Test\Database\St4mpede.mdf;Integrated Security=True;Connect Timeout=30</ConnectionString>
 
 		<!--	The name of the database we reach through the connections string.	-->
-		<DatabaseName>C:\DATA\PROJEKT\ST4MPEDE\St4mpede\ST4MPEDE.TEST\DATABASE\ST4MPEDE.MDF</DatabaseName>
+		<DatabaseName>C:\DATA\PROJEKT\ST4MPEDE\St4mpede\Test\ST4MPEDE.TEST\DATABASE\ST4MPEDE.MDF</DatabaseName>
 		
 		<!--	Database index is used if we don't have a Database name.	-->
 		<DatabaseIndex/>
