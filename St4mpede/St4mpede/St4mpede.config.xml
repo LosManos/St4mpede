@@ -19,7 +19,8 @@
 		<!--	The connection string.	-->
 		<ConnectionString>Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede\Database\St4mpede.mdf;Integrated Security=True;Connect Timeout=30</ConnectionString>
 
-		<!--	The name of the database we reach through the connections string.	-->
+		<!--	The name of the database we reach through the connections string.	
+		This is typically used if the database is a Sqlserver file and not a "proper" Sqlserver.	-->
 		<DatabaseName>C:\DATA\PROJEKT\ST4MPEDE\ST4MPEDE\ST4MPEDE\DATABASE\ST4MPEDE.MDF</DatabaseName>
 
 		<!--	Database index is used if we don't have a Database name.	-->
@@ -28,7 +29,8 @@
 		<!--	Certain tables are we not interested in. Use regex to exclude them.	-->
 		<ExcludedTablesRegex>__RefactorLog</ExcludedTablesRegex>
 
-		<!--	The name of the resulting file goes here.	-->
+		<!--	The name of the resulting file goes here.	
+		This one should probably not be updated.	-->
 		<DatabaseXmlFile>St4mpede.RdbSchema.xml</DatabaseXmlFile>
 
 		<!--	The name/path of the project.	-->

@@ -10,10 +10,16 @@ The idea is to point a [config](//github.com/LosManos/St4mpede/blob/master/St4mp
 
 The code is unit- and integration tested. Very uncommon with T4 solutions.  
 
+## How to use
+
+1) Copy the St4mpede project to your solution.  
+2) Update St4mpede.config.xml to point to your database.  
+3) Update St4mpede.config.xml to point to a folder in your project containing the DAL.  
+4) Execute St4mpede.RdbSchema.tt and then St4mpede.Poco.tt  
+5) Behold POCOs for everything.
+
 ## Does today
 
-Point St4mpede to a relational database  
-and it generates:  
 * all POCOs, one per table.
 
 ## Future
