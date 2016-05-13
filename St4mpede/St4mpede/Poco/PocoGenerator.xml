@@ -10,7 +10,7 @@
             <string>This property is part of the primary key.</string>
           </Summary>
         </Comment>
-        <Name>CustomerID</Name>
+        <Name>CustomerId</Name>
         <SystemTypeString>System.Int32</SystemTypeString>
         <Scope>Public</Scope>
       </PropertyData>
@@ -45,7 +45,7 @@
         <Parameters>
           <ParameterData>
             <SystemTypeString>System.Int32</SystemTypeString>
-            <Name>CustomerID</Name>
+            <Name>CustomerId</Name>
           </ParameterData>
           <ParameterData>
             <SystemTypeString>System.String</SystemTypeString>
@@ -88,7 +88,7 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>this.CustomerID = customer.CustomerID;</string>
+            <string>this.CustomerId = customer.CustomerId;</string>
             <string>this.Name = customer.Name;</string>
           </Lines>
         </Body>
@@ -118,7 +118,7 @@
             <string>}</string>
             <string />
             <string>return</string>
-            <string>	this.CustomerID == obj.CustomerID &amp;&amp;</string>
+            <string>	this.CustomerId == obj.CustomerId &amp;&amp;</string>
             <string>	this.Name == obj.Name;</string>
           </Lines>
         </Body>
@@ -137,7 +137,152 @@
         <Body>
           <Lines>
             <string>int hash = 13;</string>
-            <string>hash = (hash*7) + this.CustomerID.GetHashCode();</string>
+            <string>hash = (hash*7) + this.CustomerId.GetHashCode();</string>
+            <string>hash = (hash*7) + ( null == Name ? 0 : this.Name.GetHashCode() );</string>
+            <string>return hash;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+    </Methods>
+  </ClassData>
+  <ClassData>
+    <IsPartial>true</IsPartial>
+    <Name>Project</Name>
+    <Properties>
+      <PropertyData>
+        <Comment>
+          <Summary>
+            <string>This property is part of the primary key.</string>
+          </Summary>
+        </Comment>
+        <Name>ProjectId</Name>
+        <SystemTypeString>System.Int32</SystemTypeString>
+        <Scope>Public</Scope>
+      </PropertyData>
+      <PropertyData>
+        <Name>Name</Name>
+        <SystemTypeString>System.String</SystemTypeString>
+        <Scope>Public</Scope>
+      </PropertyData>
+    </Properties>
+    <Methods>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>Default constructor needed for instance for de/serialising.</string>
+          </Summary>
+        </Comment>
+        <Name>Project</Name>
+        <Override>false</Override>
+        <IsConstructor>true</IsConstructor>
+        <Scope>Public</Scope>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This constructor takes all properties as parameters.</string>
+          </Summary>
+        </Comment>
+        <Name>Project</Name>
+        <Override>false</Override>
+        <IsConstructor>true</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>ProjectId</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>Name</Name>
+          </ParameterData>
+        </Parameters>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This constructor takes all properties but primary keys as parameters.</string>
+          </Summary>
+        </Comment>
+        <Name>Project</Name>
+        <Override>false</Override>
+        <IsConstructor>true</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>Name</Name>
+          </ParameterData>
+        </Parameters>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This is the copy constructor.</string>
+          </Summary>
+        </Comment>
+        <Name>Project</Name>
+        <Override>false</Override>
+        <IsConstructor>true</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>Project</SystemTypeString>
+            <Name>Project</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>this.ProjectId = project.ProjectId;</string>
+            <string>this.Name = project.Name;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This is the Equals method.</string>
+          </Summary>
+        </Comment>
+        <Name>Equals</Name>
+        <ReturnTypeString>System.Boolean</ReturnTypeString>
+        <Override>true</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>System.Object</SystemTypeString>
+            <Name>o</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>var obj = o as Project;</string>
+            <string>if( obj == null ){</string>
+            <string>	return false;</string>
+            <string>}</string>
+            <string />
+            <string>return</string>
+            <string>	this.ProjectId == obj.ProjectId &amp;&amp;</string>
+            <string>	this.Name == obj.Name;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This is the GetHashCode method.</string>
+          </Summary>
+        </Comment>
+        <Name>GetHashCode</Name>
+        <ReturnTypeString>System.Int32</ReturnTypeString>
+        <Override>true</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Body>
+          <Lines>
+            <string>int hash = 13;</string>
+            <string>hash = (hash*7) + this.ProjectId.GetHashCode();</string>
             <string>hash = (hash*7) + ( null == Name ? 0 : this.Name.GetHashCode() );</string>
             <string>return hash;</string>
           </Lines>
@@ -166,7 +311,7 @@
       </PropertyData>
       <PropertyData>
         <Name>HashedPassword</Name>
-        <SystemTypeString>System.Char</SystemTypeString>
+        <SystemTypeString>System.String</SystemTypeString>
         <Scope>Public</Scope>
       </PropertyData>
       <PropertyData>
@@ -207,7 +352,7 @@
             <Name>UserName</Name>
           </ParameterData>
           <ParameterData>
-            <SystemTypeString>System.Char</SystemTypeString>
+            <SystemTypeString>System.String</SystemTypeString>
             <Name>HashedPassword</Name>
           </ParameterData>
           <ParameterData>
@@ -232,7 +377,7 @@
             <Name>UserName</Name>
           </ParameterData>
           <ParameterData>
-            <SystemTypeString>System.Char</SystemTypeString>
+            <SystemTypeString>System.String</SystemTypeString>
             <Name>HashedPassword</Name>
           </ParameterData>
           <ParameterData>
@@ -314,7 +459,7 @@
             <string>int hash = 13;</string>
             <string>hash = (hash*7) + this.UserId.GetHashCode();</string>
             <string>hash = (hash*7) + ( null == UserName ? 0 : this.UserName.GetHashCode() );</string>
-            <string>hash = (hash*7) + this.HashedPassword.GetHashCode();</string>
+            <string>hash = (hash*7) + ( null == HashedPassword ? 0 : this.HashedPassword.GetHashCode() );</string>
             <string>hash = (hash*7) + this.LastLoggedOnDatetime.GetHashCode();</string>
             <string>return hash;</string>
           </Lines>

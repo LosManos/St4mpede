@@ -3,18 +3,20 @@
 St4mpede is a T4 solution for creating a full data access layer from a relational database.
 
 All intermediary steps create output XMLs. This makes St4mpede extensible.  
-For instance: One St4mpede project retrieves the schema from the database.It writes it down in an [XML](//github.com/LosManos/St4mpede/blob/master/St4mpede/St4mpede/RdbSchema/St4mpede.RdbSchema.xml).  
-The next project, the POCO generator, does not know about the innards of Sqlserver but knows how to translate the XML above to an [XML describing classes](https://github.com/LosManos/St4mpede/blob/master/St4mpede/St4mpede/Poco/PocoGenerator.xml) before creating   [POCO](//github.com/LosManos/St4mpede/tree/master/TheDAL/Poco)s from it. 
+For instance: One T4 (St4mpede.RdbSchema) retrieves the schema from the database.It writes it down in an [XML](//github.com/LosManos/St4mpede/blob/master/St4mpede/St4mpede/RdbSchema/St4mpede.RdbSchema.xml).  
+The next T4, (St4mpede.Poco), does not know about the innards of Sqlserver but knows how to translate the XML above to an [XML describing classes](https://github.com/LosManos/St4mpede/blob/master/St4mpede/St4mpede/Poco/PocoGenerator.xml) before creating   [POCO](//github.com/LosManos/St4mpede/tree/master/TheDAL/Poco)s from it. 
 
 The idea is to point a [config](//github.com/LosManos/St4mpede/blob/master/St4mpede/St4mpede/St4mpede.config.xml) to a relational database. St4mpede then examines its schema and creates POCOs and the rest of the DAL for simple CRUD operations. It is in no way perfect for the big solution but it makes you land with your feet running.
 
 The code is unit- and integration tested. Very uncommon with T4 solutions.  
 
-## Moonshot
+## Does today
 
 Point St4mpede to a relational database  
 and it generates:  
 * all POCOs, one per table.
+
+## Future
 
 Should I (you) have the stamina it will also generate:
 * the whole data access layer.  

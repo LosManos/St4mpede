@@ -1,29 +1,33 @@
-﻿//		This file was generated  by St4mpede 2015-12-17 22:42:25
+﻿//		This file was generated  by St4mpede 2016-05-13 20:50:34
 
 /* 
 Choose server (LocalDB)\MSSQLLocalDB
-Chose database C:\DATA\PROJEKT\ST4MPEDE\St4mpede\ST4MPEDE.TEST\DATABASE\ST4MPEDE.MDF.
+Chose database C:\DATA\PROJEKT\ST4MPEDE\ST4MPEDE\ST4MPEDE\DATABASE\ST4MPEDE.MDF.
 
 Writing database xml St4mpede.RdbSchema.xml.
 Created xml:
 <Database xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Tables>
     <Table>
-      <Name>__RefactorLog</Name>
-      <Include>false</Include>
-      <Columns>
-        <Column IsInPrimaryKey="true">
-          <Name>OperationKey</Name>
-          <DatabaseTypeName>uniqueidentifier</DatabaseTypeName>
-        </Column>
-      </Columns>
-    </Table>
-    <Table>
       <Name>Customer</Name>
       <Include>true</Include>
       <Columns>
         <Column IsInPrimaryKey="true">
-          <Name>CustomerID</Name>
+          <Name>CustomerId</Name>
+          <DatabaseTypeName>int</DatabaseTypeName>
+        </Column>
+        <Column IsInPrimaryKey="false">
+          <Name>Name</Name>
+          <DatabaseTypeName>nvarchar</DatabaseTypeName>
+        </Column>
+      </Columns>
+    </Table>
+    <Table>
+      <Name>Project</Name>
+      <Include>true</Include>
+      <Columns>
+        <Column IsInPrimaryKey="true">
+          <Name>ProjectId</Name>
           <DatabaseTypeName>int</DatabaseTypeName>
         </Column>
         <Column IsInPrimaryKey="false">
@@ -42,11 +46,11 @@ Created xml:
         </Column>
         <Column IsInPrimaryKey="false">
           <Name>UserName</Name>
-          <DatabaseTypeName>nvarchar</DatabaseTypeName>
+          <DatabaseTypeName>varchar</DatabaseTypeName>
         </Column>
         <Column IsInPrimaryKey="false">
           <Name>HashedPassword</Name>
-          <DatabaseTypeName>nchar</DatabaseTypeName>
+          <DatabaseTypeName>char</DatabaseTypeName>
         </Column>
         <Column IsInPrimaryKey="false">
           <Name>LastLoggedOnDatetime</Name>

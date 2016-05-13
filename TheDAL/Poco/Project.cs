@@ -7,54 +7,54 @@
 //	ReSharper disable PartialTypeWithSinglePart
 namespace TheDAL.Poco
 {
-	public partial class Customer
+	public partial class Project
 	{
 		/// <summary> This property is part of the primary key.
 		/// </summary>
-		public System.Int32 CustomerId{ get; set; }
+		public System.Int32 ProjectId{ get; set; }
 	
 		public System.String Name{ get; set; }
 	
 		/// <summary> Default constructor needed for instance for de/serialising.
 		/// </summary>
-		public Customer()
+		public Project()
 		{
 		}
 	
 		/// <summary> This constructor takes all properties as parameters.
 		/// </summary>
-		public Customer( System.Int32 customerId, System.String name )
+		public Project( System.Int32 projectId, System.String name )
 		{
-			this.CustomerId = customerId;
+			this.ProjectId = projectId;
 			this.Name = name;
 		}
 	
 		/// <summary> This constructor takes all properties but primary keys as parameters.
 		/// </summary>
-		public Customer( System.String name )
+		public Project( System.String name )
 		{
 			this.Name = name;
 		}
 	
 		/// <summary> This is the copy constructor.
 		/// </summary>
-		public Customer( Customer customer )
+		public Project( Project project )
 		{
-			this.CustomerId = customer.CustomerId;
-			this.Name = customer.Name;
+			this.ProjectId = project.ProjectId;
+			this.Name = project.Name;
 		}
 	
 		/// <summary> This is the Equals method.
 		/// </summary>
 		public override System.Boolean Equals( System.Object o )
 		{
-			var obj = o as Customer;
+			var obj = o as Project;
 			if( obj == null ){
 				return false;
 			}
 			
 			return
-				this.CustomerId == obj.CustomerId &&
+				this.ProjectId == obj.ProjectId &&
 				this.Name == obj.Name;
 		}
 	
@@ -63,7 +63,7 @@ namespace TheDAL.Poco
 		public override System.Int32 GetHashCode()
 		{
 			int hash = 13;
-			hash = (hash*7) + this.CustomerId.GetHashCode();
+			hash = (hash*7) + this.ProjectId.GetHashCode();
 			hash = (hash*7) + ( null == Name ? 0 : this.Name.GetHashCode() );
 			return hash;
 		}

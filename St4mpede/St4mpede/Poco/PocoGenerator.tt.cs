@@ -71,6 +71,7 @@ namespace St4mpede.St4mpede.Poco
 			internal const string NVarChar = "nvarchar";
 			internal const string Int = "int";
 			internal const string VarChar = "varchar";
+			internal const string Char = "char";
 		}
 
 		#region Constructors.
@@ -435,6 +436,7 @@ namespace St4mpede.St4mpede.Poco
 			new TypesTuple(DatabaseTypes.NVarChar, typeof(string).ToString()),
 			new TypesTuple(DatabaseTypes.Int, typeof(int).ToString()),
 			new TypesTuple(DatabaseTypes.VarChar, typeof(string).ToString()),
+			new TypesTuple(DatabaseTypes.Char, typeof(string).ToString()),
 		};
 
 		private string AddSuffix(string name)

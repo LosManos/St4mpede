@@ -13,7 +13,7 @@ namespace St4mpede.Integration.Test.Common
 			//	The path is something like "C:\DATA\PROJEKT\St4mpede\St4mpede\TestResults\Deploy_LosManos 2015-10-27 11_22_36" so we remove everything to the right of "TestResults".
 			var dir = testContext.TestDir;
 			const string Token = @"\TestResults";
-			var path = dir.Substring(0, dir.Length - dir.IndexOf(Token) - Token.Length - 2);
+			var path = dir.Substring(0, dir.Length - dir.IndexOf(Token) - Token.Length - 6);
 			return path;
 		}
 	}
