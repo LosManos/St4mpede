@@ -3,12 +3,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6CCCADED-2647-48D6-A283-C4561485C869}</ProjectGuid>
+    <ProjectGuid>{8312F702-214E-4484-92F7-9928CACA4102}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>St4mpede.Integration.Test</RootNamespace>
-    <AssemblyName>St4mpede.Integration.Test</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <RootNamespace>St4mpede.Code.Test</RootNamespace>
+    <AssemblyName>St4mpede.Code.Test</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -16,7 +16,6 @@
     <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,11 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.SqlServer.ConnectionInfo, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.SqlServer.Management.Sdk.Sfc, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.SqlServer.Smo, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="System" />
-    <Reference Include="System.Data" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -50,31 +45,26 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Common\Constants.cs" />
-    <Compile Include="Common\Functions.cs" />
-    <Compile Include="ParserTest.cs" />
+    <Compile Include="CommonTest.cs" />
+    <Compile Include="ParameterDataExtensionsTest.cs" />
+    <Compile Include="PropertyDataTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ParserLogicTest.cs" />
+    <Compile Include="CommentDataTest.cs" />
+    <Compile Include="MethodDataTest.cs" />
+    <Compile Include="ClassDataTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\St4mpede\St4mpede.csproj">
-      <Project>{e4e14d98-28a2-466b-8f77-82e6ba2e681b}</Project>
-      <Name>St4mpede</Name>
+    <ProjectReference Include="..\..\Libs\St4mpede.Code\St4mpede.Code.csproj">
+      <Project>{b0c2d88c-3dde-457a-a901-119c7dc2d86d}</Project>
+      <Name>St4mpede.Code</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="readme.md" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Database\dbo.Customer.sql" />
-    <None Include="Database\dbo.Project.sql" />
-    <None Include="Database\dbo.User.sql" />
-    <None Include="Database\ParseTablesTest.mdf" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
