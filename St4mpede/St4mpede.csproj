@@ -77,12 +77,19 @@
     <Compile Include="St4mpede\Core\Log.tt.cs" />
     <None Include="packages.config" />
     <None Include="St4mpede\_Template.tt.cs" />
+    <Compile Include="St4mpede\Dal\DalGenerator.tt.cs" />
+    <Compile Include="St4mpede\Dal\DalSettings.tt.cs" />
     <Compile Include="St4mpede\Poco\PocoSettings.tt.cs" />
     <Compile Include="St4mpede\RdbSchema\DatabaseConnection.tt.cs" />
     <Compile Include="St4mpede\RdbSchema\Parser.tt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="St4mpede\Core\Exception.tt.cs" />
     <Compile Include="St4mpede\RdbSchema\DatabaseData.tt.cs" />
+    <Compile Include="St4mpede\St4mpede.Dal.cs">
+      <DependentUpon>St4mpede.Dal.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="St4mpede\St4mpede.Poco.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -103,6 +110,10 @@
     <None Include="St4mpede\Database\dbo.User.sql" />
     <Content Include="St4mpede\Database\St4mpede_log.ldf">
       <DependentUpon>St4mpede.mdf</DependentUpon>
+    </Content>
+    <Content Include="St4mpede\St4mpede.Dal.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>St4mpede.Dal.cs</LastGenOutput>
     </Content>
     <Content Include="St4mpede\St4mpede.Poco.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

@@ -78,4 +78,17 @@
 
 	</Poco>
 
+	<Dal>
+
+		<!--	The OutputFolder is combined with Core.RootFolder.	-->
+		<OutputFolder>..\..\TheDAL\Surface</OutputFolder>
+
+		<!--	The name/path of the project.	-->
+		<ProjectPath>Dal</ProjectPath>
+
+		<!--	The name of the resulting file goes here. Besides the files in the Dal that is.	-->
+		<XmlOutputFilename>St4mpede.Dal.xml</XmlOutputFilename>
+
+	</Dal>
+
 </St4mpede>

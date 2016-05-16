@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Poco\Customer.cs" />
+    <Compile Include="Poco\Project.cs" />
     <Compile Include="Poco\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

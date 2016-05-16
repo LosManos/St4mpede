@@ -1,0 +1,36 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension=".cs" #>
+<#//#>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Runtime.Serialization" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+<#@ assembly name="$(SolutionDir)St4mpede\bin\Debug\St4mpede.Code.dll" #>
+<#//#>
+<#@ import namespace="St4mpede.Code" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Xml.Serialization" #>
+<#//#>
+//		This file was generated  by St4mpede.Poco <#= System.DateTime.Now.ToString() #>
+
+<#
+	var dalGenerator = new DalGenerator();
+	dalGenerator.Init(Host.TemplateFile);
+	dalGenerator.Generate();
+	dalGenerator.Output();
+#>
+
+/* 			
+<#= dalGenerator.ToInfo() #>
+*/
+
+<#@ include file="Core\Log.tt.cs" #>
+<#@ include file="Core\CoreSettings.tt.cs" #>
+<#@ include file="Core\Core.tt.cs" #>
+<#@ include file="RdbSchema\ParserSettings.tt.cs" #>
+<#@ include file="Dal\DalSettings.tt.cs" #>
+<#@ include file="Dal\DalGenerator.tt.cs" #>
