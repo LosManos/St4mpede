@@ -50,8 +50,6 @@ namespace St4mpede.St4mpede.Poco
 
 		private readonly ILog _log;
 
-		private readonly IXDocHandler _xDocHandler;
-
 		private IList<ClassData> _classDataList;
 
 		private DatabaseData _database;
@@ -77,14 +75,13 @@ namespace St4mpede.St4mpede.Poco
 		#region Constructors.
 
 		internal PocoGenerator()
-			:this(new Core(), new Log(), new XDocHandler())
+			:this(new Core(), new Log() )
 		{	}
 
-		internal PocoGenerator(ICore core, ILog log, IXDocHandler xDocHandler)
+		internal PocoGenerator(ICore core, ILog log)
 		{
 			_core = core;
 			_log = log;
-			_xDocHandler = xDocHandler;
 		}
 
 		#endregion
@@ -259,40 +256,24 @@ namespace St4mpede.St4mpede.Poco
 
 		internal void ReadXml()
 		{
-			var xmlPathFile = Path.Combine(
-				//@"C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede\St4mpede",
+			var xmlRdbSchemaPathfile = Path.Combine(
+				//@"C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede",
 				_coreSettings.RootFolder,
 				//	\RdbSchema",
 				_rdbSchemaSettings.ProjectPath,
 				//St4mpede.RdbSchema.xml";
 				_rdbSchemaSettings.DatabaseXmlFile);
-			_log.Add("Reading xml {0}.", xmlPathFile);
+			_log.Add("Reading xml {0}.", xmlRdbSchemaPathfile);
 
-			var doc = _xDocHandler.Load(xmlPathFile);
+			_database = _core.ReadFromXmlPathfile<DatabaseData>(xmlRdbSchemaPathfile);
 
-			var database = Core.Deserialise<DatabaseData>(doc);
-
-			this._database = database;
 			_log.Add(string.Format("Read database with tables: {0}.",
-				string.Join(", ", database.Tables.Select(t=>t.Name))));
+				string.Join(", ", _database.Tables.Select(t=>t.Name))));
 		}
 
 		internal string ToInfo()
 		{
 			return _log.ToInfo();
-		}
-
-		internal interface IXDocHandler
-		{
-			XDocument Load(string pathfile);
-		}
-
-		internal class XDocHandler : IXDocHandler
-		{
-			XDocument IXDocHandler.Load( string pathfile)
-			{
-				return XDocument.Load(pathfile);
-			}
 		}
 
 		#region Private methods.
