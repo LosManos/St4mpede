@@ -2,15 +2,17 @@
 /*That line above is very carefully constructed to be awesome and make it so this works!*/
 #if NOT_IN_T4
 //Apparently T4 places classes into another class, making namespaces impossible
-using System;
-using System.IO;
-using System.Linq;
-using System.Xml.Linq;
-
 namespace St4mpede.St4mpede.Surface
 {
 	//	Note that when adding namespaces here we also have to add the namespaces to the TT file  import namespace=...
 	//	The same way any any new assembly reference must be added to the TT file assembly. name=...
+	using Code;
+	using RdbSchema;
+	using System;
+	using System.Collections.Generic;
+	using System.IO;
+	using System.Linq;
+	using System.Xml.Linq;
 
 #endif
 	//#	Regular ol' C# classes and code...
@@ -27,6 +29,10 @@ namespace St4mpede.St4mpede.Surface
         private readonly ICore _core;
 
 		private readonly ILog _log;
+
+		private IList<SurfaceData> _surfaceDataList;
+
+		private DatabaseData _database;
 
 		private readonly IXDocHandler _xDocHandler;
 
@@ -53,6 +59,32 @@ namespace St4mpede.St4mpede.Surface
 
 		internal void Generate()
 		{
+			_surfaceDataList = new List<SurfaceData>();
+
+			var xmlRdbSchemaPathfile = Path.Combine(
+				//@"C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede",
+				_coreSettings.RootFolder,
+				//	\RdbSchema",
+				_rdbSchemaSettings.ProjectPath,
+				//St4mpede.RdbSchema.xml";
+				_rdbSchemaSettings.DatabaseXmlFile);
+
+			IParserLogic2 parserLogic2 = new ParserLogic2();
+
+			_log.Add("Reading xml {0}.", xmlRdbSchemaPathfile);
+
+			_database = parserLogic2.GetResult(xmlRdbSchemaPathfile);
+
+			_database.Tables.ForEach(t =>
+			{
+				var surface = new SurfaceData
+				{
+					Name = t.Name
+				};
+				_surfaceDataList.Add(surface);
+			});
+			_log.Add("Included surfaces are");
+			_log.Add(_surfaceDataList.ToInfo());
 		}
 
 		internal void Init( string hostTemplateFile)
@@ -92,9 +124,9 @@ namespace St4mpede.St4mpede.Surface
 
 			_log.Add("Writing the output file {0}.", pathFileForXmlOutput);
 
-			//_core.WriteOutput(
-			//	Core.Serialise(_classDataList.ToList()),
-			//	pathFileForXmlOutput);
+			_core.WriteOutput(
+				Core.Serialise(_surfaceDataList.ToList()),
+				pathFileForXmlOutput);
 
 			var pathForPocoOutput = Path.Combine(_coreSettings.RootFolder, _surfaceSettings.OutputFolder);
 			//_log.Add("Writing {0} classes in {1}.", _classDataList.Count, pathForPocoOutput);
@@ -152,7 +184,7 @@ namespace St4mpede.St4mpede.Surface
 					.Descendants()
 					.Single(e => e.Name == XmlOutputFilenameElement)
 					.Value;
-			_log.Add("XmlOutputFilename={0}.", outputFolder);
+			_log.Add("XmlOutputFilename={0}.", xmlOutputFilename);
 
 			_surfaceSettings = new SurfaceSettings(
 				outputFolder, 

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfSurfaceData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SurfaceData>
+    <Name>Customer</Name>
+  </SurfaceData>
+  <SurfaceData>
+    <Name>Project</Name>
+  </SurfaceData>
+  <SurfaceData>
+    <Name>User</Name>
+  </SurfaceData>
+</ArrayOfSurfaceData>

@@ -6,12 +6,19 @@
 <#@ assembly name="System.Xml" #>
 <#@ assembly name="System.Xml.Linq" #>
 <#@ assembly name="$(SolutionDir)St4mpede\bin\Debug\St4mpede.Code.dll" #>
+<#
+//	In T4 one cannot not just reference assemblies and let VS find the path.
+//	Hence we have to use VS macro to find our way to Newtonsoft.json.
+//	Read more here: http://weblogs.asp.net/lhunt/t4-template-error-assembly-directive-cannot-locate-referenced-assembly-in-visual-studio-2010-project
+#>
+<#@ assembly name="$(SolutionDir)packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll" #>
 <#//#>
 <#@ import namespace="St4mpede.Code" #>
 <#@ import namespace="System" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.IO" #>
 <#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Runtime.Serialization" #>
 <#@ import namespace="System.Xml.Linq" #>
 <#@ import namespace="System.Xml.Serialization" #>
 <#//#>
@@ -31,6 +38,8 @@
 <#@ include file="Core\Log.tt.cs" #>
 <#@ include file="Core\CoreSettings.tt.cs" #>
 <#@ include file="Core\Core.tt.cs" #>
+<#@ include file="RdbSchema\DatabaseData.tt.cs" #>
+<#@ include file="RdbSchema\ParserLogic2.tt.cs" #>
 <#@ include file="RdbSchema\ParserSettings.tt.cs" #>
 <#@ include file="Surface\SurfaceSettings.tt.cs" #>
 <#@ include file="Surface\SurfaceGenerator.tt.cs" #>

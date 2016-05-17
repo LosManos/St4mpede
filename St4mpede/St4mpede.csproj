@@ -122,6 +122,7 @@
       <LastGenOutput>St4mpede.Poco.cs</LastGenOutput>
     </Content>
     <Content Include="St4mpede\Poco\PocoGenerator.xml" />
+    <Content Include="St4mpede\Surface\St4mpede.Surface.xml" />
     <Content Include="St4mpede\TODO_RunAll.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>TODO_RunAll.md</LastGenOutput>
