@@ -15,22 +15,22 @@
 <#@ import namespace="System.Xml.Linq" #>
 <#@ import namespace="System.Xml.Serialization" #>
 <#//#>
-//		This file was generated  by St4mpede.Poco <#= System.DateTime.Now.ToString() #>
+//		This file was generated  by St4mpede.Surface <#= System.DateTime.Now.ToString() #>
 
 <#
-	var dalGenerator = new DalGenerator();
-	dalGenerator.Init(Host.TemplateFile);
-	dalGenerator.Generate();
-	dalGenerator.Output();
+	var surfaceGenerator = new SurfaceGenerator();
+	surfaceGenerator.Init(Host.TemplateFile);
+	surfaceGenerator.Generate();
+	surfaceGenerator.Output();
 #>
 
 /* 			
-<#= dalGenerator.ToInfo() #>
+<#= surfaceGenerator.ToInfo() #>
 */
 
 <#@ include file="Core\Log.tt.cs" #>
 <#@ include file="Core\CoreSettings.tt.cs" #>
 <#@ include file="Core\Core.tt.cs" #>
 <#@ include file="RdbSchema\ParserSettings.tt.cs" #>
-<#@ include file="Dal\DalSettings.tt.cs" #>
-<#@ include file="Dal\DalGenerator.tt.cs" #>
+<#@ include file="Surface\SurfaceSettings.tt.cs" #>
+<#@ include file="Surface\SurfaceGenerator.tt.cs" #>

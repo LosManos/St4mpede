@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace St4mpede.St4mpede.Poco
+namespace St4mpede.St4mpede.Surface
 {
 	//	Note that when adding namespaces here we also have to add the namespaces to the TT file  import namespace=...
 	//	The same way any any new assembly reference must be added to the TT file assembly. name=...
@@ -15,11 +15,11 @@ namespace St4mpede.St4mpede.Poco
 #endif
 	//#	Regular ol' C# classes and code...
 
-	internal class DalGenerator
+	internal class SurfaceGenerator
 	{
 		#region Private properties and fields.
 
-		private const string DalElement = "Dal";
+		private const string SurfaceElement = "Surface";
 		private const string OutputFolderElement = "OutputFolder";
 		private const string ProjectPathElement = "ProjectPath";
 		private const string XmlOutputFilenameElement = "XmlOutputFilename";
@@ -31,18 +31,18 @@ namespace St4mpede.St4mpede.Poco
 		private readonly IXDocHandler _xDocHandler;
 
 		private CoreSettings _coreSettings;
-		private DalSettings _dalSettings;
+		private SurfaceSettings _surfaceSettings;
 		private IParserSettings _rdbSchemaSettings;
 
 		#endregion
 
 		#region Constructors.
 
-		public DalGenerator()
+		public SurfaceGenerator()
 			:this(new Core(), new Log(), new XDocHandler())
 		{	}
 
-		internal DalGenerator(ICore core, ILog log, IXDocHandler xDocHandler)
+		internal SurfaceGenerator(ICore core, ILog log, IXDocHandler xDocHandler)
 		{
 			_core = core;
 			_log = log;
@@ -74,10 +74,10 @@ namespace St4mpede.St4mpede.Poco
 				configPath,
 				configFilename);
 
-			var settings = (from c in doc.Descendants(DalElement) select c).SingleOrDefault();
+			var settings = (from c in doc.Descendants(SurfaceElement) select c).SingleOrDefault();
 			if (null == settings)
 			{
-				_log.Add("Configuration does not contain element {0}", DalElement);
+				_log.Add("Configuration does not contain element {0}", SurfaceElement);
 				return; //	Bail.
 			}
 			Init(Core.Init(doc), ParserSettings.Init(configPath, configFilename, doc), settings);
@@ -87,7 +87,7 @@ namespace St4mpede.St4mpede.Poco
 		{
 			var pathFileForXmlOutput =
 				Path.Combine(_coreSettings.RootFolder,
-				Path.Combine(_dalSettings.XmlOutputPathFilename    //	@"Ddal\St4mpede.Dal.xml"
+				Path.Combine(_surfaceSettings.XmlOutputPathFilename    //	@"Surface\St4mpede.Surface.xml"
 				));
 
 			_log.Add("Writing the output file {0}.", pathFileForXmlOutput);
@@ -96,12 +96,12 @@ namespace St4mpede.St4mpede.Poco
 			//	Core.Serialise(_classDataList.ToList()),
 			//	pathFileForXmlOutput);
 
-			var pathForPocoOutput = Path.Combine(_coreSettings.RootFolder, _dalSettings.OutputFolder);
+			var pathForPocoOutput = Path.Combine(_coreSettings.RootFolder, _surfaceSettings.OutputFolder);
 			//_log.Add("Writing {0} classes in {1}.", _classDataList.Count, pathForPocoOutput);
 
-			//WriteDalClasses(pathForPocoOutput);
+			//WriteSurfaceClasses(pathForPocoOutput);
 
-			//	TODO: Add Dal files to project.
+			//	TODO: Add Surface files to project.
 		}
 
 		internal string ToInfo()
@@ -154,7 +154,7 @@ namespace St4mpede.St4mpede.Poco
 					.Value;
 			_log.Add("XmlOutputFilename={0}.", outputFolder);
 
-			_dalSettings = new DalSettings(
+			_surfaceSettings = new SurfaceSettings(
 				outputFolder, 
 				projectPath, 
 				xmlOutputFilename
