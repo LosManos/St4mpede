@@ -232,7 +232,7 @@ namespace St4mpede.Test
 		public void Generate_given_Tables_should_CreateOnlyIncludedAsClass()
 		{
 			//	#	Arrange.
-			var sut = new PocoGenerator(null, new Log(), null);
+			var sut = new PocoGenerator(null, new Log());
 			const string ColumnOneAName = "ColOne";
 			const string ColumnOneBName = "ColTwo";
 			const string TableNameOne = "One";
@@ -291,7 +291,7 @@ namespace St4mpede.Test
 		public void Init_given_NoConfigPath_should_ThrowExeption()
 		{
 			//	#	Arrange.
-			var sut = new PocoGenerator(null, null, null);
+			var sut = new PocoGenerator(null, null);
 
 			//	#	Act.
 			try
@@ -340,7 +340,7 @@ namespace St4mpede.Test
 				</St4mpede>
 "); };
 			var mockLog = new Mock<ILog>();
-			var sut = new PocoGenerator(null, mockLog.Object, null);
+			var sut = new PocoGenerator(null, mockLog.Object);
 
 			//	#	Act.
 			sut.Init("whatever", "whatevar", func);
@@ -372,7 +372,7 @@ namespace St4mpede.Test
 		public void Init_given_ProperXml_should_PopulateFields()
 		{
 			//	#	Arrange.
-			var sut = new PocoGenerator(null, null, null);
+			var sut = new PocoGenerator(null, null);
 			var coreSettings = new CoreSettings();
 			var rdbSchemaSettings = new ParserSettings();
 			var doc = XDocument.Parse(
@@ -427,7 +427,7 @@ namespace St4mpede.Test
 			//	#	Arrange.
 			var mockedCore = new Mock<ICore>();
 			mockedCore.Setup(m => m.WriteOutput(It.IsAny<IList<string>>(), It.IsAny<string> ()));
-			var sut = new PocoGenerator(mockedCore.Object, new Log(), null);
+			var sut = new PocoGenerator(mockedCore.Object, new Log());
 			sut.UT_PocoSettings = new PocoSettings(
 				true,
 				"MyNameSpace",
@@ -511,45 +511,6 @@ namespace St4mpede.Test
 
 		//	return body.Member.Name;
 		//}
-
-		[TestMethod]
-		public void ReadXml_given_XDoxWith2Tables_should_ReturnPocosWith2Tables()
-		{
-			//	#	Arrange.
-			var log = new Log();
-			var xml = XDocument.Parse(@"
-<Database>
-  <Tables>
-    <Table>
-		<Name>Table one</Name>
-    </Table>
-    <Table>
-		<Name>Table two</Name>
-    </Table>
-  </Tables>
-</Database>
-");
-			var mockXDocHandler = new Mock<PocoGenerator.IXDocHandler>();
-			mockXDocHandler
-				.Setup(m => m.Load(It.IsAny<string>()))
-				.Returns(xml);
-			var sut = new PocoGenerator(null, log, mockXDocHandler.Object);
-			sut.UT_CoreSettings = new CoreSettings
-			{
-				RootFolder = "MyRootFolder"
-			};
-			sut.UT_RdbSchema = new ParserSettings
-			{
-				ProjectPath = "MyProjectPath",
-                DatabaseXmlFile = "MyDatabaseXmlFile"
-			};
-
-			//	#	Act.
-			sut.ReadXml();
-
-			//	#	Assert.
-			Assert.AreEqual(2, sut.UT_DatabaseData.Tables.Count);
-		}
 
 	}
 }

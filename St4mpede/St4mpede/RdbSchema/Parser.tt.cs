@@ -222,6 +222,7 @@ namespace St4mpede
 			ret.IsInPrimaryKey = column.InPrimaryKey;
 			return ret;
 		}
+
 	}
 
 #if NOT_IN_T4
