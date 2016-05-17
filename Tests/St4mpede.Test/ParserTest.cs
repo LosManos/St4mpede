@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 using System.Xml.Linq;
 using St4mpede.Test.Extensions;
 using Moq;
+using St4mpede.RdbSchema;
 
 namespace St4mpede.Test
 {

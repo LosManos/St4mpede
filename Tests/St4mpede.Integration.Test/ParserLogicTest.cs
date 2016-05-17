@@ -1,6 +1,7 @@
 ﻿using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using St4mpede.RdbSchema;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;

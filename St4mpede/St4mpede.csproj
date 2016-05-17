@@ -77,6 +77,8 @@
     <Compile Include="St4mpede\Core\Log.tt.cs" />
     <None Include="packages.config" />
     <None Include="St4mpede\_Template.tt.cs" />
+    <Compile Include="St4mpede\RdbSchema\ParserLogic.tt.cs" />
+    <Compile Include="St4mpede\RdbSchema\ParserLogic2.tt.cs" />
     <Compile Include="St4mpede\Surface\SurfaceGenerator.tt.cs" />
     <Compile Include="St4mpede\Surface\SurfaceSettings.tt.cs" />
     <Compile Include="St4mpede\Poco\PocoSettings.tt.cs" />

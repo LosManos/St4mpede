@@ -2,20 +2,19 @@
 /*That line above is very carefully constructed to be awesome and make it so this works!*/
 #if NOT_IN_T4
 //Apparently T4 places classes into another class, making namespaces impossible
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Xml.Linq;
-using St4mpede.Code;
-
 namespace St4mpede.St4mpede.Poco
 {
 	//	Note that when adding namespaces here we also have to add the namespaces to the TT file  import namespace=...
 	//	The same way any any new assembly reference must be added to the TT file assembly. name=...
-	
+	using System;
+	using System.Collections.Generic;
+	using System.Diagnostics;
+	using System.IO;
+	using System.Linq;
+	using System.Text.RegularExpressions;
+	using System.Xml.Linq;
+	using Code;
+	using RdbSchema;
 #endif
 	//#	Regular ol' C# classes and code...
 
@@ -263,9 +262,13 @@ namespace St4mpede.St4mpede.Poco
 				_rdbSchemaSettings.ProjectPath,
 				//St4mpede.RdbSchema.xml";
 				_rdbSchemaSettings.DatabaseXmlFile);
+
+			IParserLogic2 parserLogic2 = new ParserLogic2();
+
 			_log.Add("Reading xml {0}.", xmlRdbSchemaPathfile);
 
-			_database = _core.ReadFromXmlPathfile<DatabaseData>(xmlRdbSchemaPathfile);
+			//_database = _core.ReadFromXmlPathfile<DatabaseData>(xmlRdbSchemaPathfile);
+			_database = parserLogic2.GetResult(xmlRdbSchemaPathfile);
 
 			_log.Add(string.Format("Read database with tables: {0}.",
 				string.Join(", ", _database.Tables.Select(t=>t.Name))));
