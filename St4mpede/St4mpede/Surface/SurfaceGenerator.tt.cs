@@ -77,96 +77,270 @@ namespace St4mpede.St4mpede.Surface
 
 			_database.Tables.ForEach(table =>
 			{
-			   //	Set data for the very [class].
-				var surfaceClass = new ClassData
-				{
-					Name = $"{table.Name}Surface",
-					 Comment = new CommentData($"This is the Surface for the {table.Name} table."),
-				    IsPartial = false,
-					Properties = new List<PropertyData>(),
-					Methods = new List<MethodData>()
-				};
-				_surfaceDataList.Add(surfaceClass);
+			//	Set data for the very [class].
+			var surfaceClass = new ClassData
+			{
+				Name = $"{table.Name}Surface",
+				Comment = new CommentData($"This is the Surface for the {table.Name} table."),
+				IsPartial = false,
+				Properties = new List<PropertyData>(),
+				Methods = new List<MethodData>()
+			};
+			_surfaceDataList.Add(surfaceClass);
 
-				//	#	Create the properties.
-				//	Well... we don't have any properties.
-				
-				//	#	Create the constructor.
-				var constructorMethod = new MethodData
-				{
-					IsConstructor = true,
-					Name = surfaceClass.Name
-				};
-				surfaceClass.Methods.Add(constructorMethod);
+			//	#	Create the properties.
+			//	Well... we don't have any properties.
+
+			//	#	Create the constructor.
+			var constructorMethod = new MethodData
+			{
+				IsConstructor = true,
+				Name = surfaceClass.Name
+			};
+			surfaceClass.Methods.Add(constructorMethod);
 
 				//	#	Create the methods.
 				//	##	Create the Add method.
-				var addMethod = new MethodData
+				surfaceClass.Methods.Add(new MethodData
 				{
 					Name = "Add",
 					Comment = new CommentData("This method is used for adding a new record in the database."),
 					Scope = Common.VisibilityScope.Private,
-					ReturnTypeString = $"TheDAL.Poco.{table.Name}",	//	TODO:OF:Fetch namespace from Poco project.
+					ReturnTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
 					Parameters = table.Columns
-						.Where(p => false == p.IsInPrimaryKey)
-						.Select(p =>
-						   new ParameterData
-						   {
-							   Name = p.Name,
-							   SystemTypeString = parserLogic2.ConvertDatabaseTypeToDotnetTypeString(p.DatabaseTypeName)
-						   }).ToList(), 
+					.Where(p => false == p.IsInPrimaryKey)
+					.Select(p =>
+					   new ParameterData
+					   {
+						   Name = p.Name,
+						   SystemTypeString = parserLogic2.ConvertDatabaseTypeToDotnetTypeString(p.DatabaseTypeName)
+					   }).ToList(),
 					Body = new BodyData(new[]
 					{
 						"//TODO:OF:TBA.",
 						"return null;"
 					})
-				};
-				surfaceClass.Methods.Add(addMethod);
+				});
 
-				var updateMethod = new MethodData
+				//	##	Create the Add method.
+				surfaceClass.Methods.Add(new MethodData
+				{
+					Name = "Add",
+					Comment = new CommentData("This method is used for adding a new record in the database."),
+					Scope = Common.VisibilityScope.Private,
+					ReturnTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
+					Parameters = new[] {
+					   new ParameterData
+					   {
+						   Name = table.Name,	//	TODO:OF:Make camelcase.
+						   SystemTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
+					   } }.ToList(),
+					Body = new BodyData(new[]
+					{
+						"//TODO:OF:TBA.",
+						"return null;"
+					})
+				});
+
+				//	##	Create the Delete method.
+				surfaceClass.Methods.Add(new MethodData
+				{
+					Name = "Delete",
+					Comment = new CommentData(new[] {
+						"This method is used for deleting a record.",
+						}),
+					Scope = Common.VisibilityScope.Public,
+					ReturnTypeString = $"void",
+					Parameters = new ParameterData[] {
+							   new ParameterData
+							   {
+								   Name = table.Name,	//	TODO:OF:Make camelcase.
+								   SystemTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
+							   }
+					}.ToList(),
+					Body = new BodyData(new[]
+						{
+						"//TODO:OF:TBA. =>get or throw exception.",
+					})
+				});
+
+				//	##	Create the DeleteById method.
+				surfaceClass.Methods.Add(new MethodData
+				{
+					Name = "DeleteById",
+					Comment = new CommentData(new[] {
+						"This method is used for deleting a record by its primary key.",
+						}),
+					Scope = Common.VisibilityScope.Public,
+					ReturnTypeString = $"void",
+					Parameters = table.Columns
+							.Where(c => c.IsInPrimaryKey)
+							.Select(p =>
+							   new ParameterData
+							   {
+								   Name = p.Name,
+								   SystemTypeString = parserLogic2.ConvertDatabaseTypeToDotnetTypeString(p.DatabaseTypeName)
+							   }).ToList(),
+					Body = new BodyData(new[]
+						{
+						"//TODO:OF:TBA. =>get or throw exception.",
+					})
+				});
+
+				//	##	Create the GetAll method.
+				surfaceClass.Methods.Add(new MethodData
+				{
+					Name = "GetAll",
+					Comment = new CommentData(new[] {
+						"This method returns every record for this table/surface.",
+						"Do not use it on too big tables."
+						}),
+					Scope = Common.VisibilityScope.Public,
+					ReturnTypeString = $"IList<TheDAL.Poco.{table.Name}>", //	TODO:OF:Fetch namespace from Poco project.
+					Body = new BodyData(new[]
+						{
+						"//TODO:OF:TBA.",
+						"return null;"
+					})
+				});
+
+				//	##	Create the GetById method.
+				surfaceClass.Methods.Add(new MethodData
+				{
+					Name = "GetById",
+					Comment = new CommentData(new[] {
+						"This method is used for getting a record but its Id/primary key.",
+						"If nothing is found an exception is thrown. If you want to get null back use LoadById <see cref=\"LoadById\"> instead."
+						}),
+					Scope = Common.VisibilityScope.Public,
+					ReturnTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
+					Parameters = table.Columns
+							.Where( c=>c.IsInPrimaryKey)
+							.Select(p =>
+							   new ParameterData
+							   {
+								   Name = p.Name,
+								   SystemTypeString = parserLogic2.ConvertDatabaseTypeToDotnetTypeString(p.DatabaseTypeName)
+							   }).ToList(),
+					Body = new BodyData(new[]
+						{
+						"//TODO:OF:TBA. =>get or throw exception.",
+						"return null;"
+					})
+				});
+
+				//	##	Create the LoadById method.
+				surfaceClass.Methods.Add(new MethodData
+				{
+					Name = "LoadById",
+					Comment = new CommentData(new[] {
+						"This method is used for getting a record but its Id/primary key.",
+						"If nothing is found an null is returned. If you want to throw an exception use GetById <see cref=\"GetById\"> instead."
+						}),
+					Scope = Common.VisibilityScope.Public,
+					ReturnTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
+					Parameters = table.Columns
+							.Where(c => c.IsInPrimaryKey)
+							.Select(p =>
+							   new ParameterData
+							   {
+								   Name = p.Name,
+								   SystemTypeString = parserLogic2.ConvertDatabaseTypeToDotnetTypeString(p.DatabaseTypeName)
+							   }).ToList(),
+					Body = new BodyData(new[]
+						{
+						"//TODO:OF:TBA. =>get or return null.",
+						"return null;"
+					})
+				});
+
+				//	##	Create the Update method.
+				surfaceClass.Methods.Add(new MethodData
 				{
 					Name = "Update",
 					Comment = new CommentData("This method is used for updating an existing record in the database."),
 					Scope = Common.VisibilityScope.Private,
 					ReturnTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
 					Parameters = table.Columns
-						.Select(p =>
-						   new ParameterData
-						   {
-							   Name = p.Name,
-							   SystemTypeString = parserLogic2.ConvertDatabaseTypeToDotnetTypeString(p.DatabaseTypeName)
-						   }).ToList(),
+								.Select(p =>
+								   new ParameterData
+								   {
+									   Name = p.Name,
+									   SystemTypeString = parserLogic2.ConvertDatabaseTypeToDotnetTypeString(p.DatabaseTypeName)
+								   }).ToList(),
 					Body = new BodyData(new[]
-					{
+							{
 						"//TODO:OF:TBA.",
 						"return null;"
 					})
-				};
-				surfaceClass.Methods.Add(updateMethod);
+				});
 
-				var upsertMethod = new MethodData
+				//	##	Create the Update method.
+				surfaceClass.Methods.Add(new MethodData
+				{
+					Name = "Update",
+					Comment = new CommentData("This method is used for updating an existing record in the database."),
+					Scope = Common.VisibilityScope.Private,
+					ReturnTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
+					Parameters = new[] {
+								   new ParameterData
+								   {
+									   Name = table.Name,	//	TODO:OF:Make camelcase.
+									   SystemTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
+								   } }.ToList(),
+					Body = new BodyData(new[]
+							{
+						"//TODO:OF:TBA.",
+						"return null;"
+					})
+				});
+
+				//	##	Create the Upsert method.
+				surfaceClass.Methods.Add(new MethodData
 				{
 					Name = "Upsert",
-					Comment = new CommentData( new[] {
+					Comment = new CommentData(new[] {
 						"This method is used for creating a new or  updating an existing record in the database.",
 						"If the primary key is 0 (zero) we know it is a new record and try to add it. Otherwise we try to update the record."
 						}),
 					Scope = Common.VisibilityScope.Public,
 					ReturnTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
 					Parameters = table.Columns
-						.Select(p =>
-						   new ParameterData
-						   {
-							   Name = p.Name,
-							   SystemTypeString = parserLogic2.ConvertDatabaseTypeToDotnetTypeString(p.DatabaseTypeName)
-						   }).ToList(),
+							.Select(p =>
+							   new ParameterData
+							   {
+								   Name = p.Name,
+								   SystemTypeString = parserLogic2.ConvertDatabaseTypeToDotnetTypeString(p.DatabaseTypeName)
+							   }).ToList(),
 					Body = new BodyData(new[]
-					{
-						"//TODO:OF:TBA. =>if( return 0 == primarykey ? Add(...) : Update(...)", 
+						{
+						"//TODO:OF:TBA. =>if( return 0 == primarykey ? Add(...) : Update(...)",
 						"return null;"
 					})
-				};
-				surfaceClass.Methods.Add(upsertMethod);
+				});
+
+				//	##	Create the Upsert method.
+				surfaceClass.Methods.Add(new MethodData
+				{
+					Name = "Upsert",
+					Comment = new CommentData(new[] {
+						"This method is used for creating a new or  updating an existing record in the database.",
+						"If the primary key is 0 (zero) we know it is a new record and try to add it. Otherwise we try to update the record."
+						}),
+					Scope = Common.VisibilityScope.Public,
+					ReturnTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
+					Parameters = new[] {
+							   new ParameterData
+							   {
+								   Name = table.Name,	//	TODO:OF:Make camelcase.
+								   SystemTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
+							   } }.ToList(),
+					Body = new BodyData(new[]
+						{
+						"//TODO:OF:TBA. =>if( return 0 == primarykey ? Add(...) : Update(...)",
+						"return null;"
+					})
+				});
 			});
 
 			_log.Add("Included surfaces are:");
@@ -296,12 +470,13 @@ namespace St4mpede.St4mpede.Surface
 			ret.Add(string.Empty);
 
 //			ret.AddRange(_pocoSettings.NameSpaceComments.Select(c => string.Format("//\t{0}", c)));
-//			ret.Add(string.Format("namespace {0}", _pocoSettings.NameSpace));
-//			ret.Add("{");
+			ret.Add($"namespace TheDal.Surface");
+			ret.Add("{");
+			ret.Add("	using System.Collections.Generic;");
 
-			ret.AddRange(classData.ToCode());
+			ret.AddRange(classData.ToCode(new Indent(1)));
 
-//			ret.Add("}");
+			ret.Add("}");
 
 			return ret;
 		}

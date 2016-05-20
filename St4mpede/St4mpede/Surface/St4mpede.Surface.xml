@@ -43,6 +43,145 @@
       <MethodData>
         <Comment>
           <Summary>
+            <string>This method is used for adding a new record in the database.</string>
+          </Summary>
+        </Comment>
+        <Name>Add</Name>
+        <ReturnTypeString>TheDAL.Poco.Customer</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Private</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.Poco.Customer</SystemTypeString>
+            <Name>Customer</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA.</string>
+            <string>return null;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for deleting a record.</string>
+          </Summary>
+        </Comment>
+        <Name>Delete</Name>
+        <ReturnTypeString>void</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.Poco.Customer</SystemTypeString>
+            <Name>Customer</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA. =&gt;get or throw exception.</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for deleting a record by its primary key.</string>
+          </Summary>
+        </Comment>
+        <Name>DeleteById</Name>
+        <ReturnTypeString>void</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>CustomerId</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA. =&gt;get or throw exception.</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method returns every record for this table/surface.</string>
+            <string>Do not use it on too big tables.</string>
+          </Summary>
+        </Comment>
+        <Name>GetAll</Name>
+        <ReturnTypeString>IList&lt;TheDAL.Poco.Customer&gt;</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA.</string>
+            <string>return null;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for getting a record but its Id/primary key.</string>
+            <string>If nothing is found an exception is thrown. If you want to get null back use LoadById &lt;see cref="LoadById"&gt; instead.</string>
+          </Summary>
+        </Comment>
+        <Name>GetById</Name>
+        <ReturnTypeString>TheDAL.Poco.Customer</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>CustomerId</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA. =&gt;get or throw exception.</string>
+            <string>return null;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for getting a record but its Id/primary key.</string>
+            <string>If nothing is found an null is returned. If you want to throw an exception use GetById &lt;see cref="GetById"&gt; instead.</string>
+          </Summary>
+        </Comment>
+        <Name>LoadById</Name>
+        <ReturnTypeString>TheDAL.Poco.Customer</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>CustomerId</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA. =&gt;get or return null.</string>
+            <string>return null;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
             <string>This method is used for updating an existing record in the database.</string>
           </Summary>
         </Comment>
@@ -59,6 +198,30 @@
           <ParameterData>
             <SystemTypeString>System.String</SystemTypeString>
             <Name>Name</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA.</string>
+            <string>return null;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for updating an existing record in the database.</string>
+          </Summary>
+        </Comment>
+        <Name>Update</Name>
+        <ReturnTypeString>TheDAL.Poco.Customer</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Private</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.Poco.Customer</SystemTypeString>
+            <Name>Customer</Name>
           </ParameterData>
         </Parameters>
         <Body>
@@ -88,6 +251,31 @@
           <ParameterData>
             <SystemTypeString>System.String</SystemTypeString>
             <Name>Name</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA. =&gt;if( return 0 == primarykey ? Add(...) : Update(...)</string>
+            <string>return null;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for creating a new or  updating an existing record in the database.</string>
+            <string>If the primary key is 0 (zero) we know it is a new record and try to add it. Otherwise we try to update the record.</string>
+          </Summary>
+        </Comment>
+        <Name>Upsert</Name>
+        <ReturnTypeString>TheDAL.Poco.Customer</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.Poco.Customer</SystemTypeString>
+            <Name>Customer</Name>
           </ParameterData>
         </Parameters>
         <Body>
@@ -142,6 +330,145 @@
       <MethodData>
         <Comment>
           <Summary>
+            <string>This method is used for adding a new record in the database.</string>
+          </Summary>
+        </Comment>
+        <Name>Add</Name>
+        <ReturnTypeString>TheDAL.Poco.Project</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Private</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.Poco.Project</SystemTypeString>
+            <Name>Project</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA.</string>
+            <string>return null;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for deleting a record.</string>
+          </Summary>
+        </Comment>
+        <Name>Delete</Name>
+        <ReturnTypeString>void</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.Poco.Project</SystemTypeString>
+            <Name>Project</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA. =&gt;get or throw exception.</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for deleting a record by its primary key.</string>
+          </Summary>
+        </Comment>
+        <Name>DeleteById</Name>
+        <ReturnTypeString>void</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>ProjectId</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA. =&gt;get or throw exception.</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method returns every record for this table/surface.</string>
+            <string>Do not use it on too big tables.</string>
+          </Summary>
+        </Comment>
+        <Name>GetAll</Name>
+        <ReturnTypeString>IList&lt;TheDAL.Poco.Project&gt;</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA.</string>
+            <string>return null;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for getting a record but its Id/primary key.</string>
+            <string>If nothing is found an exception is thrown. If you want to get null back use LoadById &lt;see cref="LoadById"&gt; instead.</string>
+          </Summary>
+        </Comment>
+        <Name>GetById</Name>
+        <ReturnTypeString>TheDAL.Poco.Project</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>ProjectId</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA. =&gt;get or throw exception.</string>
+            <string>return null;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for getting a record but its Id/primary key.</string>
+            <string>If nothing is found an null is returned. If you want to throw an exception use GetById &lt;see cref="GetById"&gt; instead.</string>
+          </Summary>
+        </Comment>
+        <Name>LoadById</Name>
+        <ReturnTypeString>TheDAL.Poco.Project</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>ProjectId</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA. =&gt;get or return null.</string>
+            <string>return null;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
             <string>This method is used for updating an existing record in the database.</string>
           </Summary>
         </Comment>
@@ -158,6 +485,30 @@
           <ParameterData>
             <SystemTypeString>System.String</SystemTypeString>
             <Name>Name</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA.</string>
+            <string>return null;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for updating an existing record in the database.</string>
+          </Summary>
+        </Comment>
+        <Name>Update</Name>
+        <ReturnTypeString>TheDAL.Poco.Project</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Private</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.Poco.Project</SystemTypeString>
+            <Name>Project</Name>
           </ParameterData>
         </Parameters>
         <Body>
@@ -187,6 +538,31 @@
           <ParameterData>
             <SystemTypeString>System.String</SystemTypeString>
             <Name>Name</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA. =&gt;if( return 0 == primarykey ? Add(...) : Update(...)</string>
+            <string>return null;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for creating a new or  updating an existing record in the database.</string>
+            <string>If the primary key is 0 (zero) we know it is a new record and try to add it. Otherwise we try to update the record.</string>
+          </Summary>
+        </Comment>
+        <Name>Upsert</Name>
+        <ReturnTypeString>TheDAL.Poco.Project</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.Poco.Project</SystemTypeString>
+            <Name>Project</Name>
           </ParameterData>
         </Parameters>
         <Body>
@@ -249,6 +625,145 @@
       <MethodData>
         <Comment>
           <Summary>
+            <string>This method is used for adding a new record in the database.</string>
+          </Summary>
+        </Comment>
+        <Name>Add</Name>
+        <ReturnTypeString>TheDAL.Poco.User</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Private</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.Poco.User</SystemTypeString>
+            <Name>User</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA.</string>
+            <string>return null;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for deleting a record.</string>
+          </Summary>
+        </Comment>
+        <Name>Delete</Name>
+        <ReturnTypeString>void</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.Poco.User</SystemTypeString>
+            <Name>User</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA. =&gt;get or throw exception.</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for deleting a record by its primary key.</string>
+          </Summary>
+        </Comment>
+        <Name>DeleteById</Name>
+        <ReturnTypeString>void</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>UserId</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA. =&gt;get or throw exception.</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method returns every record for this table/surface.</string>
+            <string>Do not use it on too big tables.</string>
+          </Summary>
+        </Comment>
+        <Name>GetAll</Name>
+        <ReturnTypeString>IList&lt;TheDAL.Poco.User&gt;</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA.</string>
+            <string>return null;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for getting a record but its Id/primary key.</string>
+            <string>If nothing is found an exception is thrown. If you want to get null back use LoadById &lt;see cref="LoadById"&gt; instead.</string>
+          </Summary>
+        </Comment>
+        <Name>GetById</Name>
+        <ReturnTypeString>TheDAL.Poco.User</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>UserId</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA. =&gt;get or throw exception.</string>
+            <string>return null;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for getting a record but its Id/primary key.</string>
+            <string>If nothing is found an null is returned. If you want to throw an exception use GetById &lt;see cref="GetById"&gt; instead.</string>
+          </Summary>
+        </Comment>
+        <Name>LoadById</Name>
+        <ReturnTypeString>TheDAL.Poco.User</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>UserId</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA. =&gt;get or return null.</string>
+            <string>return null;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
             <string>This method is used for updating an existing record in the database.</string>
           </Summary>
         </Comment>
@@ -273,6 +788,30 @@
           <ParameterData>
             <SystemTypeString>System.DateTime</SystemTypeString>
             <Name>LastLoggedOnDatetime</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA.</string>
+            <string>return null;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for updating an existing record in the database.</string>
+          </Summary>
+        </Comment>
+        <Name>Update</Name>
+        <ReturnTypeString>TheDAL.Poco.User</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Private</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.Poco.User</SystemTypeString>
+            <Name>User</Name>
           </ParameterData>
         </Parameters>
         <Body>
@@ -310,6 +849,31 @@
           <ParameterData>
             <SystemTypeString>System.DateTime</SystemTypeString>
             <Name>LastLoggedOnDatetime</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA. =&gt;if( return 0 == primarykey ? Add(...) : Update(...)</string>
+            <string>return null;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for creating a new or  updating an existing record in the database.</string>
+            <string>If the primary key is 0 (zero) we know it is a new record and try to add it. Otherwise we try to update the record.</string>
+          </Summary>
+        </Comment>
+        <Name>Upsert</Name>
+        <ReturnTypeString>TheDAL.Poco.User</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.Poco.User</SystemTypeString>
+            <Name>User</Name>
           </ParameterData>
         </Parameters>
         <Body>
