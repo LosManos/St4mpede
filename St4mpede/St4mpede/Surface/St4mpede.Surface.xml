@@ -29,6 +29,10 @@
         <Scope>Private</Scope>
         <Parameters>
           <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
             <SystemTypeString>System.String</SystemTypeString>
             <Name>Name</Name>
           </ParameterData>
@@ -44,6 +48,7 @@
         <Comment>
           <Summary>
             <string>This method is used for adding a new record in the database.</string>
+            <string>&lt;para&gt;St4mpede guid:{759FBA46-A462-4E4A-BA2B-9B5AFDA572DE}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>Add</Name>
@@ -53,14 +58,32 @@
         <Scope>Private</Scope>
         <Parameters>
           <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
             <SystemTypeString>TheDAL.Poco.Customer</SystemTypeString>
             <Name>Customer</Name>
           </ParameterData>
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>return null;</string>
+            <string>const string Sql = @"</string>
+            <string>	Insert Into Customer</string>
+            <string>	(</string>
+            <string>		Name</string>
+            <string>	)</string>
+            <string>	Values</string>
+            <string>	(</string>
+            <string>		@Name</string>
+            <string>	)</string>
+            <string>	Select * From Customer Where CustomerId = Scope_Identity()";</string>
+            <string>var ret = context.Connection.Query&lt;TheDAL.Poco.Customer&gt;(</string>
+            <string>	Sql, </string>
+            <string>	new { /*...*/ },</string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return ret.Single();</string>
           </Lines>
         </Body>
       </MethodData>
@@ -76,6 +99,10 @@
         <IsConstructor>false</IsConstructor>
         <Scope>Public</Scope>
         <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
           <ParameterData>
             <SystemTypeString>TheDAL.Poco.Customer</SystemTypeString>
             <Name>Customer</Name>
@@ -100,6 +127,10 @@
         <Scope>Public</Scope>
         <Parameters>
           <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
             <SystemTypeString>System.Int32</SystemTypeString>
             <Name>CustomerId</Name>
           </ParameterData>
@@ -122,6 +153,12 @@
         <Override>false</Override>
         <IsConstructor>false</IsConstructor>
         <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+        </Parameters>
         <Body>
           <Lines>
             <string>//TODO:OF:TBA.</string>
@@ -142,6 +179,10 @@
         <IsConstructor>false</IsConstructor>
         <Scope>Public</Scope>
         <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
           <ParameterData>
             <SystemTypeString>System.Int32</SystemTypeString>
             <Name>CustomerId</Name>
@@ -168,6 +209,10 @@
         <Scope>Public</Scope>
         <Parameters>
           <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
             <SystemTypeString>System.Int32</SystemTypeString>
             <Name>CustomerId</Name>
           </ParameterData>
@@ -191,6 +236,10 @@
         <IsConstructor>false</IsConstructor>
         <Scope>Private</Scope>
         <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
           <ParameterData>
             <SystemTypeString>System.Int32</SystemTypeString>
             <Name>CustomerId</Name>
@@ -220,6 +269,10 @@
         <Scope>Private</Scope>
         <Parameters>
           <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
             <SystemTypeString>TheDAL.Poco.Customer</SystemTypeString>
             <Name>Customer</Name>
           </ParameterData>
@@ -244,6 +297,10 @@
         <IsConstructor>false</IsConstructor>
         <Scope>Public</Scope>
         <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
           <ParameterData>
             <SystemTypeString>System.Int32</SystemTypeString>
             <Name>CustomerId</Name>
@@ -273,6 +330,10 @@
         <IsConstructor>false</IsConstructor>
         <Scope>Public</Scope>
         <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
           <ParameterData>
             <SystemTypeString>TheDAL.Poco.Customer</SystemTypeString>
             <Name>Customer</Name>
@@ -316,6 +377,10 @@
         <Scope>Private</Scope>
         <Parameters>
           <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
             <SystemTypeString>System.String</SystemTypeString>
             <Name>Name</Name>
           </ParameterData>
@@ -331,6 +396,7 @@
         <Comment>
           <Summary>
             <string>This method is used for adding a new record in the database.</string>
+            <string>&lt;para&gt;St4mpede guid:{759FBA46-A462-4E4A-BA2B-9B5AFDA572DE}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>Add</Name>
@@ -340,14 +406,32 @@
         <Scope>Private</Scope>
         <Parameters>
           <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
             <SystemTypeString>TheDAL.Poco.Project</SystemTypeString>
             <Name>Project</Name>
           </ParameterData>
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>return null;</string>
+            <string>const string Sql = @"</string>
+            <string>	Insert Into Project</string>
+            <string>	(</string>
+            <string>		Name</string>
+            <string>	)</string>
+            <string>	Values</string>
+            <string>	(</string>
+            <string>		@Name</string>
+            <string>	)</string>
+            <string>	Select * From Project Where ProjectId = Scope_Identity()";</string>
+            <string>var ret = context.Connection.Query&lt;TheDAL.Poco.Project&gt;(</string>
+            <string>	Sql, </string>
+            <string>	new { /*...*/ },</string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return ret.Single();</string>
           </Lines>
         </Body>
       </MethodData>
@@ -363,6 +447,10 @@
         <IsConstructor>false</IsConstructor>
         <Scope>Public</Scope>
         <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
           <ParameterData>
             <SystemTypeString>TheDAL.Poco.Project</SystemTypeString>
             <Name>Project</Name>
@@ -387,6 +475,10 @@
         <Scope>Public</Scope>
         <Parameters>
           <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
             <SystemTypeString>System.Int32</SystemTypeString>
             <Name>ProjectId</Name>
           </ParameterData>
@@ -409,6 +501,12 @@
         <Override>false</Override>
         <IsConstructor>false</IsConstructor>
         <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+        </Parameters>
         <Body>
           <Lines>
             <string>//TODO:OF:TBA.</string>
@@ -429,6 +527,10 @@
         <IsConstructor>false</IsConstructor>
         <Scope>Public</Scope>
         <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
           <ParameterData>
             <SystemTypeString>System.Int32</SystemTypeString>
             <Name>ProjectId</Name>
@@ -455,6 +557,10 @@
         <Scope>Public</Scope>
         <Parameters>
           <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
             <SystemTypeString>System.Int32</SystemTypeString>
             <Name>ProjectId</Name>
           </ParameterData>
@@ -478,6 +584,10 @@
         <IsConstructor>false</IsConstructor>
         <Scope>Private</Scope>
         <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
           <ParameterData>
             <SystemTypeString>System.Int32</SystemTypeString>
             <Name>ProjectId</Name>
@@ -507,6 +617,10 @@
         <Scope>Private</Scope>
         <Parameters>
           <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
             <SystemTypeString>TheDAL.Poco.Project</SystemTypeString>
             <Name>Project</Name>
           </ParameterData>
@@ -531,6 +645,10 @@
         <IsConstructor>false</IsConstructor>
         <Scope>Public</Scope>
         <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
           <ParameterData>
             <SystemTypeString>System.Int32</SystemTypeString>
             <Name>ProjectId</Name>
@@ -560,6 +678,10 @@
         <IsConstructor>false</IsConstructor>
         <Scope>Public</Scope>
         <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
           <ParameterData>
             <SystemTypeString>TheDAL.Poco.Project</SystemTypeString>
             <Name>Project</Name>
@@ -603,6 +725,10 @@
         <Scope>Private</Scope>
         <Parameters>
           <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
             <SystemTypeString>System.String</SystemTypeString>
             <Name>UserName</Name>
           </ParameterData>
@@ -626,6 +752,7 @@
         <Comment>
           <Summary>
             <string>This method is used for adding a new record in the database.</string>
+            <string>&lt;para&gt;St4mpede guid:{759FBA46-A462-4E4A-BA2B-9B5AFDA572DE}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>Add</Name>
@@ -635,14 +762,32 @@
         <Scope>Private</Scope>
         <Parameters>
           <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
             <SystemTypeString>TheDAL.Poco.User</SystemTypeString>
             <Name>User</Name>
           </ParameterData>
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>return null;</string>
+            <string>const string Sql = @"</string>
+            <string>	Insert Into User</string>
+            <string>	(</string>
+            <string>		UserName, HashedPassword, LastLoggedOnDatetime</string>
+            <string>	)</string>
+            <string>	Values</string>
+            <string>	(</string>
+            <string>		@UserName, @HashedPassword, @LastLoggedOnDatetime</string>
+            <string>	)</string>
+            <string>	Select * From User Where UserId = Scope_Identity()";</string>
+            <string>var ret = context.Connection.Query&lt;TheDAL.Poco.User&gt;(</string>
+            <string>	Sql, </string>
+            <string>	new { /*...*/ },</string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return ret.Single();</string>
           </Lines>
         </Body>
       </MethodData>
@@ -658,6 +803,10 @@
         <IsConstructor>false</IsConstructor>
         <Scope>Public</Scope>
         <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
           <ParameterData>
             <SystemTypeString>TheDAL.Poco.User</SystemTypeString>
             <Name>User</Name>
@@ -682,6 +831,10 @@
         <Scope>Public</Scope>
         <Parameters>
           <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
             <SystemTypeString>System.Int32</SystemTypeString>
             <Name>UserId</Name>
           </ParameterData>
@@ -704,6 +857,12 @@
         <Override>false</Override>
         <IsConstructor>false</IsConstructor>
         <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+        </Parameters>
         <Body>
           <Lines>
             <string>//TODO:OF:TBA.</string>
@@ -724,6 +883,10 @@
         <IsConstructor>false</IsConstructor>
         <Scope>Public</Scope>
         <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
           <ParameterData>
             <SystemTypeString>System.Int32</SystemTypeString>
             <Name>UserId</Name>
@@ -750,6 +913,10 @@
         <Scope>Public</Scope>
         <Parameters>
           <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
             <SystemTypeString>System.Int32</SystemTypeString>
             <Name>UserId</Name>
           </ParameterData>
@@ -773,6 +940,10 @@
         <IsConstructor>false</IsConstructor>
         <Scope>Private</Scope>
         <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
           <ParameterData>
             <SystemTypeString>System.Int32</SystemTypeString>
             <Name>UserId</Name>
@@ -810,6 +981,10 @@
         <Scope>Private</Scope>
         <Parameters>
           <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
             <SystemTypeString>TheDAL.Poco.User</SystemTypeString>
             <Name>User</Name>
           </ParameterData>
@@ -834,6 +1009,10 @@
         <IsConstructor>false</IsConstructor>
         <Scope>Public</Scope>
         <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
           <ParameterData>
             <SystemTypeString>System.Int32</SystemTypeString>
             <Name>UserId</Name>
@@ -871,6 +1050,10 @@
         <IsConstructor>false</IsConstructor>
         <Scope>Public</Scope>
         <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
           <ParameterData>
             <SystemTypeString>TheDAL.Poco.User</SystemTypeString>
             <Name>User</Name>

@@ -107,14 +107,23 @@ namespace St4mpede.St4mpede.Surface
 					Comment = new CommentData("This method is used for adding a new record in the database."),
 					Scope = Common.VisibilityScope.Private,
 					ReturnTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
-					Parameters = table.Columns
-					.Where(p => false == p.IsInPrimaryKey)
-					.Select(p =>
-					   new ParameterData
-					   {
-						   Name = p.Name,
-						   SystemTypeString = parserLogic2.ConvertDatabaseTypeToDotnetTypeString(p.DatabaseTypeName)
-					   }).ToList(),
+					Parameters = new[] {
+							new ParameterData
+							{
+								Name = "context",
+								SystemTypeString = "TheDAL.CommitScope"	//	TODO:OF:Fetch namespace from settings.
+							}
+						}
+						.Concat(
+								table.Columns
+								.Where(p => false == p.IsInPrimaryKey)
+								.Select(p =>
+									   new ParameterData
+									   {
+										   Name = p.Name,
+										   SystemTypeString = parserLogic2.ConvertDatabaseTypeToDotnetTypeString(p.DatabaseTypeName)
+									   }))
+						.ToList(),
 					Body = new BodyData(new[]
 					{
 						"//TODO:OF:TBA.",
@@ -126,19 +135,46 @@ namespace St4mpede.St4mpede.Surface
 				surfaceClass.Methods.Add(new MethodData
 				{
 					Name = "Add",
-					Comment = new CommentData("This method is used for adding a new record in the database."),
+					Comment = new CommentData(new[] {
+						"This method is used for adding a new record in the database.",
+						"<para>St4mpede guid:{759FBA46-A462-4E4A-BA2B-9B5AFDA572DE}</para>"}),
 					Scope = Common.VisibilityScope.Private,
 					ReturnTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
-					Parameters = new[] {
-					   new ParameterData
-					   {
-						   Name = table.Name,	//	TODO:OF:Make camelcase.
-						   SystemTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
-					   } }.ToList(),
+					Parameters =
+							new[] { new ParameterData
+							{
+								Name="context", 
+								SystemTypeString = "TheDAL.CommitScope"	//	TODO:OF:Fetch namespace from settings.
+							} }
+						.Concat(
+							new[] {	new ParameterData
+							   {
+								   Name = table.Name,	//	TODO:OF:Make camelcase.
+								   SystemTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
+								}
+							})
+						.ToList(),
 					Body = new BodyData(new[]
 					{
-						"//TODO:OF:TBA.",
-						"return null;"
+						$"const string Sql = @" + "\"",
+						$"	Insert Into {table.Name}",
+						$"	(",
+						$"		{string.Join(", ",table.Columns.Where(c=>false==c.IsInPrimaryKey).Select(c=>c.Name))}",
+						$"	)",
+						$"	Values",
+						$"	(",
+						//	TODO:OF:Make lowercase.
+						$"		{string.Join(", ",table.Columns.Where(c=>false==c.IsInPrimaryKey).Select(c=>"@" + c.Name))}",
+						$"	)",
+						$"	Select * From {table.Name} Where {table.Columns.Single(c=>c.IsInPrimaryKey).Name} = Scope_Identity()" + "\";",
+						$"var ret = context.Connection.Query<TheDAL.Poco.{table.Name}>(", //	TODO:OF:Fetch namespace from Poco project.
+						"	Sql, ",
+						//	TODO:OF:Implement parmeters.
+						//$"	new {{ {string.Join(", ", table.Columns.Select(c=> c.Name + " = " + table.Name + "." + c.Name  )) } }},	//TODO:OF:TBA.",
+						"	new { /*...*/ },",
+						"	context.Transaction,", 
+						"	false, null, null);", 
+						"return ret.Single();",
 					})
 				});
 
@@ -151,13 +187,19 @@ namespace St4mpede.St4mpede.Surface
 						}),
 					Scope = Common.VisibilityScope.Public,
 					ReturnTypeString = $"void",
-					Parameters = new ParameterData[] {
-							   new ParameterData
+					Parameters =
+							new[] { new ParameterData
+							{
+								Name="context",
+								SystemTypeString = "TheDAL.CommitScope"	//	TODO:OF:Fetch namespace from settings.
+							} }
+						.Concat(
+							new [] { new ParameterData
 							   {
 								   Name = table.Name,	//	TODO:OF:Make camelcase.
 								   SystemTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
 							   }
-					}.ToList(),
+					}).ToList(),
 					Body = new BodyData(new[]
 						{
 						"//TODO:OF:TBA. =>get or throw exception.",
@@ -173,14 +215,22 @@ namespace St4mpede.St4mpede.Surface
 						}),
 					Scope = Common.VisibilityScope.Public,
 					ReturnTypeString = $"void",
-					Parameters = table.Columns
-							.Where(c => c.IsInPrimaryKey)
-							.Select(p =>
-							   new ParameterData
-							   {
-								   Name = p.Name,
-								   SystemTypeString = parserLogic2.ConvertDatabaseTypeToDotnetTypeString(p.DatabaseTypeName)
-							   }).ToList(),
+					Parameters =
+							new[] { new ParameterData
+							{
+								Name="context",
+								SystemTypeString = "TheDAL.CommitScope"	//	TODO:OF:Fetch namespace from settings.
+							} }
+						.Concat(
+							table.Columns
+								.Where(c => c.IsInPrimaryKey)
+								.Select(p =>
+								   new ParameterData
+								   {
+									   Name = p.Name,
+									   SystemTypeString = parserLogic2.ConvertDatabaseTypeToDotnetTypeString(p.DatabaseTypeName)
+								   }))
+						.ToList(),
 					Body = new BodyData(new[]
 						{
 						"//TODO:OF:TBA. =>get or throw exception.",
@@ -197,6 +247,12 @@ namespace St4mpede.St4mpede.Surface
 						}),
 					Scope = Common.VisibilityScope.Public,
 					ReturnTypeString = $"IList<TheDAL.Poco.{table.Name}>", //	TODO:OF:Fetch namespace from Poco project.
+					Parameters =
+						new[] { new ParameterData
+							{
+								Name="context",
+								SystemTypeString = "TheDAL.CommitScope"	//	TODO:OF:Fetch namespace from settings.
+							} }.ToList(),
 					Body = new BodyData(new[]
 						{
 						"//TODO:OF:TBA.",
@@ -214,14 +270,22 @@ namespace St4mpede.St4mpede.Surface
 						}),
 					Scope = Common.VisibilityScope.Public,
 					ReturnTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
-					Parameters = table.Columns
-							.Where( c=>c.IsInPrimaryKey)
-							.Select(p =>
-							   new ParameterData
-							   {
-								   Name = p.Name,
-								   SystemTypeString = parserLogic2.ConvertDatabaseTypeToDotnetTypeString(p.DatabaseTypeName)
-							   }).ToList(),
+					Parameters =
+						new[] { new ParameterData
+							{
+								Name="context",
+								SystemTypeString = "TheDAL.CommitScope"	//	TODO:OF:Fetch namespace from settings.
+							} }
+						.Concat(
+							table.Columns
+								.Where( c=>c.IsInPrimaryKey)
+								.Select(p =>
+								   new ParameterData
+								   {
+									   Name = p.Name,
+									   SystemTypeString = parserLogic2.ConvertDatabaseTypeToDotnetTypeString(p.DatabaseTypeName)
+								   }))
+						.ToList(),
 					Body = new BodyData(new[]
 						{
 						"//TODO:OF:TBA. =>get or throw exception.",
@@ -239,14 +303,22 @@ namespace St4mpede.St4mpede.Surface
 						}),
 					Scope = Common.VisibilityScope.Public,
 					ReturnTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
-					Parameters = table.Columns
-							.Where(c => c.IsInPrimaryKey)
-							.Select(p =>
-							   new ParameterData
-							   {
-								   Name = p.Name,
-								   SystemTypeString = parserLogic2.ConvertDatabaseTypeToDotnetTypeString(p.DatabaseTypeName)
-							   }).ToList(),
+					Parameters =
+						new[] { new ParameterData
+						{
+							Name="context",
+							SystemTypeString = "TheDAL.CommitScope"	//	TODO:OF:Fetch namespace from settings.
+						} }
+						.Concat(
+							table.Columns
+								.Where(c => c.IsInPrimaryKey)
+								.Select(p =>
+								   new ParameterData
+								   {
+									   Name = p.Name,
+									   SystemTypeString = parserLogic2.ConvertDatabaseTypeToDotnetTypeString(p.DatabaseTypeName)
+								   }))
+						.ToList(),
 					Body = new BodyData(new[]
 						{
 						"//TODO:OF:TBA. =>get or return null.",
@@ -261,13 +333,21 @@ namespace St4mpede.St4mpede.Surface
 					Comment = new CommentData("This method is used for updating an existing record in the database."),
 					Scope = Common.VisibilityScope.Private,
 					ReturnTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
-					Parameters = table.Columns
+					Parameters =
+							new[] { new ParameterData
+							{
+								Name="context",
+								SystemTypeString = "TheDAL.CommitScope"	//	TODO:OF:Fetch namespace from settings.
+							} }
+						.Concat(
+							table.Columns
 								.Select(p =>
 								   new ParameterData
 								   {
 									   Name = p.Name,
 									   SystemTypeString = parserLogic2.ConvertDatabaseTypeToDotnetTypeString(p.DatabaseTypeName)
-								   }).ToList(),
+								   }))
+						.ToList(),
 					Body = new BodyData(new[]
 							{
 						"//TODO:OF:TBA.",
@@ -283,11 +363,17 @@ namespace St4mpede.St4mpede.Surface
 					Scope = Common.VisibilityScope.Private,
 					ReturnTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
 					Parameters = new[] {
-								   new ParameterData
-								   {
-									   Name = table.Name,	//	TODO:OF:Make camelcase.
-									   SystemTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
-								   } }.ToList(),
+							new ParameterData
+							{
+								Name="context",
+								SystemTypeString = "TheDAL.CommitScope"	//	TODO:OF:Fetch namespace from settings.
+							},
+							new ParameterData
+							{
+								Name = table.Name,	//	TODO:OF:Make camelcase.
+								SystemTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
+							} }
+						.ToList(),
 					Body = new BodyData(new[]
 							{
 						"//TODO:OF:TBA.",
@@ -305,13 +391,21 @@ namespace St4mpede.St4mpede.Surface
 						}),
 					Scope = Common.VisibilityScope.Public,
 					ReturnTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
-					Parameters = table.Columns
+					Parameters =
+						new[] { new ParameterData
+							{
+								Name="context",
+								SystemTypeString = "TheDAL.CommitScope"	//	TODO:OF:Fetch namespace from settings.
+							} }
+						.Concat(
+						table.Columns
 							.Select(p =>
 							   new ParameterData
 							   {
 								   Name = p.Name,
 								   SystemTypeString = parserLogic2.ConvertDatabaseTypeToDotnetTypeString(p.DatabaseTypeName)
-							   }).ToList(),
+							   }))
+						.ToList(),
 					Body = new BodyData(new[]
 						{
 						"//TODO:OF:TBA. =>if( return 0 == primarykey ? Add(...) : Update(...)",
@@ -330,11 +424,17 @@ namespace St4mpede.St4mpede.Surface
 					Scope = Common.VisibilityScope.Public,
 					ReturnTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
 					Parameters = new[] {
-							   new ParameterData
-							   {
-								   Name = table.Name,	//	TODO:OF:Make camelcase.
-								   SystemTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
-							   } }.ToList(),
+							new ParameterData
+							{
+								Name="context",
+								SystemTypeString = "TheDAL.CommitScope"	//	TODO:OF:Fetch namespace from settings.
+							},
+							new ParameterData
+							{
+								Name = table.Name,	//	TODO:OF:Make camelcase.
+								SystemTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
+							} }
+						.ToList(),
 					Body = new BodyData(new[]
 						{
 						"//TODO:OF:TBA. =>if( return 0 == primarykey ? Add(...) : Update(...)",
@@ -473,6 +573,9 @@ namespace St4mpede.St4mpede.Surface
 			ret.Add($"namespace TheDal.Surface");
 			ret.Add("{");
 			ret.Add("	using System.Collections.Generic;");
+			ret.Add("	using System.Linq;");
+			ret.Add("	using Dapper;");
+			ret.Add(string.Empty);
 
 			ret.AddRange(classData.ToCode(new Indent(1)));
 
