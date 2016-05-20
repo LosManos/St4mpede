@@ -30,7 +30,7 @@ namespace St4mpede.St4mpede.Surface
 
 		private readonly ILog _log;
 
-		private IList<SurfaceData> _surfaceDataList;
+		private IList<ClassData> _surfaceDataList;
 
 		private DatabaseData _database;
 
@@ -59,7 +59,7 @@ namespace St4mpede.St4mpede.Surface
 
 		internal void Generate()
 		{
-			_surfaceDataList = new List<SurfaceData>();
+			_surfaceDataList = new List<ClassData>();
 
 			var xmlRdbSchemaPathfile = Path.Combine(
 				//@"C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede",
@@ -75,15 +75,101 @@ namespace St4mpede.St4mpede.Surface
 
 			_database = parserLogic2.GetResult(xmlRdbSchemaPathfile);
 
-			_database.Tables.ForEach(t =>
+			_database.Tables.ForEach(table =>
 			{
-				var surface = new SurfaceData
+			   //	Set data for the very [class].
+				var surfaceClass = new ClassData
 				{
-					Name = t.Name
+					Name = $"{table.Name}Surface",
+					 Comment = new CommentData($"This is the Surface for the {table.Name} table."),
+				    IsPartial = false,
+					Properties = new List<PropertyData>(),
+					Methods = new List<MethodData>()
 				};
-				_surfaceDataList.Add(surface);
+				_surfaceDataList.Add(surfaceClass);
+
+				//	#	Create the properties.
+				//	Well... we don't have any properties.
+				
+				//	#	Create the constructor.
+				var constructorMethod = new MethodData
+				{
+					IsConstructor = true,
+					Name = surfaceClass.Name
+				};
+				surfaceClass.Methods.Add(constructorMethod);
+
+				//	#	Create the methods.
+				//	##	Create the Add method.
+				var addMethod = new MethodData
+				{
+					Name = "Add",
+					Comment = new CommentData("This method is used for adding a new record in the database."),
+					Scope = Common.VisibilityScope.Private,
+					ReturnTypeString = $"TheDAL.Poco.{table.Name}",	//	TODO:OF:Fetch namespace from Poco project.
+					Parameters = table.Columns
+						.Where(p => false == p.IsInPrimaryKey)
+						.Select(p =>
+						   new ParameterData
+						   {
+							   Name = p.Name,
+							   SystemTypeString = parserLogic2.ConvertDatabaseTypeToDotnetTypeString(p.DatabaseTypeName)
+						   }).ToList(), 
+					Body = new BodyData(new[]
+					{
+						"//TODO:OF:TBA.",
+						"return null;"
+					})
+				};
+				surfaceClass.Methods.Add(addMethod);
+
+				var updateMethod = new MethodData
+				{
+					Name = "Update",
+					Comment = new CommentData("This method is used for updating an existing record in the database."),
+					Scope = Common.VisibilityScope.Private,
+					ReturnTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
+					Parameters = table.Columns
+						.Select(p =>
+						   new ParameterData
+						   {
+							   Name = p.Name,
+							   SystemTypeString = parserLogic2.ConvertDatabaseTypeToDotnetTypeString(p.DatabaseTypeName)
+						   }).ToList(),
+					Body = new BodyData(new[]
+					{
+						"//TODO:OF:TBA.",
+						"return null;"
+					})
+				};
+				surfaceClass.Methods.Add(updateMethod);
+
+				var upsertMethod = new MethodData
+				{
+					Name = "Upsert",
+					Comment = new CommentData( new[] {
+						"This method is used for creating a new or  updating an existing record in the database.",
+						"If the primary key is 0 (zero) we know it is a new record and try to add it. Otherwise we try to update the record."
+						}),
+					Scope = Common.VisibilityScope.Public,
+					ReturnTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
+					Parameters = table.Columns
+						.Select(p =>
+						   new ParameterData
+						   {
+							   Name = p.Name,
+							   SystemTypeString = parserLogic2.ConvertDatabaseTypeToDotnetTypeString(p.DatabaseTypeName)
+						   }).ToList(),
+					Body = new BodyData(new[]
+					{
+						"//TODO:OF:TBA. =>if( return 0 == primarykey ? Add(...) : Update(...)", 
+						"return null;"
+					})
+				};
+				surfaceClass.Methods.Add(upsertMethod);
 			});
-			_log.Add("Included surfaces are");
+
+			_log.Add("Included surfaces are:");
 			_log.Add(_surfaceDataList.ToInfo());
 		}
 
@@ -128,10 +214,10 @@ namespace St4mpede.St4mpede.Surface
 				Core.Serialise(_surfaceDataList.ToList()),
 				pathFileForXmlOutput);
 
-			var pathForPocoOutput = Path.Combine(_coreSettings.RootFolder, _surfaceSettings.OutputFolder);
+			var pathForSurfaceOutput = Path.Combine(_coreSettings.RootFolder, _surfaceSettings.OutputFolder);
 			//_log.Add("Writing {0} classes in {1}.", _classDataList.Count, pathForPocoOutput);
 
-			//WriteSurfaceClasses(pathForPocoOutput);
+			WriteSurfaceClasses(pathForSurfaceOutput);
 
 			//	TODO: Add Surface files to project.
 		}
@@ -191,6 +277,33 @@ namespace St4mpede.St4mpede.Surface
 				projectPath, 
 				xmlOutputFilename
 			);
+		}
+
+		private void WriteSurfaceClasses(string pathForSurfaceOutput)
+		{
+			foreach (var classData in _surfaceDataList)
+			{
+				var cls = MakeClass(classData);
+				_core.WriteOutput(cls, Path.Combine(pathForSurfaceOutput,
+					_core.AddSuffix(classData.Name)));
+			}
+		}
+
+		private IList<string> MakeClass(ClassData classData)
+		{
+			var ret = new List<string>();
+			ret.Add(string.Format("//\tThis file was generated by St4mpede.Surface {0}.", DateTime.Now.ToString("u")));
+			ret.Add(string.Empty);
+
+//			ret.AddRange(_pocoSettings.NameSpaceComments.Select(c => string.Format("//\t{0}", c)));
+//			ret.Add(string.Format("namespace {0}", _pocoSettings.NameSpace));
+//			ret.Add("{");
+
+			ret.AddRange(classData.ToCode());
+
+//			ret.Add("}");
+
+			return ret;
 		}
 
 		#endregion

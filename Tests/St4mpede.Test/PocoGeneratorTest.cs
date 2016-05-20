@@ -17,43 +17,49 @@ namespace St4mpede.Test
 		[TestMethod]
 		public void ConvertDatabaseTypeToDotnetType_given_UnknownDatabaseType_should_ReturnErrorString()
 		{
-			//	#	Arrange.
-			var sut = new PocoGenerator();
+			Assert.Fail("Move to ParserLogic2");
 
-			//	#	Act.
-			var res = sut.UT_ConvertDatabaseTypeToDotnetType("unkown");
+			////	#	Arrange.
+			//var sut = new PocoGenerator();
+
+			////	#	Act.
+			//var res = sut.UT_ConvertDatabaseTypeToDotnetType("unkown");
 			
-			//	#	Assert.
-			Assert.IsTrue(res.Contains("ERROR"));
+			////	#	Assert.
+			//Assert.IsTrue(res.Contains("ERROR"));
 		}
 
 		[TestMethod]
 		public void ConvertDatabaseTypeToDotnetType_given_KnownDatabaseType_should_ConvertedType()
 		{
-			//	#	Arrange.
-			var sut = new PocoGenerator();
+			Assert.Fail("Move to ParserLogic2");
 
-			//	#	Act.
-			var res = sut.UT_ConvertDatabaseTypeToDotnetType("nvarchar");
+			////	#	Arrange.
+			//var sut = new PocoGenerator();
 
-			//	#	Assert.
-			Assert.AreEqual(typeof(string).ToString(), res);
+			////	#	Act.
+			//var res = sut.UT_ConvertDatabaseTypeToDotnetType("nvarchar");
+
+			////	#	Assert.
+			//Assert.AreEqual(typeof(string).ToString(), res);
 		}
 
 		[TestMethod]
 		public void ConvertDatabaseTypeToDotnetType_given_NotUbiquitousDatabaseType_should_ConvertedType()
 		{
-			//	#	Arrange.
-			//	Manipulate Types dictionary to be incorrect.
-			var sut = new PocoGenerator();
-			sut.UT_Types.Add(
-				new PocoGenerator.TypesTuple("nvarchar", typeof(char).ToString()));
+			Assert.Fail("Move to ParserLogic2");
 
-			//	#	Act.
-			var res = sut.UT_ConvertDatabaseTypeToDotnetType("nvarchar");
+			////	#	Arrange.
+			////	Manipulate Types dictionary to be incorrect.
+			//var sut = new PocoGenerator();
+			//sut.UT_Types.Add(
+			//	new PocoGenerator.TypesTuple("nvarchar", typeof(char).ToString()));
 
-			//	#	Assert.
-			Assert.IsTrue(res.Contains("ERROR"));
+			////	#	Act.
+			//var res = sut.UT_ConvertDatabaseTypeToDotnetType("nvarchar");
+
+			////	#	Assert.
+			//Assert.IsTrue(res.Contains("ERROR"));
 		}
 
 		#region CreateBodyForEqualsMethod tests.
@@ -426,7 +432,11 @@ namespace St4mpede.Test
 		{
 			//	#	Arrange.
 			var mockedCore = new Mock<ICore>();
-			mockedCore.Setup(m => m.WriteOutput(It.IsAny<IList<string>>(), It.IsAny<string> ()));
+			mockedCore.Setup(m => 
+                m.WriteOutput(It.IsAny<IList<string>>(), It.IsAny<string> ()));
+            mockedCore.Setup(m =>
+                m.AddSuffix(It.IsAny<string>()))
+                .Returns((string s) => s + ".cs");
 			var sut = new PocoGenerator(mockedCore.Object, new Log());
 			sut.UT_PocoSettings = new PocoSettings(
 				true,
@@ -470,24 +480,26 @@ namespace St4mpede.Test
 		[TestMethod]
 		public void TypesPropertyMustNotBeStatic()
 		{
-			//	Here we use UT_Types for a workaround that Type should not be static.
-			//	To be honest it doesn't work - UT_Types can be non-static while Types can.
-			//	But the code is kept as a memory and a, albeit dysfunctional, gate to keep someone from tyrning Types to static.
-			//	An easy solution would be to make Types internal and remove UT_Types.
-			//	Another solution could be using refletion and search for private "Types".
-			//	A third solution would be to create 2 instances of SUT and add an item to Types and see if one instance affected the other; in that case it would be the static we are trying to avoid.
-			//	Let's save this for a rainy day.
+			Assert.Fail("Move to ParserLogic2");
 
-			//	#	Arrange.
-			var sut = new PocoGenerator();
-			var typeType = sut.UT_Types.GetType();
-			var typeName = GetMemberInfo((PocoGenerator pg) => pg.UT_Types).Name;
+			////	Here we use UT_Types for a workaround that Type should not be static.
+			////	To be honest it doesn't work - UT_Types can be non-static while Types can.
+			////	But the code is kept as a memory and a, albeit dysfunctional, gate to keep someone from tyrning Types to static.
+			////	An easy solution would be to make Types internal and remove UT_Types.
+			////	Another solution could be using refletion and search for private "Types".
+			////	A third solution would be to create 2 instances of SUT and add an item to Types and see if one instance affected the other; in that case it would be the static we are trying to avoid.
+			////	Let's save this for a rainy day.
 
-			//	#	Act.
-			var res = typeType.GetProperties(System.Reflection.BindingFlags.Static).FirstOrDefault(p => p.Name == typeName);
+			////	#	Arrange.
+			//var sut = new PocoGenerator();
+			//var typeType = sut.UT_Types.GetType();
+			//var typeName = GetMemberInfo((PocoGenerator pg) => pg.UT_Types).Name;
 
-			//	#	Assert.
-			Assert.IsNull(res, "We are retrieving all static properties and Types should not be one of them.");	
+			////	#	Act.
+			//var res = typeType.GetProperties(System.Reflection.BindingFlags.Static).FirstOrDefault(p => p.Name == typeName);
+
+			////	#	Assert.
+			//Assert.IsNull(res, "We are retrieving all static properties and Types should not be one of them.");	
 		}
 
 		private static MemberInfo GetMemberInfo<T, U>(Expression<Func<T, U>> expression)

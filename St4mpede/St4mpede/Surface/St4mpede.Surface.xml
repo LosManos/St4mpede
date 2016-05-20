@@ -1,12 +1,324 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ArrayOfSurfaceData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SurfaceData>
-    <Name>Customer</Name>
-  </SurfaceData>
-  <SurfaceData>
-    <Name>Project</Name>
-  </SurfaceData>
-  <SurfaceData>
-    <Name>User</Name>
-  </SurfaceData>
-</ArrayOfSurfaceData>
+<ArrayOfClassData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ClassData>
+    <IsPartial>false</IsPartial>
+    <Comment>
+      <Summary>
+        <string>This is the Surface for the Customer table.</string>
+      </Summary>
+    </Comment>
+    <Name>CustomerSurface</Name>
+    <Properties />
+    <Methods>
+      <MethodData>
+        <Name>CustomerSurface</Name>
+        <Override>false</Override>
+        <IsConstructor>true</IsConstructor>
+        <Scope>Public</Scope>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for adding a new record in the database.</string>
+          </Summary>
+        </Comment>
+        <Name>Add</Name>
+        <ReturnTypeString>TheDAL.Poco.Customer</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Private</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>Name</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA.</string>
+            <string>return null;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for updating an existing record in the database.</string>
+          </Summary>
+        </Comment>
+        <Name>Update</Name>
+        <ReturnTypeString>TheDAL.Poco.Customer</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Private</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>CustomerId</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>Name</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA.</string>
+            <string>return null;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for creating a new or  updating an existing record in the database.</string>
+            <string>If the primary key is 0 (zero) we know it is a new record and try to add it. Otherwise we try to update the record.</string>
+          </Summary>
+        </Comment>
+        <Name>Upsert</Name>
+        <ReturnTypeString>TheDAL.Poco.Customer</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>CustomerId</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>Name</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA. =&gt;if( return 0 == primarykey ? Add(...) : Update(...)</string>
+            <string>return null;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+    </Methods>
+  </ClassData>
+  <ClassData>
+    <IsPartial>false</IsPartial>
+    <Comment>
+      <Summary>
+        <string>This is the Surface for the Project table.</string>
+      </Summary>
+    </Comment>
+    <Name>ProjectSurface</Name>
+    <Properties />
+    <Methods>
+      <MethodData>
+        <Name>ProjectSurface</Name>
+        <Override>false</Override>
+        <IsConstructor>true</IsConstructor>
+        <Scope>Public</Scope>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for adding a new record in the database.</string>
+          </Summary>
+        </Comment>
+        <Name>Add</Name>
+        <ReturnTypeString>TheDAL.Poco.Project</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Private</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>Name</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA.</string>
+            <string>return null;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for updating an existing record in the database.</string>
+          </Summary>
+        </Comment>
+        <Name>Update</Name>
+        <ReturnTypeString>TheDAL.Poco.Project</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Private</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>ProjectId</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>Name</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA.</string>
+            <string>return null;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for creating a new or  updating an existing record in the database.</string>
+            <string>If the primary key is 0 (zero) we know it is a new record and try to add it. Otherwise we try to update the record.</string>
+          </Summary>
+        </Comment>
+        <Name>Upsert</Name>
+        <ReturnTypeString>TheDAL.Poco.Project</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>ProjectId</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>Name</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA. =&gt;if( return 0 == primarykey ? Add(...) : Update(...)</string>
+            <string>return null;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+    </Methods>
+  </ClassData>
+  <ClassData>
+    <IsPartial>false</IsPartial>
+    <Comment>
+      <Summary>
+        <string>This is the Surface for the User table.</string>
+      </Summary>
+    </Comment>
+    <Name>UserSurface</Name>
+    <Properties />
+    <Methods>
+      <MethodData>
+        <Name>UserSurface</Name>
+        <Override>false</Override>
+        <IsConstructor>true</IsConstructor>
+        <Scope>Public</Scope>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for adding a new record in the database.</string>
+          </Summary>
+        </Comment>
+        <Name>Add</Name>
+        <ReturnTypeString>TheDAL.Poco.User</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Private</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>UserName</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>HashedPassword</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.DateTime</SystemTypeString>
+            <Name>LastLoggedOnDatetime</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA.</string>
+            <string>return null;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for updating an existing record in the database.</string>
+          </Summary>
+        </Comment>
+        <Name>Update</Name>
+        <ReturnTypeString>TheDAL.Poco.User</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Private</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>UserId</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>UserName</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>HashedPassword</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.DateTime</SystemTypeString>
+            <Name>LastLoggedOnDatetime</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA.</string>
+            <string>return null;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for creating a new or  updating an existing record in the database.</string>
+            <string>If the primary key is 0 (zero) we know it is a new record and try to add it. Otherwise we try to update the record.</string>
+          </Summary>
+        </Comment>
+        <Name>Upsert</Name>
+        <ReturnTypeString>TheDAL.Poco.User</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>UserId</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>UserName</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>HashedPassword</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.DateTime</SystemTypeString>
+            <Name>LastLoggedOnDatetime</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>//TODO:OF:TBA. =&gt;if( return 0 == primarykey ? Add(...) : Update(...)</string>
+            <string>return null;</string>
+          </Lines>
+        </Body>
+      </MethodData>
+    </Methods>
+  </ClassData>
+</ArrayOfClassData>

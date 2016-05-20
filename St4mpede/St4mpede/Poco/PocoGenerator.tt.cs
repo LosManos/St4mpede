@@ -61,16 +61,6 @@ namespace St4mpede.St4mpede.Poco
 
 		#endregion
 
-		internal static class DatabaseTypes
-		{
-			internal const string DateTime = "datetime";
-			internal const string NChar = "nchar";
-			internal const string NVarChar = "nvarchar";
-			internal const string Int = "int";
-			internal const string VarChar = "varchar";
-			internal const string Char = "char";
-		}
-
 		#region Constructors.
 
 		internal PocoGenerator()
@@ -87,6 +77,8 @@ namespace St4mpede.St4mpede.Poco
 
 		internal void Generate()
 		{
+			IParserLogic2 parserLogic2 = new ParserLogic2();
+
 			_classDataList = new List<ClassData>();
 			_database.Tables
 				.Where(t => t.Include)
@@ -111,7 +103,7 @@ namespace St4mpede.St4mpede.Poco
 					   {
 						   Name = column.Name,
 						   Scope = Common.VisibilityScope.Public,
-						   SystemType = ConvertDatabaseTypeToDotnetType(column.DatabaseTypeName),
+						   SystemType = parserLogic2.ConvertDatabaseTypeToDotnetType(column.DatabaseTypeName),
 						   Comment = column.IsInPrimaryKey ?
 								new CommentData("This property is part of the primary key.")
 								: null
@@ -140,7 +132,7 @@ namespace St4mpede.St4mpede.Poco
 					   new ParameterData
 					   {
 						   Name = p.Name,
-						   SystemTypeString = ConvertDatabaseTypeToDotnetTypeString( p.DatabaseTypeName)
+						   SystemTypeString = parserLogic2.ConvertDatabaseTypeToDotnetTypeString( p.DatabaseTypeName)
 					   }).ToList()
 				   });
                }
@@ -158,7 +150,7 @@ namespace St4mpede.St4mpede.Poco
 						   new ParameterData
 						   {
 							   Name = p.Name,
-							   SystemTypeString = ConvertDatabaseTypeToDotnetTypeString( p.DatabaseTypeName)
+							   SystemTypeString = parserLogic2.ConvertDatabaseTypeToDotnetTypeString( p.DatabaseTypeName)
 						   }).ToList()
 				   });
 			   }
@@ -303,6 +295,8 @@ namespace St4mpede.St4mpede.Poco
 
 		private IList<string> CreateBodyForGetHashCodeMethod(TableData table)
 		{
+			IParserLogic2 parserLogic2 = new ParserLogic2();
+
 			var bodyLines = new List<string>
 			{
 				"int hash = 13;"
@@ -310,7 +304,7 @@ namespace St4mpede.St4mpede.Poco
 			bodyLines.AddRange(table.Columns.Select(c =>
 				"hash = (hash*7) + " +
 				(
-					DefaultValueIsNull( ConvertDatabaseTypeToDotnetType(c.DatabaseTypeName))
+					DefaultValueIsNull( parserLogic2.ConvertDatabaseTypeToDotnetType(c.DatabaseTypeName))
 				?   //	It is a parameter that cannot be null.
                     string.Format("( null == {0} ? 0 : this.{0}.GetHashCode() );", c.Name)
 				:	//	It is a value that can be null.
@@ -396,82 +390,20 @@ namespace St4mpede.St4mpede.Poco
 			);
 		}
 
-		internal class TypesTuple
-		{
-			internal string DatabaseTypeName { get; set; }
-			internal string DotnetTypeName { get; set; }
-			internal TypesTuple(string databaseTypeName, string dotnetTypeName)
-			{
-				DatabaseTypeName = databaseTypeName;
-				DotnetTypeName = dotnetTypeName;
-			}
-		}
-
-		/// <summary>This is a dictionary of how the database types match to dotnet types.
-		/// TODO:Create a dictionary of this list. Maybe we can get rid of the case of not ubiquitous data too.
-		/// <para>
-		/// NOTE: It cannot be static as it messes up the test. 
-		/// We have a test that tests if we have a not ubuquitous type conversion and for that we manipulate this dictionary to be in a not correct way. If it is static this erroneous Types stays put before next test that then fails. Run next test by itself and the test succeeds. Hard error to track down that is.</para>
-		/// </summary>
-		private IList<TypesTuple> Types = new List<TypesTuple>
-		{
-			new TypesTuple(DatabaseTypes.DateTime, typeof(DateTime).ToString()),
-			new TypesTuple(DatabaseTypes.NChar, typeof(char).ToString()),
-			new TypesTuple(DatabaseTypes.NVarChar, typeof(string).ToString()),
-			new TypesTuple(DatabaseTypes.Int, typeof(int).ToString()),
-			new TypesTuple(DatabaseTypes.VarChar, typeof(string).ToString()),
-			new TypesTuple(DatabaseTypes.Char, typeof(string).ToString()),
-		};
-
-		private string AddSuffix(string name)
-		{
-			return name + ".cs";
-		}
-
-		private Type ConvertDatabaseTypeToDotnetType(string databaseTypeName)
-		{
-			var res = Types.Where(t => t.DatabaseTypeName == databaseTypeName).ToList();
-			switch (res.Count)
-			{
-				case 0:
-					throw new ArgumentException( string.Format( "ERROR! Unkown database type {0}. This is a technical error and the dictionary should be updated.", databaseTypeName), "databaseTypeName");
-				case 1:
-					return Type.GetType( res.Single().DotnetTypeName);
-				default:
-						throw new ArgumentException( string.Format("ERROR! Not ubiquitous database type {0} as it could be referenced to any of [{1}]. This is a technical error and the dictionary should be updated.", databaseTypeName, string.Join(",", res.Select(t => t.DotnetTypeName)) 
-							), 
-						"databaseTypeName");
-			}
-		}
-
-		private string ConvertDatabaseTypeToDotnetTypeString(string databaseTypeName)
-		{
-			var res = Types.Where(t => t.DatabaseTypeName == databaseTypeName).ToList();
-			switch(res.Count)
-			{
-				case 0:
-					return string.Format("ERROR! Unkown database type {0}. This is a technical error and teh dictionary should be updated.", databaseTypeName);
-				case 1:
-					return res.Single().DotnetTypeName;
-				default:
-					return string.Format("ERROR! Not ubiquitous database type {0} as it could be referenced to any of [{1}]. This is a technical error and the dictionary should be updated.", databaseTypeName, string.Join(",", res.Select(t=>t.DotnetTypeName)));
-			}
-		}
-
 		private void WritePocoClasses(string pathForPocoOutput)
 		{
 			foreach( var classData in _classDataList)
 			{
 				var cls= MakeClass(classData);
 				_core.WriteOutput(cls, Path.Combine(pathForPocoOutput,
-					AddSuffix(classData.Name)));
+					_core.AddSuffix(classData.Name)));
             }
 		}
 
 		private IList<string> MakeClass(ClassData classData)
 		{
 			var ret = new List<string>();
-			ret.Add(string.Format( "//\tThis file was generated by St4mpede,Poco {0}.", DateTime.Now.ToString("u")));
+			ret.Add(string.Format( "//\tThis file was generated by St4mpede.Poco {0}.", DateTime.Now.ToString("u")));
 			ret.Add(string.Empty);
 
 			ret.AddRange(_pocoSettings.NameSpaceComments.Select(c => string.Format("//\t{0}",c)));
@@ -501,10 +433,10 @@ namespace St4mpede.St4mpede.Poco
 			}
 		}
 
-		internal string UT_ConvertDatabaseTypeToDotnetType(string databaseType)
-		{
-			return ConvertDatabaseTypeToDotnetTypeString(databaseType);
-        }
+		//internal string UT_ConvertDatabaseTypeToDotnetType(string databaseType)
+		//{
+		//	return ConvertDatabaseTypeToDotnetTypeString(databaseType);
+  //      }
 
 		internal DatabaseData UT_DatabaseData
 		{
@@ -555,13 +487,13 @@ namespace St4mpede.St4mpede.Poco
 			}
 		}
 
-		internal IList<TypesTuple> UT_Types
-		{
-			get
-			{
-				return Types;
-			}
-		}
+		//internal IList<TypesTuple> UT_Types
+		//{
+		//	get
+		//	{
+		//		return Types;
+		//	}
+		//}
 
 		#endregion
 	}

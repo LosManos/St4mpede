@@ -16,6 +16,8 @@ namespace St4mpede
 	internal interface ICore
 	{
 		//XDocument LoadXDocumentFromPathfile(string pathfile);
+
+		string AddSuffix(string name);
 		T ReadFromXmlPathfile<T>(string pathfile);
 		void WriteOutput(XDocument doc, string pathFilename);
 		void WriteOutput(IList<string> rows, string pathFilename);
@@ -50,6 +52,11 @@ namespace St4mpede
 		//{
 		//	return XDocument.Load(pathfile);
 		//}
+
+		public string AddSuffix(string name)
+		{
+			return name + ".cs";
+		}
 
 		public T ReadFromXmlPathfile<T>(string pathfile)
 		{

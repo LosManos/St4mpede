@@ -40,10 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommitScope.cs" />
+    <Compile Include="Common.cs" />
     <Compile Include="Poco\Customer.cs" />
     <Compile Include="Poco\Project.cs" />
     <Compile Include="Poco\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Surface\CustomerSurface.cs" />
+    <Compile Include="Surface\ProjectSurface.cs" />
+    <Compile Include="Surface\UserSurface.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="_readme.md" />
