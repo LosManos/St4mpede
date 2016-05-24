@@ -38,4 +38,7 @@ https://github.com/jbubriski/ST4bby
 https://github.com/netTiers/netTiers  
 http://www.codesmithtools.com/freeware  
 
+## Similar solution
+https://fluentdata.codeplex.com + Fluency (I have not tried this solution.)
+
 *eof*
