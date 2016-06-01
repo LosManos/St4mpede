@@ -38,7 +38,11 @@ https://github.com/jbubriski/ST4bby
 https://github.com/netTiers/netTiers  
 http://www.codesmithtools.com/freeware  
 
-## Similar solution
-https://fluentdata.codeplex.com + Fluency (I have not tried this solution.)
+## Similar solution(s)
+https://fluentdata.codeplex.com + Fluency (I have not tried this solution.)  
+
+## POCO generation only
+http://type.litesolutions.net/ (Absolutely not the same but it reads C# instead of database schema).
+https://github.com/jbubriski/ST4bby/ (Generates POCOS from database schema in the same way as St4mpede. Less code. Less ceremony.)
 
 *eof*
