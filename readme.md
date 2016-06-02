@@ -42,7 +42,8 @@ http://www.codesmithtools.com/freeware
 https://fluentdata.codeplex.com + Fluency (I have not tried this solution.)  
 
 ## POCO generation only
-http://type.litesolutions.net/ (Absolutely not the same but it reads C# instead of database schema).
-https://github.com/jbubriski/ST4bby/ (Generates POCOS from database schema in the same way as St4mpede. Less code. Less ceremony.)
+http://type.litesolutions.net/ (Absolutely not the same but it reads C# instead of database schema).  
+https://github.com/jbubriski/ST4bby/ (Generates POCOS from database schema in the same way as St4mpede. Less code. Less ceremony.)  
+[Visually located](http://www.visuallylocated.com/post/2015/10/05/Creating-C-classes-from-JSON-(or-XML)-in-Visual-Studio-2015.aspx)  (A Visual studio plugin that created C# clsses from JSON or XML. I ahve not tested.)
 
 *eof*
