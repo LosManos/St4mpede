@@ -34,7 +34,7 @@ namespace St4mpede.St4mpede.Surface
 
 		private DatabaseData _database;
 
-		private readonly IXDocHandler _xDocHandler;
+		//private readonly IXDocHandler _xDocHandler;
 
 		private CoreSettings _coreSettings;
 		private SurfaceSettings _surfaceSettings;
@@ -52,7 +52,7 @@ namespace St4mpede.St4mpede.Surface
 		{
 			_core = core;
 			_log = log;
-			_xDocHandler = xDocHandler;
+			//_xDocHandler = xDocHandler;
 		}
 
 		#endregion
@@ -104,7 +104,9 @@ namespace St4mpede.St4mpede.Surface
 				surfaceClass.Methods.Add(new MethodData
 				{
 					Name = "Add",
-					Comment = new CommentData("This method is used for adding a new record in the database."),
+					Comment = new CommentData( new[] {
+						"This method is used for adding a new record in the database.",
+						"<para>St4mpede guid:{BC89740A-CBA5-4EDE-BFF4-9B0D8BA4058F}</para>"}),
 					Scope = Common.VisibilityScope.Private,
 					ReturnTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
 					Parameters = new[] {
@@ -126,13 +128,18 @@ namespace St4mpede.St4mpede.Surface
 						.ToList(),
 					Body = new BodyData(new[]
 					{
-						"//TODO:OF:TBA.",
-						"return null;"
+						$"return Add( ",
+						"\tcontext, ",
+						$"	new TheDAL.Poco.{table.Name}(", //	TODO:OF:Fetch namespace from Poco project.
+						//	TODO:OF:We should set default value and not 0 to the primary keys.
+						"\t" + string.Join(", ", table.PrimaryKeyColumns.Select(c=>"0")) + ", ",
+						"\t" + string.Join(", ", table.NonPrimaryKeyColumns.Select(c=>ToCamelCase( c.Name)).ToList()),
+						"));"
 					})
 				});
 
-				//	##	Create the Add method.
-				surfaceClass.Methods.Add(new MethodData
+		//	##	Create the Add method.
+		surfaceClass.Methods.Add(new MethodData
 				{
 					Name = "Add",
 					Comment = new CommentData(new[] {
@@ -169,9 +176,9 @@ namespace St4mpede.St4mpede.Surface
 						$"	Select * From {table.Name} Where {table.Columns.Single(c=>c.IsInPrimaryKey).Name} = Scope_Identity()" + "\";",
 						$"var ret = context.Connection.Query<TheDAL.Poco.{table.Name}>(", //	TODO:OF:Fetch namespace from Poco project.
 						"	Sql, ",
-						//	TODO:OF:Implement parmeters.
-						//$"	new {{ {string.Join(", ", table.Columns.Select(c=> c.Name + " = " + table.Name + "." + c.Name  )) } }},	//TODO:OF:TBA.",
-						"	new { /*...*/ },",
+						"	new {",
+						$"	{string.Join(", ", table.Columns.Where(c=>c.IsInPrimaryKey).Select(c=> "\t" + ToCamelCase(c.Name) + " = " + ToCamelCase(table.Name) + "." + c.Name  ))}",
+						"	},",
 						"	context.Transaction,", 
 						"	false, null, null);", 
 						"return ret.Single();",
@@ -202,7 +209,8 @@ namespace St4mpede.St4mpede.Surface
 					}).ToList(),
 					Body = new BodyData(new[]
 						{
-						"//TODO:OF:TBA. =>get or throw exception.",
+						"//TODO:OF:TBA.",
+						"throw new NotImplementedException(\"TBA\");"
 					})
 				});
 
@@ -233,7 +241,8 @@ namespace St4mpede.St4mpede.Surface
 						.ToList(),
 					Body = new BodyData(new[]
 						{
-						"//TODO:OF:TBA. =>get or throw exception.",
+						"//TODO:OF:TBA.",
+						"throw new NotImplementedException(\"TBA\");"
 					})
 				});
 
@@ -256,7 +265,7 @@ namespace St4mpede.St4mpede.Surface
 					Body = new BodyData(new[]
 						{
 						"//TODO:OF:TBA.",
-						"return null;"
+						"throw new NotImplementedException(\"TBA\");"
 					})
 				});
 
@@ -288,9 +297,9 @@ namespace St4mpede.St4mpede.Surface
 						.ToList(),
 					Body = new BodyData(new[]
 						{
-						"//TODO:OF:TBA. =>get or throw exception.",
-						"return null;"
-					})
+						"//TODO:OF:TBA.",
+							"throw new NotImplementedException(\"TBA\");"
+				})
 				});
 
 				//	##	Create the LoadById method.
@@ -321,8 +330,8 @@ namespace St4mpede.St4mpede.Surface
 						.ToList(),
 					Body = new BodyData(new[]
 						{
-						"//TODO:OF:TBA. =>get or return null.",
-						"return null;"
+						"//TODO:OF:TBA.",
+						"throw new NotImplementedException(\"TBA\");"
 					})
 				});
 
@@ -351,7 +360,7 @@ namespace St4mpede.St4mpede.Surface
 					Body = new BodyData(new[]
 							{
 						"//TODO:OF:TBA.",
-						"return null;"
+						"throw new NotImplementedException(\"TBA\");"
 					})
 				});
 
@@ -377,7 +386,7 @@ namespace St4mpede.St4mpede.Surface
 					Body = new BodyData(new[]
 							{
 						"//TODO:OF:TBA.",
-						"return null;"
+						"throw new NotImplementedException(\"TBA\");"
 					})
 				});
 
@@ -408,8 +417,8 @@ namespace St4mpede.St4mpede.Surface
 						.ToList(),
 					Body = new BodyData(new[]
 						{
-						"//TODO:OF:TBA. =>if( return 0 == primarykey ? Add(...) : Update(...)",
-						"return null;"
+						"//TODO:OF:TBA.",
+						"throw new NotImplementedException(\"TBA\");"
 					})
 				});
 
@@ -438,7 +447,7 @@ namespace St4mpede.St4mpede.Surface
 					Body = new BodyData(new[]
 						{
 						"//TODO:OF:TBA. =>if( return 0 == primarykey ? Add(...) : Update(...)",
-						"return null;"
+						"throw new NotImplementedException(\"TBA\");"
 					})
 				});
 			});
@@ -566,12 +575,13 @@ namespace St4mpede.St4mpede.Surface
 		private IList<string> MakeClass(ClassData classData)
 		{
 			var ret = new List<string>();
-			ret.Add(string.Format("//\tThis file was generated by St4mpede.Surface {0}.", DateTime.Now.ToString("u")));
+			ret.Add($"//\tThis file was generated by St4mpede.Surface {DateTime.Now.ToString("u")}.");
 			ret.Add(string.Empty);
 
 //			ret.AddRange(_pocoSettings.NameSpaceComments.Select(c => string.Format("//\t{0}", c)));
 			ret.Add($"namespace TheDal.Surface");
 			ret.Add("{");
+			ret.Add("	using System;");
 			ret.Add("	using System.Collections.Generic;");
 			ret.Add("	using System.Linq;");
 			ret.Add("	using Dapper;");
@@ -583,6 +593,19 @@ namespace St4mpede.St4mpede.Surface
 
 			return ret;
 		}
+
+		#region Sql helper methods.
+		//TODO:OF:Move these to a better place.
+
+		private string ToCamelCase(string identifier)
+		{
+			//TODO:Create proper camelCase.
+			//TODO:Move to common lib.
+			//TODO:Unit test.
+			return identifier.ToLower();
+		}
+
+		#endregion
 
 		#endregion
 

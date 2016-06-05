@@ -20,6 +20,7 @@
         <Comment>
           <Summary>
             <string>This method is used for adding a new record in the database.</string>
+            <string>&lt;para&gt;St4mpede guid:{BC89740A-CBA5-4EDE-BFF4-9B0D8BA4058F}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>Add</Name>
@@ -39,8 +40,12 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>return null;</string>
+            <string>return Add( </string>
+            <string>	context, </string>
+            <string>	new TheDAL.Poco.Customer(</string>
+            <string>	0, </string>
+            <string>	name</string>
+            <string>));</string>
           </Lines>
         </Body>
       </MethodData>
@@ -80,7 +85,9 @@
             <string>	Select * From Customer Where CustomerId = Scope_Identity()";</string>
             <string>var ret = context.Connection.Query&lt;TheDAL.Poco.Customer&gt;(</string>
             <string>	Sql, </string>
-            <string>	new { /*...*/ },</string>
+            <string>	new {</string>
+            <string>		customerid = customer.CustomerId</string>
+            <string>	},</string>
             <string>	context.Transaction,</string>
             <string>	false, null, null);</string>
             <string>return ret.Single();</string>
@@ -110,7 +117,8 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA. =&gt;get or throw exception.</string>
+            <string>//TODO:OF:TBA.</string>
+            <string>throw new NotImplementedException("TBA");</string>
           </Lines>
         </Body>
       </MethodData>
@@ -137,7 +145,8 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA. =&gt;get or throw exception.</string>
+            <string>//TODO:OF:TBA.</string>
+            <string>throw new NotImplementedException("TBA");</string>
           </Lines>
         </Body>
       </MethodData>
@@ -162,7 +171,7 @@
         <Body>
           <Lines>
             <string>//TODO:OF:TBA.</string>
-            <string>return null;</string>
+            <string>throw new NotImplementedException("TBA");</string>
           </Lines>
         </Body>
       </MethodData>
@@ -190,8 +199,8 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA. =&gt;get or throw exception.</string>
-            <string>return null;</string>
+            <string>//TODO:OF:TBA.</string>
+            <string>throw new NotImplementedException("TBA");</string>
           </Lines>
         </Body>
       </MethodData>
@@ -219,8 +228,8 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA. =&gt;get or return null.</string>
-            <string>return null;</string>
+            <string>//TODO:OF:TBA.</string>
+            <string>throw new NotImplementedException("TBA");</string>
           </Lines>
         </Body>
       </MethodData>
@@ -252,7 +261,7 @@
         <Body>
           <Lines>
             <string>//TODO:OF:TBA.</string>
-            <string>return null;</string>
+            <string>throw new NotImplementedException("TBA");</string>
           </Lines>
         </Body>
       </MethodData>
@@ -280,7 +289,7 @@
         <Body>
           <Lines>
             <string>//TODO:OF:TBA.</string>
-            <string>return null;</string>
+            <string>throw new NotImplementedException("TBA");</string>
           </Lines>
         </Body>
       </MethodData>
@@ -312,8 +321,8 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA. =&gt;if( return 0 == primarykey ? Add(...) : Update(...)</string>
-            <string>return null;</string>
+            <string>//TODO:OF:TBA.</string>
+            <string>throw new NotImplementedException("TBA");</string>
           </Lines>
         </Body>
       </MethodData>
@@ -342,7 +351,7 @@
         <Body>
           <Lines>
             <string>//TODO:OF:TBA. =&gt;if( return 0 == primarykey ? Add(...) : Update(...)</string>
-            <string>return null;</string>
+            <string>throw new NotImplementedException("TBA");</string>
           </Lines>
         </Body>
       </MethodData>
@@ -368,6 +377,7 @@
         <Comment>
           <Summary>
             <string>This method is used for adding a new record in the database.</string>
+            <string>&lt;para&gt;St4mpede guid:{BC89740A-CBA5-4EDE-BFF4-9B0D8BA4058F}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>Add</Name>
@@ -387,8 +397,12 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>return null;</string>
+            <string>return Add( </string>
+            <string>	context, </string>
+            <string>	new TheDAL.Poco.Project(</string>
+            <string>	0, </string>
+            <string>	name</string>
+            <string>));</string>
           </Lines>
         </Body>
       </MethodData>
@@ -428,7 +442,9 @@
             <string>	Select * From Project Where ProjectId = Scope_Identity()";</string>
             <string>var ret = context.Connection.Query&lt;TheDAL.Poco.Project&gt;(</string>
             <string>	Sql, </string>
-            <string>	new { /*...*/ },</string>
+            <string>	new {</string>
+            <string>		projectid = project.ProjectId</string>
+            <string>	},</string>
             <string>	context.Transaction,</string>
             <string>	false, null, null);</string>
             <string>return ret.Single();</string>
@@ -458,7 +474,8 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA. =&gt;get or throw exception.</string>
+            <string>//TODO:OF:TBA.</string>
+            <string>throw new NotImplementedException("TBA");</string>
           </Lines>
         </Body>
       </MethodData>
@@ -485,7 +502,8 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA. =&gt;get or throw exception.</string>
+            <string>//TODO:OF:TBA.</string>
+            <string>throw new NotImplementedException("TBA");</string>
           </Lines>
         </Body>
       </MethodData>
@@ -510,7 +528,7 @@
         <Body>
           <Lines>
             <string>//TODO:OF:TBA.</string>
-            <string>return null;</string>
+            <string>throw new NotImplementedException("TBA");</string>
           </Lines>
         </Body>
       </MethodData>
@@ -538,8 +556,8 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA. =&gt;get or throw exception.</string>
-            <string>return null;</string>
+            <string>//TODO:OF:TBA.</string>
+            <string>throw new NotImplementedException("TBA");</string>
           </Lines>
         </Body>
       </MethodData>
@@ -567,8 +585,8 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA. =&gt;get or return null.</string>
-            <string>return null;</string>
+            <string>//TODO:OF:TBA.</string>
+            <string>throw new NotImplementedException("TBA");</string>
           </Lines>
         </Body>
       </MethodData>
@@ -600,7 +618,7 @@
         <Body>
           <Lines>
             <string>//TODO:OF:TBA.</string>
-            <string>return null;</string>
+            <string>throw new NotImplementedException("TBA");</string>
           </Lines>
         </Body>
       </MethodData>
@@ -628,7 +646,7 @@
         <Body>
           <Lines>
             <string>//TODO:OF:TBA.</string>
-            <string>return null;</string>
+            <string>throw new NotImplementedException("TBA");</string>
           </Lines>
         </Body>
       </MethodData>
@@ -660,8 +678,8 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA. =&gt;if( return 0 == primarykey ? Add(...) : Update(...)</string>
-            <string>return null;</string>
+            <string>//TODO:OF:TBA.</string>
+            <string>throw new NotImplementedException("TBA");</string>
           </Lines>
         </Body>
       </MethodData>
@@ -690,7 +708,7 @@
         <Body>
           <Lines>
             <string>//TODO:OF:TBA. =&gt;if( return 0 == primarykey ? Add(...) : Update(...)</string>
-            <string>return null;</string>
+            <string>throw new NotImplementedException("TBA");</string>
           </Lines>
         </Body>
       </MethodData>
@@ -716,6 +734,7 @@
         <Comment>
           <Summary>
             <string>This method is used for adding a new record in the database.</string>
+            <string>&lt;para&gt;St4mpede guid:{BC89740A-CBA5-4EDE-BFF4-9B0D8BA4058F}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>Add</Name>
@@ -743,8 +762,12 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>return null;</string>
+            <string>return Add( </string>
+            <string>	context, </string>
+            <string>	new TheDAL.Poco.User(</string>
+            <string>	0, </string>
+            <string>	username, hashedpassword, lastloggedondatetime</string>
+            <string>));</string>
           </Lines>
         </Body>
       </MethodData>
@@ -784,7 +807,9 @@
             <string>	Select * From User Where UserId = Scope_Identity()";</string>
             <string>var ret = context.Connection.Query&lt;TheDAL.Poco.User&gt;(</string>
             <string>	Sql, </string>
-            <string>	new { /*...*/ },</string>
+            <string>	new {</string>
+            <string>		userid = user.UserId</string>
+            <string>	},</string>
             <string>	context.Transaction,</string>
             <string>	false, null, null);</string>
             <string>return ret.Single();</string>
@@ -814,7 +839,8 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA. =&gt;get or throw exception.</string>
+            <string>//TODO:OF:TBA.</string>
+            <string>throw new NotImplementedException("TBA");</string>
           </Lines>
         </Body>
       </MethodData>
@@ -841,7 +867,8 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA. =&gt;get or throw exception.</string>
+            <string>//TODO:OF:TBA.</string>
+            <string>throw new NotImplementedException("TBA");</string>
           </Lines>
         </Body>
       </MethodData>
@@ -866,7 +893,7 @@
         <Body>
           <Lines>
             <string>//TODO:OF:TBA.</string>
-            <string>return null;</string>
+            <string>throw new NotImplementedException("TBA");</string>
           </Lines>
         </Body>
       </MethodData>
@@ -894,8 +921,8 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA. =&gt;get or throw exception.</string>
-            <string>return null;</string>
+            <string>//TODO:OF:TBA.</string>
+            <string>throw new NotImplementedException("TBA");</string>
           </Lines>
         </Body>
       </MethodData>
@@ -923,8 +950,8 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA. =&gt;get or return null.</string>
-            <string>return null;</string>
+            <string>//TODO:OF:TBA.</string>
+            <string>throw new NotImplementedException("TBA");</string>
           </Lines>
         </Body>
       </MethodData>
@@ -964,7 +991,7 @@
         <Body>
           <Lines>
             <string>//TODO:OF:TBA.</string>
-            <string>return null;</string>
+            <string>throw new NotImplementedException("TBA");</string>
           </Lines>
         </Body>
       </MethodData>
@@ -992,7 +1019,7 @@
         <Body>
           <Lines>
             <string>//TODO:OF:TBA.</string>
-            <string>return null;</string>
+            <string>throw new NotImplementedException("TBA");</string>
           </Lines>
         </Body>
       </MethodData>
@@ -1032,8 +1059,8 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA. =&gt;if( return 0 == primarykey ? Add(...) : Update(...)</string>
-            <string>return null;</string>
+            <string>//TODO:OF:TBA.</string>
+            <string>throw new NotImplementedException("TBA");</string>
           </Lines>
         </Body>
       </MethodData>
@@ -1062,7 +1089,7 @@
         <Body>
           <Lines>
             <string>//TODO:OF:TBA. =&gt;if( return 0 == primarykey ? Add(...) : Update(...)</string>
-            <string>return null;</string>
+            <string>throw new NotImplementedException("TBA");</string>
           </Lines>
         </Body>
       </MethodData>
