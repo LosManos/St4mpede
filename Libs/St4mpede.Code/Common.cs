@@ -55,6 +55,7 @@ namespace St4mpede.Code
 		/// <para>
 		/// The method does still not handle a string with spaces before e.g. "  Customer".
 		/// </para>
+		/// <para>There is another method, exteions ToCamelCase that does the same thing.</para>
 		/// </summary>
 		/// <param name="variable"></param>
 		/// <returns></returns>

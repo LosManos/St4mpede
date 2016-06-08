@@ -204,23 +204,15 @@ namespace St4mpede.St4mpede.Surface
 						.Concat(
 							new [] { new ParameterData
 							   {
-								   Name = table.Name,	//	TODO:OF:Make camelcase.
+								   Name = table.Name,
 								   SystemTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
 							   }
 					}).ToList(),
 					Body = new BodyData(new[]
 					{
-						$"const string Sql = @" + "\"",
-						$"	Delete From {table.Name}",
-						"\t Where " + string.Join(" And ", table.PrimaryKeyColumns.Select(c=>$"{c.Name} = @{c.Name.ToCamelCase()}")),
-						"\";",
-						$"var ret = context.Connection.Execute(", 
-						"	Sql, ",
-						"	new {",
-						$"	{string.Join(", ", table.Columns.Where(c=>c.IsInPrimaryKey).Select(c=> "\t" + c.Name.ToCamelCase() + " = " + table.Name.ToCamelCase() + "." + c.Name  ))}",
-						"	},",
-						"	context.Transaction,",
-						"	null, null);",
+						"DeleteById( context, " +
+						string.Join(", ", table.PrimaryKeyColumns.Select(c=>
+						$"{table.Name.ToCamelCase()}.{c.Name}")) + ");"
 					})
 				});
 
@@ -230,6 +222,7 @@ namespace St4mpede.St4mpede.Surface
 					Name = "DeleteById",
 					Comment = new CommentData(new[] {
 						"This method is used for deleting a record by its primary key.",
+						"<para>St4mpede guid:{F0137E62-1D45-4B92-A48E-05954850FFE8}</para>"
 						}),
 					Scope = Common.VisibilityScope.Public,
 					ReturnTypeString = $"void",
@@ -240,8 +233,7 @@ namespace St4mpede.St4mpede.Surface
 								SystemTypeString = "TheDAL.CommitScope"	//	TODO:OF:Fetch namespace from settings.
 							} }
 						.Concat(
-							table.Columns
-								.Where(c => c.IsInPrimaryKey)
+							table.PrimaryKeyColumns
 								.Select(p =>
 								   new ParameterData
 								   {
@@ -251,9 +243,18 @@ namespace St4mpede.St4mpede.Surface
 						.ToList(),
 					Body = new BodyData(new[]
 						{
-						"//TODO:OF:TBA.",
-						"throw new NotImplementedException(\"TBA\");"
-					})
+							$"const string Sql = @" + "\"",
+							$"	Delete From {table.Name}",
+							"\t Where " + string.Join(" And ", table.PrimaryKeyColumns.Select(c=>$"{c.Name} = @{c.Name.ToCamelCase()}")),
+							"\";",
+							$"context.Connection.Execute(",
+							"	Sql, ",
+							"	new {",
+							$"	{string.Join(", ", table.Columns.Where(c=>c.IsInPrimaryKey).Select(c=> "\t" +$"{c.Name.ToCamelCase()} = {c.Name.ToCamelCase()}"  ))}",
+							"	},",
+							"	context.Transaction,",
+							"	null, null);",
+						})
 				});
 
 				//	##	Create the GetAll method.
@@ -262,7 +263,8 @@ namespace St4mpede.St4mpede.Surface
 					Name = "GetAll",
 					Comment = new CommentData(new[] {
 						"This method returns every record for this table/surface.",
-						"Do not use it on too big tables."
+						"Do not use it on too big tables.",
+						"<para>St4mpede guid:{4A910A99-9A50-4977-B2A2-404240CDDC73}</para>"
 						}),
 					Scope = Common.VisibilityScope.Public,
 					ReturnTypeString = $"IList<TheDAL.Poco.{table.Name}>", //	TODO:OF:Fetch namespace from Poco project.

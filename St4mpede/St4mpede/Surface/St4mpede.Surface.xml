@@ -118,17 +118,7 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>const string Sql = @"</string>
-            <string>	Delete From Customer</string>
-            <string>	 Where CustomerId = @customerId</string>
-            <string>";</string>
-            <string>var ret = context.Connection.Execute(</string>
-            <string>	Sql, </string>
-            <string>	new {</string>
-            <string>		customerId = customer.CustomerId</string>
-            <string>	},</string>
-            <string>	context.Transaction,</string>
-            <string>	null, null);</string>
+            <string>DeleteById( context, customer.CustomerId);</string>
           </Lines>
         </Body>
       </MethodData>
@@ -136,6 +126,7 @@
         <Comment>
           <Summary>
             <string>This method is used for deleting a record by its primary key.</string>
+            <string>&lt;para&gt;St4mpede guid:{F0137E62-1D45-4B92-A48E-05954850FFE8}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>DeleteById</Name>
@@ -155,8 +146,17 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>throw new NotImplementedException("TBA");</string>
+            <string>const string Sql = @"</string>
+            <string>	Delete From Customer</string>
+            <string>	 Where CustomerId = @customerId</string>
+            <string>";</string>
+            <string>context.Connection.Execute(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		customerId = customerId</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	null, null);</string>
           </Lines>
         </Body>
       </MethodData>
@@ -165,6 +165,7 @@
           <Summary>
             <string>This method returns every record for this table/surface.</string>
             <string>Do not use it on too big tables.</string>
+            <string>&lt;para&gt;St4mpede guid:{4A910A99-9A50-4977-B2A2-404240CDDC73}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>GetAll</Name>
@@ -485,17 +486,7 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>const string Sql = @"</string>
-            <string>	Delete From Project</string>
-            <string>	 Where ProjectId = @projectId</string>
-            <string>";</string>
-            <string>var ret = context.Connection.Execute(</string>
-            <string>	Sql, </string>
-            <string>	new {</string>
-            <string>		projectId = project.ProjectId</string>
-            <string>	},</string>
-            <string>	context.Transaction,</string>
-            <string>	null, null);</string>
+            <string>DeleteById( context, project.ProjectId);</string>
           </Lines>
         </Body>
       </MethodData>
@@ -503,6 +494,7 @@
         <Comment>
           <Summary>
             <string>This method is used for deleting a record by its primary key.</string>
+            <string>&lt;para&gt;St4mpede guid:{F0137E62-1D45-4B92-A48E-05954850FFE8}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>DeleteById</Name>
@@ -522,8 +514,17 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>throw new NotImplementedException("TBA");</string>
+            <string>const string Sql = @"</string>
+            <string>	Delete From Project</string>
+            <string>	 Where ProjectId = @projectId</string>
+            <string>";</string>
+            <string>context.Connection.Execute(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		projectId = projectId</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	null, null);</string>
           </Lines>
         </Body>
       </MethodData>
@@ -532,6 +533,7 @@
           <Summary>
             <string>This method returns every record for this table/surface.</string>
             <string>Do not use it on too big tables.</string>
+            <string>&lt;para&gt;St4mpede guid:{4A910A99-9A50-4977-B2A2-404240CDDC73}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>GetAll</Name>
@@ -860,17 +862,7 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>const string Sql = @"</string>
-            <string>	Delete From User</string>
-            <string>	 Where UserId = @userId</string>
-            <string>";</string>
-            <string>var ret = context.Connection.Execute(</string>
-            <string>	Sql, </string>
-            <string>	new {</string>
-            <string>		userId = user.UserId</string>
-            <string>	},</string>
-            <string>	context.Transaction,</string>
-            <string>	null, null);</string>
+            <string>DeleteById( context, user.UserId);</string>
           </Lines>
         </Body>
       </MethodData>
@@ -878,6 +870,7 @@
         <Comment>
           <Summary>
             <string>This method is used for deleting a record by its primary key.</string>
+            <string>&lt;para&gt;St4mpede guid:{F0137E62-1D45-4B92-A48E-05954850FFE8}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>DeleteById</Name>
@@ -897,8 +890,17 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>throw new NotImplementedException("TBA");</string>
+            <string>const string Sql = @"</string>
+            <string>	Delete From User</string>
+            <string>	 Where UserId = @userId</string>
+            <string>";</string>
+            <string>context.Connection.Execute(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		userId = userId</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	null, null);</string>
           </Lines>
         </Body>
       </MethodData>
@@ -907,6 +909,7 @@
           <Summary>
             <string>This method returns every record for this table/surface.</string>
             <string>Do not use it on too big tables.</string>
+            <string>&lt;para&gt;St4mpede guid:{4A910A99-9A50-4977-B2A2-404240CDDC73}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>GetAll</Name>
