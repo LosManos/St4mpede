@@ -43,8 +43,8 @@
             <string>return Add( </string>
             <string>	context, </string>
             <string>	new TheDAL.Poco.Customer(</string>
-            <string>	0, </string>
-            <string>	name</string>
+            <string>		0, </string>
+            <string>		name</string>
             <string>));</string>
           </Lines>
         </Body>
@@ -86,7 +86,7 @@
             <string>var ret = context.Connection.Query&lt;TheDAL.Poco.Customer&gt;(</string>
             <string>	Sql, </string>
             <string>	new {</string>
-            <string>		customerid = customer.CustomerId</string>
+            <string>		customerId = customer.CustomerId</string>
             <string>	},</string>
             <string>	context.Transaction,</string>
             <string>	false, null, null);</string>
@@ -98,6 +98,7 @@
         <Comment>
           <Summary>
             <string>This method is used for deleting a record.</string>
+            <string>&lt;para&gt;St4mpede guid:{F74246AE-0295-4094-AA7F-1D118C11229D}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>Delete</Name>
@@ -117,8 +118,17 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>throw new NotImplementedException("TBA");</string>
+            <string>const string Sql = @"</string>
+            <string>	Delete From Customer</string>
+            <string>	 Where CustomerId = @customerId</string>
+            <string>";</string>
+            <string>var ret = context.Connection.Execute(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		customerId = customer.CustomerId</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	null, null);</string>
           </Lines>
         </Body>
       </MethodData>
@@ -400,8 +410,8 @@
             <string>return Add( </string>
             <string>	context, </string>
             <string>	new TheDAL.Poco.Project(</string>
-            <string>	0, </string>
-            <string>	name</string>
+            <string>		0, </string>
+            <string>		name</string>
             <string>));</string>
           </Lines>
         </Body>
@@ -443,7 +453,7 @@
             <string>var ret = context.Connection.Query&lt;TheDAL.Poco.Project&gt;(</string>
             <string>	Sql, </string>
             <string>	new {</string>
-            <string>		projectid = project.ProjectId</string>
+            <string>		projectId = project.ProjectId</string>
             <string>	},</string>
             <string>	context.Transaction,</string>
             <string>	false, null, null);</string>
@@ -455,6 +465,7 @@
         <Comment>
           <Summary>
             <string>This method is used for deleting a record.</string>
+            <string>&lt;para&gt;St4mpede guid:{F74246AE-0295-4094-AA7F-1D118C11229D}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>Delete</Name>
@@ -474,8 +485,17 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>throw new NotImplementedException("TBA");</string>
+            <string>const string Sql = @"</string>
+            <string>	Delete From Project</string>
+            <string>	 Where ProjectId = @projectId</string>
+            <string>";</string>
+            <string>var ret = context.Connection.Execute(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		projectId = project.ProjectId</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	null, null);</string>
           </Lines>
         </Body>
       </MethodData>
@@ -765,8 +785,8 @@
             <string>return Add( </string>
             <string>	context, </string>
             <string>	new TheDAL.Poco.User(</string>
-            <string>	0, </string>
-            <string>	username, hashedpassword, lastloggedondatetime</string>
+            <string>		0, </string>
+            <string>		userName, hashedPassword, lastLoggedOnDatetime</string>
             <string>));</string>
           </Lines>
         </Body>
@@ -808,7 +828,7 @@
             <string>var ret = context.Connection.Query&lt;TheDAL.Poco.User&gt;(</string>
             <string>	Sql, </string>
             <string>	new {</string>
-            <string>		userid = user.UserId</string>
+            <string>		userId = user.UserId</string>
             <string>	},</string>
             <string>	context.Transaction,</string>
             <string>	false, null, null);</string>
@@ -820,6 +840,7 @@
         <Comment>
           <Summary>
             <string>This method is used for deleting a record.</string>
+            <string>&lt;para&gt;St4mpede guid:{F74246AE-0295-4094-AA7F-1D118C11229D}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>Delete</Name>
@@ -839,8 +860,17 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>throw new NotImplementedException("TBA");</string>
+            <string>const string Sql = @"</string>
+            <string>	Delete From User</string>
+            <string>	 Where UserId = @userId</string>
+            <string>";</string>
+            <string>var ret = context.Connection.Execute(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		userId = user.UserId</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	null, null);</string>
           </Lines>
         </Body>
       </MethodData>

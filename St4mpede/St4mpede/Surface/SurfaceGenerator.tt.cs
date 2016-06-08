@@ -8,6 +8,7 @@ namespace St4mpede.St4mpede.Surface
 	//	The same way any any new assembly reference must be added to the TT file assembly. name=...
 	using Code;
 	using RdbSchema;
+	using Sql;
 	using System;
 	using System.Collections.Generic;
 	using System.IO;
@@ -117,10 +118,9 @@ namespace St4mpede.St4mpede.Surface
 							}
 						}
 						.Concat(
-								table.Columns
-								.Where(p => false == p.IsInPrimaryKey)
-								.Select(p =>
-									   new ParameterData
+								table.NonPrimaryKeyColumns
+									.Select(p =>
+										new ParameterData
 									   {
 										   Name = p.Name,
 										   SystemTypeString = parserLogic2.ConvertDatabaseTypeToDotnetTypeString(p.DatabaseTypeName)
@@ -132,8 +132,8 @@ namespace St4mpede.St4mpede.Surface
 						"\tcontext, ",
 						$"	new TheDAL.Poco.{table.Name}(", //	TODO:OF:Fetch namespace from Poco project.
 						//	TODO:OF:We should set default value and not 0 to the primary keys.
-						"\t" + string.Join(", ", table.PrimaryKeyColumns.Select(c=>"0")) + ", ",
-						"\t" + string.Join(", ", table.NonPrimaryKeyColumns.Select(c=>ToCamelCase( c.Name)).ToList()),
+						"\t\t" + string.Join(", ", table.PrimaryKeyColumns.Select(c=>"0")) + ", ",
+						"\t\t" + string.Join(", ", table.NonPrimaryKeyColumns.Select(c=>c.Name.ToCamelCase()).ToList()),
 						"));"
 					})
 				});
@@ -177,7 +177,7 @@ namespace St4mpede.St4mpede.Surface
 						$"var ret = context.Connection.Query<TheDAL.Poco.{table.Name}>(", //	TODO:OF:Fetch namespace from Poco project.
 						"	Sql, ",
 						"	new {",
-						$"	{string.Join(", ", table.Columns.Where(c=>c.IsInPrimaryKey).Select(c=> "\t" + ToCamelCase(c.Name) + " = " + ToCamelCase(table.Name) + "." + c.Name  ))}",
+						$"	{string.Join(", ", table.Columns.Where(c=>c.IsInPrimaryKey).Select(c=> "\t" + c.Name.ToCamelCase() + " = " + table.Name.ToCamelCase() + "." + c.Name  ))}",
 						"	},",
 						"	context.Transaction,", 
 						"	false, null, null);", 
@@ -191,6 +191,7 @@ namespace St4mpede.St4mpede.Surface
 					Name = "Delete",
 					Comment = new CommentData(new[] {
 						"This method is used for deleting a record.",
+						"<para>St4mpede guid:{F74246AE-0295-4094-AA7F-1D118C11229D}</para>"
 						}),
 					Scope = Common.VisibilityScope.Public,
 					ReturnTypeString = $"void",
@@ -208,9 +209,18 @@ namespace St4mpede.St4mpede.Surface
 							   }
 					}).ToList(),
 					Body = new BodyData(new[]
-						{
-						"//TODO:OF:TBA.",
-						"throw new NotImplementedException(\"TBA\");"
+					{
+						$"const string Sql = @" + "\"",
+						$"	Delete From {table.Name}",
+						"\t Where " + string.Join(" And ", table.PrimaryKeyColumns.Select(c=>$"{c.Name} = @{c.Name.ToCamelCase()}")),
+						"\";",
+						$"var ret = context.Connection.Execute(", 
+						"	Sql, ",
+						"	new {",
+						$"	{string.Join(", ", table.Columns.Where(c=>c.IsInPrimaryKey).Select(c=> "\t" + c.Name.ToCamelCase() + " = " + table.Name.ToCamelCase() + "." + c.Name  ))}",
+						"	},",
+						"	context.Transaction,",
+						"	null, null);",
 					})
 				});
 
@@ -593,19 +603,6 @@ namespace St4mpede.St4mpede.Surface
 
 			return ret;
 		}
-
-		#region Sql helper methods.
-		//TODO:OF:Move these to a better place.
-
-		private string ToCamelCase(string identifier)
-		{
-			//TODO:Create proper camelCase.
-			//TODO:Move to common lib.
-			//TODO:Unit test.
-			return identifier.ToLower();
-		}
-
-		#endregion
 
 		#endregion
 

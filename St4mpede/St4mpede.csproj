@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>St4mpede</RootNamespace>
     <AssemblyName>St4mpede</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
@@ -163,6 +163,10 @@
     <ProjectReference Include="..\Libs\St4mpede.Code\St4mpede.Code.csproj">
       <Project>{b0c2d88c-3dde-457a-a901-119c7dc2d86d}</Project>
       <Name>St4mpede.Code</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Libs\St4mpede.Sql\St4mpede.Sql.csproj">
+      <Project>{355b7288-aecb-4661-b100-163b3c8f2246}</Project>
+      <Name>St4mpede.Sql</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
