@@ -38,4 +38,16 @@ https://github.com/jbubriski/ST4bby
 https://github.com/netTiers/netTiers  
 http://www.codesmithtools.com/freeware  
 
+## Similar solution(s)
+https://fluentdata.codeplex.com + Fluency (I have not tried this solution.)  
+
+### POCO generation only
+http://type.litesolutions.net/ (Absolutely not the same but it reads C# instead of database schema).  
+https://github.com/jbubriski/ST4bby/ (Generates POCOS from database schema in the same way as St4mpede. Less code. Less ceremony.)  
+[Visually located](http://www.visuallylocated.com/post/2015/10/05/Creating-C-classes-from-JSON-(or-XML)-in-Visual-Studio-2015.aspx)  (A Visual studio plugin that created C# clsses from JSON or XML. I ahve not tested.)
+
+### Solving another problem
+[Typed-query(https://github.com/EndsOfTheEarth/Typed-Query/blob/master/Documentation/Documentation.md) writes creates sql and queries. It is like Linq to sql but a fluent interface instead of lambda.  
+[Linq to sql](https://msdn.microsoft.com/en-us/library/bb386976(v=vs.110).aspx) is now [abandoned](http://stackoverflow.com/a/1353547/521554).
+
 *eof*
