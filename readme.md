@@ -39,7 +39,8 @@ https://github.com/netTiers/netTiers
 http://www.codesmithtools.com/freeware  
 
 ## Similar solution(s)
-https://fluentdata.codeplex.com + Fluency (I have not tried this solution.)  
+https://fluentdata.codeplex.com + Fluency  
+[SimpleCRUD](https://github.com/ericdc1/Dapper.SimpleCRUD) is extension methods for Dapper. From a quick glance it looks good.  
 
 ### POCO generation only
 http://type.litesolutions.net/ (Absolutely not the same but it reads C# instead of database schema).  
