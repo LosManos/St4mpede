@@ -15,6 +15,10 @@ namespace St4mpede
 #endif
 	internal interface ICore
 	{
+		//XDocument LoadXDocumentFromPathfile(string pathfile);
+
+		string AddSuffix(string name);
+		T ReadFromXmlPathfile<T>(string pathfile);
 		void WriteOutput(XDocument doc, string pathFilename);
 		void WriteOutput(IList<string> rows, string pathFilename);
 	}
@@ -42,6 +46,25 @@ namespace St4mpede
 			return new CoreSettings(
 				doc.Descendants().Where(e =>
 			   e.Name == ElementRootFolder).Single().Value);
+		}
+
+		//public XDocument LoadXDocumentFromPathfile(string pathfile)
+		//{
+		//	return XDocument.Load(pathfile);
+		//}
+
+		public string AddSuffix(string name)
+		{
+			return name + ".cs";
+		}
+
+		public T ReadFromXmlPathfile<T>(string pathfile)
+		{
+			var doc = XDocument.Load(pathfile);
+
+			var res = Core.Deserialise<T>(doc);
+
+			return res;
 		}
 
 		public void WriteOutput(XDocument doc, string pathFilename)

@@ -9,6 +9,9 @@ namespace St4mpede.Code
 		private const string XmlCommentPrefix = "///";
 		private const string XmlCommentSummary = "summary";
 
+		/// <summary>This is the collection of comment rows.
+		/// It is a class, and not an interface, because otherwise serialising won't work.
+		/// </summary>
 		public List<string> Summary { get; set; }
 
 		public CommentData()		{		}
@@ -21,9 +24,9 @@ namespace St4mpede.Code
 			};
 		}
 
-		public CommentData(List<string> summaryTextRows)
+		public CommentData(IEnumerable<string> summaryTextRows)
 		{
-			Summary = summaryTextRows;
+			Summary = summaryTextRows.ToList();
 		}
 
 		public override IList<string> ToCode()

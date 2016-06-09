@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8312F702-214E-4484-92F7-9928CACA4102}</ProjectGuid>
+    <ProjectGuid>{B87FEAF9-D276-4BF7-83E6-99BDDFB017E8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>St4mpede.Code.Test</RootNamespace>
-    <AssemblyName>St4mpede.Code.Test</AssemblyName>
+    <RootNamespace>St4mpede.Sql.Test</RootNamespace>
+    <AssemblyName>St4mpede.Sql.Test</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -46,25 +46,18 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
-          <Private>False</Private>
-        </Reference>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
       </ItemGroup>
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="CommonTest.cs" />
-    <Compile Include="ParameterDataExtensionsTest.cs" />
-    <Compile Include="PropertyDataTest.cs" />
+    <Compile Include="UtilsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CommentDataTest.cs" />
-    <Compile Include="MethodDataTest.cs" />
-    <Compile Include="ClassDataTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Libs\St4mpede.Code\St4mpede.Code.csproj">
-      <Project>{b0c2d88c-3dde-457a-a901-119c7dc2d86d}</Project>
-      <Name>St4mpede.Code</Name>
+    <ProjectReference Include="..\..\Libs\St4mpede.Sql\St4mpede.Sql.csproj">
+      <Project>{355b7288-aecb-4661-b100-163b3c8f2246}</Project>
+      <Name>St4mpede.Sql</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.25302.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BAE5EAFC-F779-4872-9239-80F982A5DC64}"
 	ProjectSection(SolutionItems) = preProject
@@ -23,6 +23,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{7CDFB456-C16F-4D7D-9488-A0EC7F0F24EA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "St4mpede.Code", "Libs\St4mpede.Code\St4mpede.Code.csproj", "{B0C2D88C-3DDE-457A-A901-119C7DC2D86D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "St4mpede.Sql", "Libs\St4mpede.Sql\St4mpede.Sql.csproj", "{355B7288-AECB-4661-B100-163B3C8F2246}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "St4mpede.Sql.Test", "Tests\St4mpede.Sql.Test\St4mpede.Sql.Test.csproj", "{B87FEAF9-D276-4BF7-83E6-99BDDFB017E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +58,14 @@ Global
 		{B0C2D88C-3DDE-457A-A901-119C7DC2D86D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0C2D88C-3DDE-457A-A901-119C7DC2D86D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0C2D88C-3DDE-457A-A901-119C7DC2D86D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{355B7288-AECB-4661-B100-163B3C8F2246}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{355B7288-AECB-4661-B100-163B3C8F2246}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{355B7288-AECB-4661-B100-163B3C8F2246}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{355B7288-AECB-4661-B100-163B3C8F2246}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B87FEAF9-D276-4BF7-83E6-99BDDFB017E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B87FEAF9-D276-4BF7-83E6-99BDDFB017E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B87FEAF9-D276-4BF7-83E6-99BDDFB017E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B87FEAF9-D276-4BF7-83E6-99BDDFB017E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,5 +75,7 @@ Global
 		{6CCCADED-2647-48D6-A283-C4561485C869} = {C3844AF0-78E0-40E0-9F8D-6744F7D78F33}
 		{CE9769B0-10A8-48F3-A370-B9B6115BB7F4} = {C3844AF0-78E0-40E0-9F8D-6744F7D78F33}
 		{B0C2D88C-3DDE-457A-A901-119C7DC2D86D} = {7CDFB456-C16F-4D7D-9488-A0EC7F0F24EA}
+		{355B7288-AECB-4661-B100-163B3C8F2246} = {7CDFB456-C16F-4D7D-9488-A0EC7F0F24EA}
+		{B87FEAF9-D276-4BF7-83E6-99BDDFB017E8} = {C3844AF0-78E0-40E0-9F8D-6744F7D78F33}
 	EndGlobalSection
 EndGlobal

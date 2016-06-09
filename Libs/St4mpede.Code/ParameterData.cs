@@ -11,6 +11,8 @@ namespace St4mpede.Code
 
 		/// <summary>You probably want SystemType as it is type safe.
 		/// This property is really only here for making serialisation possible.
+		/// <para>
+		/// That was a bold statement. What do we do with it?</para>
 		/// </summary>
 		public string SystemTypeString
 		{

@@ -1,4 +1,4 @@
-﻿//		This file was generated  by St4mpede.Poco 2016-05-15 00:33:17
+﻿//		This file was generated  by St4mpede.Poco 2016-06-08 22:18:52
 
 
 /* 			
@@ -12,6 +12,7 @@ Writing the output file C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede\Poco\PocoGene
 Writing 3 classes in C:\DATA\PROJEKT\St4mpede\St4mpede\St4mpede\..\..\TheDAL\Poco.
 */
 
+//
 //
 //
 //

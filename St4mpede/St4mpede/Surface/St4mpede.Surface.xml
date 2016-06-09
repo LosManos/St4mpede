@@ -1,0 +1,1302 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfClassData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ClassData>
+    <IsPartial>false</IsPartial>
+    <Comment>
+      <Summary>
+        <string>This is the Surface for the Customer table.</string>
+      </Summary>
+    </Comment>
+    <Name>CustomerSurface</Name>
+    <Properties />
+    <Methods>
+      <MethodData>
+        <Name>CustomerSurface</Name>
+        <Override>false</Override>
+        <IsConstructor>true</IsConstructor>
+        <Scope>Public</Scope>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for adding a new record in the database.</string>
+            <string>&lt;para&gt;St4mpede guid:{BC89740A-CBA5-4EDE-BFF4-9B0D8BA4058F}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>Add</Name>
+        <ReturnTypeString>TheDAL.Poco.Customer</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Private</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>Name</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>return Add( </string>
+            <string>	context, </string>
+            <string>	new TheDAL.Poco.Customer(</string>
+            <string>		0, </string>
+            <string>		name</string>
+            <string>));</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for adding a new record in the database.</string>
+            <string>&lt;para&gt;St4mpede guid:{759FBA46-A462-4E4A-BA2B-9B5AFDA572DE}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>Add</Name>
+        <ReturnTypeString>TheDAL.Poco.Customer</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Private</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>TheDAL.Poco.Customer</SystemTypeString>
+            <Name>Customer</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>const string Sql = @"</string>
+            <string>	Insert Into Customer</string>
+            <string>	(</string>
+            <string>		Name</string>
+            <string>	)</string>
+            <string>	Values</string>
+            <string>	(</string>
+            <string>		@Name</string>
+            <string>	)</string>
+            <string>	Select * From Customer Where CustomerId = Scope_Identity()";</string>
+            <string>var ret = context.Connection.Query&lt;TheDAL.Poco.Customer&gt;(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		customerId = customer.CustomerId</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return ret.Single();</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for deleting a record.</string>
+            <string>&lt;para&gt;St4mpede guid:{F74246AE-0295-4094-AA7F-1D118C11229D}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>Delete</Name>
+        <ReturnTypeString>void</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>TheDAL.Poco.Customer</SystemTypeString>
+            <Name>Customer</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>DeleteById( context, customer.CustomerId);</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for deleting a record by its primary key.</string>
+            <string>&lt;para&gt;St4mpede guid:{F0137E62-1D45-4B92-A48E-05954850FFE8}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>DeleteById</Name>
+        <ReturnTypeString>void</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>CustomerId</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>const string Sql = @"</string>
+            <string>	Delete From Customer</string>
+            <string>	 Where CustomerId = @customerId</string>
+            <string>";</string>
+            <string>context.Connection.Execute(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		customerId = customerId</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	null, null);</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method returns every record for this table/surface.</string>
+            <string>Do not use it on too big tables.</string>
+            <string>&lt;para&gt;St4mpede guid:{4A910A99-9A50-4977-B2A2-404240CDDC73}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>GetAll</Name>
+        <ReturnTypeString>IList&lt;TheDAL.Poco.Customer&gt;</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>const string Sql = @"</string>
+            <string>	Select * From Customer</string>
+            <string>";</string>
+            <string>var res = context.Connection.Query&lt;TheDAL.Poco.Customer&gt;(</string>
+            <string>	Sql, </string>
+            <string>	null, </string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return res.ToList();</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for getting a record but its Id/primary key.</string>
+            <string>If nothing is found an exception is thrown. If you want to get null back use LoadById &lt;see cref="LoadById"/&gt; instead.</string>
+            <string>&lt;para&gt;St4mpede guid:{71CF185E-0DD1-4FAE-9721-920B5C3C12D9}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>GetById</Name>
+        <ReturnTypeString>TheDAL.Poco.Customer</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>CustomerId</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>const string Sql = @"</string>
+            <string>	Select * From Customer</string>
+            <string>	 Where CustomerId = @customerId</string>
+            <string>";</string>
+            <string>var res = context.Connection.Query&lt;TheDAL.Poco.Customer&gt;(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		customerId = customerId</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return res.Single();</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for getting a record but its Id/primary key.</string>
+            <string>If nothing is found an null is returned. If you want to throw an exception use GetById &lt;see cref="GetById"&gt; instead.</string>
+            <string>&lt;para&gt;St4mpede guid:{BC171F29-81F2-41ED-AC5C-AD6884EC9718}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>LoadById</Name>
+        <ReturnTypeString>TheDAL.Poco.Customer</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>CustomerId</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>const string Sql = @"</string>
+            <string>	Select * From Customer</string>
+            <string>	 Where CustomerId = @customerId</string>
+            <string>";</string>
+            <string>var res = context.Connection.Query&lt;TheDAL.Poco.Customer&gt;(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		customerId = customerId</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return res.SingleOrDefault();</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for updating an existing record in the database.</string>
+            <string>&lt;para&gt;St4mpede guid:{5A4CE926-447C-4F3F-ADFC-8CA9229C60BF}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>Update</Name>
+        <ReturnTypeString>TheDAL.Poco.Customer</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Private</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>CustomerId</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>Name</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>return Update( </string>
+            <string>	context, </string>
+            <string>	new TheDAL.Poco.Customer(</string>
+            <string>		customerId, name</string>
+            <string>));</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for updating an existing record in the database.</string>
+            <string>&lt;para&gt;St4mpede guid:{B2B1B845-5F93-4A5C-9F90-FBA570228542}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>Update</Name>
+        <ReturnTypeString>TheDAL.Poco.Customer</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Private</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>TheDAL.Poco.Customer</SystemTypeString>
+            <Name>Customer</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>const string Sql = @"</string>
+            <string>	Update Customer</string>
+            <string>	Set</string>
+            <string>		Name = @name</string>
+            <string>	Where</string>
+            <string>		CustomerId = @CustomerId</string>
+            <string>	 Select * From Customer Where </string>
+            <string>		CustomerId = $customerId</string>
+            <string>	";</string>
+            <string>var ret = context.Connection.Query&lt;TheDAL.Poco.Customer&gt;(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		customerId = customer.CustomerId, 	name = customer.Name</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return ret.Single();</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for creating a new or  updating an existing record in the database.</string>
+            <string>If the primary key is 0 (zero) we know it is a new record and try to add it. Otherwise we try to update the record.</string>
+            <string>&lt;para&gt;St4mpede guid:{A821E709-7333-4ABA-9F38-E85617C906FE}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>Upsert</Name>
+        <ReturnTypeString>TheDAL.Poco.Customer</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>CustomerId</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>Name</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>return Upsert(</string>
+            <string>	context,</string>
+            <string>	new TheDAL.Poco.Customer(</string>
+            <string>		customerId, name</string>
+            <string>));</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for creating a new or  updating an existing record in the database.</string>
+            <string>If the primary key is default value (typically null or zero) we know it is a new record and try to add it. Otherwise we try to update the record.</string>
+            <string>&lt;para&gt;St4mpede guid:{97D67E96-7C3E-4D8B-8984-104896646077}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>Upsert</Name>
+        <ReturnTypeString>TheDAL.Poco.Customer</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>TheDAL.Poco.Customer</SystemTypeString>
+            <Name>Customer</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>if(customer.CustomerId == default(System.Int32)){</string>
+            <string>	return Add(context, customer);</string>
+            <string>}else{</string>
+            <string>	return Update(context, customer);</string>
+            <string>}</string>
+          </Lines>
+        </Body>
+      </MethodData>
+    </Methods>
+  </ClassData>
+  <ClassData>
+    <IsPartial>false</IsPartial>
+    <Comment>
+      <Summary>
+        <string>This is the Surface for the Project table.</string>
+      </Summary>
+    </Comment>
+    <Name>ProjectSurface</Name>
+    <Properties />
+    <Methods>
+      <MethodData>
+        <Name>ProjectSurface</Name>
+        <Override>false</Override>
+        <IsConstructor>true</IsConstructor>
+        <Scope>Public</Scope>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for adding a new record in the database.</string>
+            <string>&lt;para&gt;St4mpede guid:{BC89740A-CBA5-4EDE-BFF4-9B0D8BA4058F}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>Add</Name>
+        <ReturnTypeString>TheDAL.Poco.Project</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Private</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>Name</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>return Add( </string>
+            <string>	context, </string>
+            <string>	new TheDAL.Poco.Project(</string>
+            <string>		0, </string>
+            <string>		name</string>
+            <string>));</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for adding a new record in the database.</string>
+            <string>&lt;para&gt;St4mpede guid:{759FBA46-A462-4E4A-BA2B-9B5AFDA572DE}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>Add</Name>
+        <ReturnTypeString>TheDAL.Poco.Project</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Private</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>TheDAL.Poco.Project</SystemTypeString>
+            <Name>Project</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>const string Sql = @"</string>
+            <string>	Insert Into Project</string>
+            <string>	(</string>
+            <string>		Name</string>
+            <string>	)</string>
+            <string>	Values</string>
+            <string>	(</string>
+            <string>		@Name</string>
+            <string>	)</string>
+            <string>	Select * From Project Where ProjectId = Scope_Identity()";</string>
+            <string>var ret = context.Connection.Query&lt;TheDAL.Poco.Project&gt;(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		projectId = project.ProjectId</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return ret.Single();</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for deleting a record.</string>
+            <string>&lt;para&gt;St4mpede guid:{F74246AE-0295-4094-AA7F-1D118C11229D}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>Delete</Name>
+        <ReturnTypeString>void</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>TheDAL.Poco.Project</SystemTypeString>
+            <Name>Project</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>DeleteById( context, project.ProjectId);</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for deleting a record by its primary key.</string>
+            <string>&lt;para&gt;St4mpede guid:{F0137E62-1D45-4B92-A48E-05954850FFE8}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>DeleteById</Name>
+        <ReturnTypeString>void</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>ProjectId</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>const string Sql = @"</string>
+            <string>	Delete From Project</string>
+            <string>	 Where ProjectId = @projectId</string>
+            <string>";</string>
+            <string>context.Connection.Execute(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		projectId = projectId</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	null, null);</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method returns every record for this table/surface.</string>
+            <string>Do not use it on too big tables.</string>
+            <string>&lt;para&gt;St4mpede guid:{4A910A99-9A50-4977-B2A2-404240CDDC73}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>GetAll</Name>
+        <ReturnTypeString>IList&lt;TheDAL.Poco.Project&gt;</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>const string Sql = @"</string>
+            <string>	Select * From Project</string>
+            <string>";</string>
+            <string>var res = context.Connection.Query&lt;TheDAL.Poco.Project&gt;(</string>
+            <string>	Sql, </string>
+            <string>	null, </string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return res.ToList();</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for getting a record but its Id/primary key.</string>
+            <string>If nothing is found an exception is thrown. If you want to get null back use LoadById &lt;see cref="LoadById"/&gt; instead.</string>
+            <string>&lt;para&gt;St4mpede guid:{71CF185E-0DD1-4FAE-9721-920B5C3C12D9}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>GetById</Name>
+        <ReturnTypeString>TheDAL.Poco.Project</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>ProjectId</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>const string Sql = @"</string>
+            <string>	Select * From Project</string>
+            <string>	 Where ProjectId = @projectId</string>
+            <string>";</string>
+            <string>var res = context.Connection.Query&lt;TheDAL.Poco.Project&gt;(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		projectId = projectId</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return res.Single();</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for getting a record but its Id/primary key.</string>
+            <string>If nothing is found an null is returned. If you want to throw an exception use GetById &lt;see cref="GetById"&gt; instead.</string>
+            <string>&lt;para&gt;St4mpede guid:{BC171F29-81F2-41ED-AC5C-AD6884EC9718}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>LoadById</Name>
+        <ReturnTypeString>TheDAL.Poco.Project</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>ProjectId</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>const string Sql = @"</string>
+            <string>	Select * From Project</string>
+            <string>	 Where ProjectId = @projectId</string>
+            <string>";</string>
+            <string>var res = context.Connection.Query&lt;TheDAL.Poco.Project&gt;(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		projectId = projectId</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return res.SingleOrDefault();</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for updating an existing record in the database.</string>
+            <string>&lt;para&gt;St4mpede guid:{5A4CE926-447C-4F3F-ADFC-8CA9229C60BF}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>Update</Name>
+        <ReturnTypeString>TheDAL.Poco.Project</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Private</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>ProjectId</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>Name</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>return Update( </string>
+            <string>	context, </string>
+            <string>	new TheDAL.Poco.Project(</string>
+            <string>		projectId, name</string>
+            <string>));</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for updating an existing record in the database.</string>
+            <string>&lt;para&gt;St4mpede guid:{B2B1B845-5F93-4A5C-9F90-FBA570228542}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>Update</Name>
+        <ReturnTypeString>TheDAL.Poco.Project</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Private</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>TheDAL.Poco.Project</SystemTypeString>
+            <Name>Project</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>const string Sql = @"</string>
+            <string>	Update Project</string>
+            <string>	Set</string>
+            <string>		Name = @name</string>
+            <string>	Where</string>
+            <string>		ProjectId = @ProjectId</string>
+            <string>	 Select * From Project Where </string>
+            <string>		ProjectId = $projectId</string>
+            <string>	";</string>
+            <string>var ret = context.Connection.Query&lt;TheDAL.Poco.Project&gt;(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		projectId = project.ProjectId, 	name = project.Name</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return ret.Single();</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for creating a new or  updating an existing record in the database.</string>
+            <string>If the primary key is 0 (zero) we know it is a new record and try to add it. Otherwise we try to update the record.</string>
+            <string>&lt;para&gt;St4mpede guid:{A821E709-7333-4ABA-9F38-E85617C906FE}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>Upsert</Name>
+        <ReturnTypeString>TheDAL.Poco.Project</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>ProjectId</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>Name</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>return Upsert(</string>
+            <string>	context,</string>
+            <string>	new TheDAL.Poco.Project(</string>
+            <string>		projectId, name</string>
+            <string>));</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for creating a new or  updating an existing record in the database.</string>
+            <string>If the primary key is default value (typically null or zero) we know it is a new record and try to add it. Otherwise we try to update the record.</string>
+            <string>&lt;para&gt;St4mpede guid:{97D67E96-7C3E-4D8B-8984-104896646077}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>Upsert</Name>
+        <ReturnTypeString>TheDAL.Poco.Project</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>TheDAL.Poco.Project</SystemTypeString>
+            <Name>Project</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>if(project.ProjectId == default(System.Int32)){</string>
+            <string>	return Add(context, project);</string>
+            <string>}else{</string>
+            <string>	return Update(context, project);</string>
+            <string>}</string>
+          </Lines>
+        </Body>
+      </MethodData>
+    </Methods>
+  </ClassData>
+  <ClassData>
+    <IsPartial>false</IsPartial>
+    <Comment>
+      <Summary>
+        <string>This is the Surface for the User table.</string>
+      </Summary>
+    </Comment>
+    <Name>UserSurface</Name>
+    <Properties />
+    <Methods>
+      <MethodData>
+        <Name>UserSurface</Name>
+        <Override>false</Override>
+        <IsConstructor>true</IsConstructor>
+        <Scope>Public</Scope>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for adding a new record in the database.</string>
+            <string>&lt;para&gt;St4mpede guid:{BC89740A-CBA5-4EDE-BFF4-9B0D8BA4058F}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>Add</Name>
+        <ReturnTypeString>TheDAL.Poco.User</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Private</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>UserName</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>HashedPassword</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.DateTime</SystemTypeString>
+            <Name>LastLoggedOnDatetime</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>return Add( </string>
+            <string>	context, </string>
+            <string>	new TheDAL.Poco.User(</string>
+            <string>		0, </string>
+            <string>		userName, hashedPassword, lastLoggedOnDatetime</string>
+            <string>));</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for adding a new record in the database.</string>
+            <string>&lt;para&gt;St4mpede guid:{759FBA46-A462-4E4A-BA2B-9B5AFDA572DE}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>Add</Name>
+        <ReturnTypeString>TheDAL.Poco.User</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Private</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>TheDAL.Poco.User</SystemTypeString>
+            <Name>User</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>const string Sql = @"</string>
+            <string>	Insert Into User</string>
+            <string>	(</string>
+            <string>		UserName, HashedPassword, LastLoggedOnDatetime</string>
+            <string>	)</string>
+            <string>	Values</string>
+            <string>	(</string>
+            <string>		@UserName, @HashedPassword, @LastLoggedOnDatetime</string>
+            <string>	)</string>
+            <string>	Select * From User Where UserId = Scope_Identity()";</string>
+            <string>var ret = context.Connection.Query&lt;TheDAL.Poco.User&gt;(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		userId = user.UserId</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return ret.Single();</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for deleting a record.</string>
+            <string>&lt;para&gt;St4mpede guid:{F74246AE-0295-4094-AA7F-1D118C11229D}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>Delete</Name>
+        <ReturnTypeString>void</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>TheDAL.Poco.User</SystemTypeString>
+            <Name>User</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>DeleteById( context, user.UserId);</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for deleting a record by its primary key.</string>
+            <string>&lt;para&gt;St4mpede guid:{F0137E62-1D45-4B92-A48E-05954850FFE8}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>DeleteById</Name>
+        <ReturnTypeString>void</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>UserId</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>const string Sql = @"</string>
+            <string>	Delete From User</string>
+            <string>	 Where UserId = @userId</string>
+            <string>";</string>
+            <string>context.Connection.Execute(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		userId = userId</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	null, null);</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method returns every record for this table/surface.</string>
+            <string>Do not use it on too big tables.</string>
+            <string>&lt;para&gt;St4mpede guid:{4A910A99-9A50-4977-B2A2-404240CDDC73}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>GetAll</Name>
+        <ReturnTypeString>IList&lt;TheDAL.Poco.User&gt;</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>const string Sql = @"</string>
+            <string>	Select * From User</string>
+            <string>";</string>
+            <string>var res = context.Connection.Query&lt;TheDAL.Poco.User&gt;(</string>
+            <string>	Sql, </string>
+            <string>	null, </string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return res.ToList();</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for getting a record but its Id/primary key.</string>
+            <string>If nothing is found an exception is thrown. If you want to get null back use LoadById &lt;see cref="LoadById"/&gt; instead.</string>
+            <string>&lt;para&gt;St4mpede guid:{71CF185E-0DD1-4FAE-9721-920B5C3C12D9}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>GetById</Name>
+        <ReturnTypeString>TheDAL.Poco.User</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>UserId</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>const string Sql = @"</string>
+            <string>	Select * From User</string>
+            <string>	 Where UserId = @userId</string>
+            <string>";</string>
+            <string>var res = context.Connection.Query&lt;TheDAL.Poco.User&gt;(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		userId = userId</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return res.Single();</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for getting a record but its Id/primary key.</string>
+            <string>If nothing is found an null is returned. If you want to throw an exception use GetById &lt;see cref="GetById"&gt; instead.</string>
+            <string>&lt;para&gt;St4mpede guid:{BC171F29-81F2-41ED-AC5C-AD6884EC9718}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>LoadById</Name>
+        <ReturnTypeString>TheDAL.Poco.User</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>UserId</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>const string Sql = @"</string>
+            <string>	Select * From User</string>
+            <string>	 Where UserId = @userId</string>
+            <string>";</string>
+            <string>var res = context.Connection.Query&lt;TheDAL.Poco.User&gt;(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		userId = userId</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return res.SingleOrDefault();</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for updating an existing record in the database.</string>
+            <string>&lt;para&gt;St4mpede guid:{5A4CE926-447C-4F3F-ADFC-8CA9229C60BF}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>Update</Name>
+        <ReturnTypeString>TheDAL.Poco.User</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Private</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>UserId</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>UserName</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>HashedPassword</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.DateTime</SystemTypeString>
+            <Name>LastLoggedOnDatetime</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>return Update( </string>
+            <string>	context, </string>
+            <string>	new TheDAL.Poco.User(</string>
+            <string>		userId, userName, hashedPassword, lastLoggedOnDatetime</string>
+            <string>));</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for updating an existing record in the database.</string>
+            <string>&lt;para&gt;St4mpede guid:{B2B1B845-5F93-4A5C-9F90-FBA570228542}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>Update</Name>
+        <ReturnTypeString>TheDAL.Poco.User</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Private</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>TheDAL.Poco.User</SystemTypeString>
+            <Name>User</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>const string Sql = @"</string>
+            <string>	Update User</string>
+            <string>	Set</string>
+            <string>		UserName = @userName, HashedPassword = @hashedPassword, LastLoggedOnDatetime = @lastLoggedOnDatetime</string>
+            <string>	Where</string>
+            <string>		UserId = @UserId</string>
+            <string>	 Select * From User Where </string>
+            <string>		UserId = $userId</string>
+            <string>	";</string>
+            <string>var ret = context.Connection.Query&lt;TheDAL.Poco.User&gt;(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		userId = user.UserId, 	userName = user.UserName, 	hashedPassword = user.HashedPassword, 	lastLoggedOnDatetime = user.LastLoggedOnDatetime</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return ret.Single();</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for creating a new or  updating an existing record in the database.</string>
+            <string>If the primary key is 0 (zero) we know it is a new record and try to add it. Otherwise we try to update the record.</string>
+            <string>&lt;para&gt;St4mpede guid:{A821E709-7333-4ABA-9F38-E85617C906FE}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>Upsert</Name>
+        <ReturnTypeString>TheDAL.Poco.User</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.Int32</SystemTypeString>
+            <Name>UserId</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>UserName</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.String</SystemTypeString>
+            <Name>HashedPassword</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>System.DateTime</SystemTypeString>
+            <Name>LastLoggedOnDatetime</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>return Upsert(</string>
+            <string>	context,</string>
+            <string>	new TheDAL.Poco.User(</string>
+            <string>		userId, userName, hashedPassword, lastLoggedOnDatetime</string>
+            <string>));</string>
+          </Lines>
+        </Body>
+      </MethodData>
+      <MethodData>
+        <Comment>
+          <Summary>
+            <string>This method is used for creating a new or  updating an existing record in the database.</string>
+            <string>If the primary key is default value (typically null or zero) we know it is a new record and try to add it. Otherwise we try to update the record.</string>
+            <string>&lt;para&gt;St4mpede guid:{97D67E96-7C3E-4D8B-8984-104896646077}&lt;/para&gt;</string>
+          </Summary>
+        </Comment>
+        <Name>Upsert</Name>
+        <ReturnTypeString>TheDAL.Poco.User</ReturnTypeString>
+        <Override>false</Override>
+        <IsConstructor>false</IsConstructor>
+        <Scope>Public</Scope>
+        <Parameters>
+          <ParameterData>
+            <SystemTypeString>TheDAL.CommitScope</SystemTypeString>
+            <Name>context</Name>
+          </ParameterData>
+          <ParameterData>
+            <SystemTypeString>TheDAL.Poco.User</SystemTypeString>
+            <Name>User</Name>
+          </ParameterData>
+        </Parameters>
+        <Body>
+          <Lines>
+            <string>if(user.UserId == default(System.Int32)){</string>
+            <string>	return Add(context, user);</string>
+            <string>}else{</string>
+            <string>	return Update(context, user);</string>
+            <string>}</string>
+          </Lines>
+        </Body>
+      </MethodData>
+    </Methods>
+  </ClassData>
+</ArrayOfClassData>

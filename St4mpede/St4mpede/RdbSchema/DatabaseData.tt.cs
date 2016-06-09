@@ -66,6 +66,16 @@ namespace St4mpede
 		[DataMember]
 		public List<ColumnData> Columns { get; set; }
 
+		public IEnumerable<ColumnData> NonPrimaryKeyColumns
+		{
+			get { return Columns.Where(c => c.IsInPrimaryKey == false); }
+		}
+
+		public IEnumerable<ColumnData> PrimaryKeyColumns
+		{
+			get { return Columns.Where(c => c.IsInPrimaryKey); }
+		}
+
 		public TableData() { }
 
 		internal TableData(string name, bool include)
