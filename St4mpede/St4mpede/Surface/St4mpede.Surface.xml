@@ -181,8 +181,15 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>throw new NotImplementedException("TBA");</string>
+            <string>const string Sql = @"</string>
+            <string>	Select * From Customer</string>
+            <string>";</string>
+            <string>var res = context.Connection.Query&lt;TheDAL.Poco.Customer&gt;(</string>
+            <string>	Sql, </string>
+            <string>	null, </string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return res.ToList();</string>
           </Lines>
         </Body>
       </MethodData>
@@ -190,7 +197,8 @@
         <Comment>
           <Summary>
             <string>This method is used for getting a record but its Id/primary key.</string>
-            <string>If nothing is found an exception is thrown. If you want to get null back use LoadById &lt;see cref="LoadById"&gt; instead.</string>
+            <string>If nothing is found an exception is thrown. If you want to get null back use LoadById &lt;see cref="LoadById"/&gt; instead.</string>
+            <string>&lt;para&gt;St4mpede guid:{71CF185E-0DD1-4FAE-9721-920B5C3C12D9}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>GetById</Name>
@@ -210,8 +218,18 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>throw new NotImplementedException("TBA");</string>
+            <string>const string Sql = @"</string>
+            <string>	Select * From Customer</string>
+            <string>	 Where CustomerId = @customerId</string>
+            <string>";</string>
+            <string>var res = context.Connection.Query&lt;TheDAL.Poco.Customer&gt;(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		customerId = customerId</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return res.Single();</string>
           </Lines>
         </Body>
       </MethodData>
@@ -220,6 +238,7 @@
           <Summary>
             <string>This method is used for getting a record but its Id/primary key.</string>
             <string>If nothing is found an null is returned. If you want to throw an exception use GetById &lt;see cref="GetById"&gt; instead.</string>
+            <string>&lt;para&gt;St4mpede guid:{BC171F29-81F2-41ED-AC5C-AD6884EC9718}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>LoadById</Name>
@@ -239,8 +258,18 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>throw new NotImplementedException("TBA");</string>
+            <string>const string Sql = @"</string>
+            <string>	Select * From Customer</string>
+            <string>	 Where CustomerId = @customerId</string>
+            <string>";</string>
+            <string>var res = context.Connection.Query&lt;TheDAL.Poco.Customer&gt;(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		customerId = customerId</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return res.SingleOrDefault();</string>
           </Lines>
         </Body>
       </MethodData>
@@ -248,6 +277,7 @@
         <Comment>
           <Summary>
             <string>This method is used for updating an existing record in the database.</string>
+            <string>&lt;para&gt;St4mpede guid:{5A4CE926-447C-4F3F-ADFC-8CA9229C60BF}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>Update</Name>
@@ -271,8 +301,11 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>throw new NotImplementedException("TBA");</string>
+            <string>return Update( </string>
+            <string>	context, </string>
+            <string>	new TheDAL.Poco.Customer(</string>
+            <string>		customerId, name</string>
+            <string>));</string>
           </Lines>
         </Body>
       </MethodData>
@@ -280,6 +313,7 @@
         <Comment>
           <Summary>
             <string>This method is used for updating an existing record in the database.</string>
+            <string>&lt;para&gt;St4mpede guid:{B2B1B845-5F93-4A5C-9F90-FBA570228542}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>Update</Name>
@@ -299,8 +333,23 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>throw new NotImplementedException("TBA");</string>
+            <string>const string Sql = @"</string>
+            <string>	Update Customer</string>
+            <string>	Set</string>
+            <string>		Name = @name</string>
+            <string>	Where</string>
+            <string>		CustomerId = @CustomerId</string>
+            <string>	 Select * From Customer Where </string>
+            <string>		CustomerId = $customerId</string>
+            <string>	";</string>
+            <string>var ret = context.Connection.Query&lt;TheDAL.Poco.Customer&gt;(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		customerId = customer.CustomerId, 	name = customer.Name</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return ret.Single();</string>
           </Lines>
         </Body>
       </MethodData>
@@ -309,6 +358,7 @@
           <Summary>
             <string>This method is used for creating a new or  updating an existing record in the database.</string>
             <string>If the primary key is 0 (zero) we know it is a new record and try to add it. Otherwise we try to update the record.</string>
+            <string>&lt;para&gt;St4mpede guid:{A821E709-7333-4ABA-9F38-E85617C906FE}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>Upsert</Name>
@@ -332,8 +382,11 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>throw new NotImplementedException("TBA");</string>
+            <string>return Upsert(</string>
+            <string>	context,</string>
+            <string>	new TheDAL.Poco.Customer(</string>
+            <string>		customerId, name</string>
+            <string>));</string>
           </Lines>
         </Body>
       </MethodData>
@@ -341,7 +394,8 @@
         <Comment>
           <Summary>
             <string>This method is used for creating a new or  updating an existing record in the database.</string>
-            <string>If the primary key is 0 (zero) we know it is a new record and try to add it. Otherwise we try to update the record.</string>
+            <string>If the primary key is default value (typically null or zero) we know it is a new record and try to add it. Otherwise we try to update the record.</string>
+            <string>&lt;para&gt;St4mpede guid:{97D67E96-7C3E-4D8B-8984-104896646077}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>Upsert</Name>
@@ -361,8 +415,11 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA. =&gt;if( return 0 == primarykey ? Add(...) : Update(...)</string>
-            <string>throw new NotImplementedException("TBA");</string>
+            <string>if(customer.CustomerId == default(System.Int32)){</string>
+            <string>	return Add(context, customer);</string>
+            <string>}else{</string>
+            <string>	return Update(context, customer);</string>
+            <string>}</string>
           </Lines>
         </Body>
       </MethodData>
@@ -549,8 +606,15 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>throw new NotImplementedException("TBA");</string>
+            <string>const string Sql = @"</string>
+            <string>	Select * From Project</string>
+            <string>";</string>
+            <string>var res = context.Connection.Query&lt;TheDAL.Poco.Project&gt;(</string>
+            <string>	Sql, </string>
+            <string>	null, </string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return res.ToList();</string>
           </Lines>
         </Body>
       </MethodData>
@@ -558,7 +622,8 @@
         <Comment>
           <Summary>
             <string>This method is used for getting a record but its Id/primary key.</string>
-            <string>If nothing is found an exception is thrown. If you want to get null back use LoadById &lt;see cref="LoadById"&gt; instead.</string>
+            <string>If nothing is found an exception is thrown. If you want to get null back use LoadById &lt;see cref="LoadById"/&gt; instead.</string>
+            <string>&lt;para&gt;St4mpede guid:{71CF185E-0DD1-4FAE-9721-920B5C3C12D9}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>GetById</Name>
@@ -578,8 +643,18 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>throw new NotImplementedException("TBA");</string>
+            <string>const string Sql = @"</string>
+            <string>	Select * From Project</string>
+            <string>	 Where ProjectId = @projectId</string>
+            <string>";</string>
+            <string>var res = context.Connection.Query&lt;TheDAL.Poco.Project&gt;(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		projectId = projectId</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return res.Single();</string>
           </Lines>
         </Body>
       </MethodData>
@@ -588,6 +663,7 @@
           <Summary>
             <string>This method is used for getting a record but its Id/primary key.</string>
             <string>If nothing is found an null is returned. If you want to throw an exception use GetById &lt;see cref="GetById"&gt; instead.</string>
+            <string>&lt;para&gt;St4mpede guid:{BC171F29-81F2-41ED-AC5C-AD6884EC9718}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>LoadById</Name>
@@ -607,8 +683,18 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>throw new NotImplementedException("TBA");</string>
+            <string>const string Sql = @"</string>
+            <string>	Select * From Project</string>
+            <string>	 Where ProjectId = @projectId</string>
+            <string>";</string>
+            <string>var res = context.Connection.Query&lt;TheDAL.Poco.Project&gt;(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		projectId = projectId</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return res.SingleOrDefault();</string>
           </Lines>
         </Body>
       </MethodData>
@@ -616,6 +702,7 @@
         <Comment>
           <Summary>
             <string>This method is used for updating an existing record in the database.</string>
+            <string>&lt;para&gt;St4mpede guid:{5A4CE926-447C-4F3F-ADFC-8CA9229C60BF}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>Update</Name>
@@ -639,8 +726,11 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>throw new NotImplementedException("TBA");</string>
+            <string>return Update( </string>
+            <string>	context, </string>
+            <string>	new TheDAL.Poco.Project(</string>
+            <string>		projectId, name</string>
+            <string>));</string>
           </Lines>
         </Body>
       </MethodData>
@@ -648,6 +738,7 @@
         <Comment>
           <Summary>
             <string>This method is used for updating an existing record in the database.</string>
+            <string>&lt;para&gt;St4mpede guid:{B2B1B845-5F93-4A5C-9F90-FBA570228542}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>Update</Name>
@@ -667,8 +758,23 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>throw new NotImplementedException("TBA");</string>
+            <string>const string Sql = @"</string>
+            <string>	Update Project</string>
+            <string>	Set</string>
+            <string>		Name = @name</string>
+            <string>	Where</string>
+            <string>		ProjectId = @ProjectId</string>
+            <string>	 Select * From Project Where </string>
+            <string>		ProjectId = $projectId</string>
+            <string>	";</string>
+            <string>var ret = context.Connection.Query&lt;TheDAL.Poco.Project&gt;(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		projectId = project.ProjectId, 	name = project.Name</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return ret.Single();</string>
           </Lines>
         </Body>
       </MethodData>
@@ -677,6 +783,7 @@
           <Summary>
             <string>This method is used for creating a new or  updating an existing record in the database.</string>
             <string>If the primary key is 0 (zero) we know it is a new record and try to add it. Otherwise we try to update the record.</string>
+            <string>&lt;para&gt;St4mpede guid:{A821E709-7333-4ABA-9F38-E85617C906FE}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>Upsert</Name>
@@ -700,8 +807,11 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>throw new NotImplementedException("TBA");</string>
+            <string>return Upsert(</string>
+            <string>	context,</string>
+            <string>	new TheDAL.Poco.Project(</string>
+            <string>		projectId, name</string>
+            <string>));</string>
           </Lines>
         </Body>
       </MethodData>
@@ -709,7 +819,8 @@
         <Comment>
           <Summary>
             <string>This method is used for creating a new or  updating an existing record in the database.</string>
-            <string>If the primary key is 0 (zero) we know it is a new record and try to add it. Otherwise we try to update the record.</string>
+            <string>If the primary key is default value (typically null or zero) we know it is a new record and try to add it. Otherwise we try to update the record.</string>
+            <string>&lt;para&gt;St4mpede guid:{97D67E96-7C3E-4D8B-8984-104896646077}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>Upsert</Name>
@@ -729,8 +840,11 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA. =&gt;if( return 0 == primarykey ? Add(...) : Update(...)</string>
-            <string>throw new NotImplementedException("TBA");</string>
+            <string>if(project.ProjectId == default(System.Int32)){</string>
+            <string>	return Add(context, project);</string>
+            <string>}else{</string>
+            <string>	return Update(context, project);</string>
+            <string>}</string>
           </Lines>
         </Body>
       </MethodData>
@@ -925,8 +1039,15 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>throw new NotImplementedException("TBA");</string>
+            <string>const string Sql = @"</string>
+            <string>	Select * From User</string>
+            <string>";</string>
+            <string>var res = context.Connection.Query&lt;TheDAL.Poco.User&gt;(</string>
+            <string>	Sql, </string>
+            <string>	null, </string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return res.ToList();</string>
           </Lines>
         </Body>
       </MethodData>
@@ -934,7 +1055,8 @@
         <Comment>
           <Summary>
             <string>This method is used for getting a record but its Id/primary key.</string>
-            <string>If nothing is found an exception is thrown. If you want to get null back use LoadById &lt;see cref="LoadById"&gt; instead.</string>
+            <string>If nothing is found an exception is thrown. If you want to get null back use LoadById &lt;see cref="LoadById"/&gt; instead.</string>
+            <string>&lt;para&gt;St4mpede guid:{71CF185E-0DD1-4FAE-9721-920B5C3C12D9}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>GetById</Name>
@@ -954,8 +1076,18 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>throw new NotImplementedException("TBA");</string>
+            <string>const string Sql = @"</string>
+            <string>	Select * From User</string>
+            <string>	 Where UserId = @userId</string>
+            <string>";</string>
+            <string>var res = context.Connection.Query&lt;TheDAL.Poco.User&gt;(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		userId = userId</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return res.Single();</string>
           </Lines>
         </Body>
       </MethodData>
@@ -964,6 +1096,7 @@
           <Summary>
             <string>This method is used for getting a record but its Id/primary key.</string>
             <string>If nothing is found an null is returned. If you want to throw an exception use GetById &lt;see cref="GetById"&gt; instead.</string>
+            <string>&lt;para&gt;St4mpede guid:{BC171F29-81F2-41ED-AC5C-AD6884EC9718}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>LoadById</Name>
@@ -983,8 +1116,18 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>throw new NotImplementedException("TBA");</string>
+            <string>const string Sql = @"</string>
+            <string>	Select * From User</string>
+            <string>	 Where UserId = @userId</string>
+            <string>";</string>
+            <string>var res = context.Connection.Query&lt;TheDAL.Poco.User&gt;(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		userId = userId</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return res.SingleOrDefault();</string>
           </Lines>
         </Body>
       </MethodData>
@@ -992,6 +1135,7 @@
         <Comment>
           <Summary>
             <string>This method is used for updating an existing record in the database.</string>
+            <string>&lt;para&gt;St4mpede guid:{5A4CE926-447C-4F3F-ADFC-8CA9229C60BF}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>Update</Name>
@@ -1023,8 +1167,11 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>throw new NotImplementedException("TBA");</string>
+            <string>return Update( </string>
+            <string>	context, </string>
+            <string>	new TheDAL.Poco.User(</string>
+            <string>		userId, userName, hashedPassword, lastLoggedOnDatetime</string>
+            <string>));</string>
           </Lines>
         </Body>
       </MethodData>
@@ -1032,6 +1179,7 @@
         <Comment>
           <Summary>
             <string>This method is used for updating an existing record in the database.</string>
+            <string>&lt;para&gt;St4mpede guid:{B2B1B845-5F93-4A5C-9F90-FBA570228542}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>Update</Name>
@@ -1051,8 +1199,23 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>throw new NotImplementedException("TBA");</string>
+            <string>const string Sql = @"</string>
+            <string>	Update User</string>
+            <string>	Set</string>
+            <string>		UserName = @userName, HashedPassword = @hashedPassword, LastLoggedOnDatetime = @lastLoggedOnDatetime</string>
+            <string>	Where</string>
+            <string>		UserId = @UserId</string>
+            <string>	 Select * From User Where </string>
+            <string>		UserId = $userId</string>
+            <string>	";</string>
+            <string>var ret = context.Connection.Query&lt;TheDAL.Poco.User&gt;(</string>
+            <string>	Sql, </string>
+            <string>	new {</string>
+            <string>		userId = user.UserId, 	userName = user.UserName, 	hashedPassword = user.HashedPassword, 	lastLoggedOnDatetime = user.LastLoggedOnDatetime</string>
+            <string>	},</string>
+            <string>	context.Transaction,</string>
+            <string>	false, null, null);</string>
+            <string>return ret.Single();</string>
           </Lines>
         </Body>
       </MethodData>
@@ -1061,6 +1224,7 @@
           <Summary>
             <string>This method is used for creating a new or  updating an existing record in the database.</string>
             <string>If the primary key is 0 (zero) we know it is a new record and try to add it. Otherwise we try to update the record.</string>
+            <string>&lt;para&gt;St4mpede guid:{A821E709-7333-4ABA-9F38-E85617C906FE}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>Upsert</Name>
@@ -1092,8 +1256,11 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA.</string>
-            <string>throw new NotImplementedException("TBA");</string>
+            <string>return Upsert(</string>
+            <string>	context,</string>
+            <string>	new TheDAL.Poco.User(</string>
+            <string>		userId, userName, hashedPassword, lastLoggedOnDatetime</string>
+            <string>));</string>
           </Lines>
         </Body>
       </MethodData>
@@ -1101,7 +1268,8 @@
         <Comment>
           <Summary>
             <string>This method is used for creating a new or  updating an existing record in the database.</string>
-            <string>If the primary key is 0 (zero) we know it is a new record and try to add it. Otherwise we try to update the record.</string>
+            <string>If the primary key is default value (typically null or zero) we know it is a new record and try to add it. Otherwise we try to update the record.</string>
+            <string>&lt;para&gt;St4mpede guid:{97D67E96-7C3E-4D8B-8984-104896646077}&lt;/para&gt;</string>
           </Summary>
         </Comment>
         <Name>Upsert</Name>
@@ -1121,8 +1289,11 @@
         </Parameters>
         <Body>
           <Lines>
-            <string>//TODO:OF:TBA. =&gt;if( return 0 == primarykey ? Add(...) : Update(...)</string>
-            <string>throw new NotImplementedException("TBA");</string>
+            <string>if(user.UserId == default(System.Int32)){</string>
+            <string>	return Add(context, user);</string>
+            <string>}else{</string>
+            <string>	return Update(context, user);</string>
+            <string>}</string>
           </Lines>
         </Body>
       </MethodData>

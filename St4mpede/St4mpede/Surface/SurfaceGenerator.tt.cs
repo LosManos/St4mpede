@@ -276,8 +276,15 @@ namespace St4mpede.St4mpede.Surface
 							} }.ToList(),
 					Body = new BodyData(new[]
 						{
-						"//TODO:OF:TBA.",
-						"throw new NotImplementedException(\"TBA\");"
+							$"const string Sql = @" + "\"",
+							$"	Select * From {table.Name}",
+							"\";",
+							$"var res = context.Connection.Query<TheDAL.Poco.{table.Name}>(",	//	TODO:OF:Fetch namespace from settings.
+							"	Sql, ",
+							"	null, ",
+							"	context.Transaction,",
+							"	false, null, null);",
+							"return res.ToList();"
 					})
 				});
 
@@ -287,7 +294,8 @@ namespace St4mpede.St4mpede.Surface
 					Name = "GetById",
 					Comment = new CommentData(new[] {
 						"This method is used for getting a record but its Id/primary key.",
-						"If nothing is found an exception is thrown. If you want to get null back use LoadById <see cref=\"LoadById\"> instead."
+						"If nothing is found an exception is thrown. If you want to get null back use LoadById <see cref=\"LoadById\"/> instead.",
+						"<para>St4mpede guid:{71CF185E-0DD1-4FAE-9721-920B5C3C12D9}</para>"
 						}),
 					Scope = Common.VisibilityScope.Public,
 					ReturnTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
@@ -298,8 +306,7 @@ namespace St4mpede.St4mpede.Surface
 								SystemTypeString = "TheDAL.CommitScope"	//	TODO:OF:Fetch namespace from settings.
 							} }
 						.Concat(
-							table.Columns
-								.Where( c=>c.IsInPrimaryKey)
+							table.PrimaryKeyColumns
 								.Select(p =>
 								   new ParameterData
 								   {
@@ -309,9 +316,19 @@ namespace St4mpede.St4mpede.Surface
 						.ToList(),
 					Body = new BodyData(new[]
 						{
-						"//TODO:OF:TBA.",
-							"throw new NotImplementedException(\"TBA\");"
-				})
+							$"const string Sql = @" + "\"",
+							$"	Select * From {table.Name}",
+							"\t Where " + string.Join(" And ", table.PrimaryKeyColumns.Select(c => $"{c.Name} = @{c.Name.ToCamelCase()}")),
+							"\";",
+							$"var res = context.Connection.Query<TheDAL.Poco.{table.Name}>(",	//	TODO:OF:Fetch namespace from settings.
+							"	Sql, ",
+							"	new {",
+							$"		{string.Join(", ", table.Columns.Where(c => c.IsInPrimaryKey).Select(c =>$"{c.Name.ToCamelCase()} = {c.Name.ToCamelCase()}"))}",
+							"	},",
+							"	context.Transaction,",
+							"	false, null, null);",
+							"return res.Single();"
+						})
 				});
 
 				//	##	Create the LoadById method.
@@ -320,7 +337,8 @@ namespace St4mpede.St4mpede.Surface
 					Name = "LoadById",
 					Comment = new CommentData(new[] {
 						"This method is used for getting a record but its Id/primary key.",
-						"If nothing is found an null is returned. If you want to throw an exception use GetById <see cref=\"GetById\"> instead."
+						"If nothing is found an null is returned. If you want to throw an exception use GetById <see cref=\"GetById\"> instead.",
+						"<para>St4mpede guid:{BC171F29-81F2-41ED-AC5C-AD6884EC9718}</para>"
 						}),
 					Scope = Common.VisibilityScope.Public,
 					ReturnTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
@@ -342,16 +360,29 @@ namespace St4mpede.St4mpede.Surface
 						.ToList(),
 					Body = new BodyData(new[]
 						{
-						"//TODO:OF:TBA.",
-						"throw new NotImplementedException(\"TBA\");"
-					})
+							$"const string Sql = @" + "\"",
+							$"	Select * From {table.Name}",
+							"\t Where " + string.Join(" And ", table.PrimaryKeyColumns.Select(c => $"{c.Name} = @{c.Name.ToCamelCase()}")),
+							"\";",
+							$"var res = context.Connection.Query<TheDAL.Poco.{table.Name}>(",	//	TODO:OF:Fetch namespace from settings.
+							"	Sql, ",
+							"	new {",
+							$"		{string.Join(", ", table.Columns.Where(c => c.IsInPrimaryKey).Select(c =>$"{c.Name.ToCamelCase()} = {c.Name.ToCamelCase()}"))}",
+							"	},",
+							"	context.Transaction,",
+							"	false, null, null);",
+							"return res.SingleOrDefault();"
+						})
 				});
 
 				//	##	Create the Update method.
 				surfaceClass.Methods.Add(new MethodData
 				{
 					Name = "Update",
-					Comment = new CommentData("This method is used for updating an existing record in the database."),
+					Comment = new CommentData(new [] {
+						"This method is used for updating an existing record in the database.",
+						"<para>St4mpede guid:{5A4CE926-447C-4F3F-ADFC-8CA9229C60BF}</para>"
+						}),
 					Scope = Common.VisibilityScope.Private,
 					ReturnTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
 					Parameters =
@@ -370,17 +401,23 @@ namespace St4mpede.St4mpede.Surface
 								   }))
 						.ToList(),
 					Body = new BodyData(new[]
-							{
-						"//TODO:OF:TBA.",
-						"throw new NotImplementedException(\"TBA\");"
-					})
+						{
+							$"return Update( ",
+							"\tcontext, ",
+							$"\tnew TheDAL.Poco.{table.Name}(",	//	TODO:OF:Fetch namespace from settings.
+							"\t\t" + string.Join(", ",table.Columns.Select( c=> $"{c.Name.ToCamelCase()}")),
+							"));"
+						})
 				});
 
 				//	##	Create the Update method.
 				surfaceClass.Methods.Add(new MethodData
 				{
 					Name = "Update",
-					Comment = new CommentData("This method is used for updating an existing record in the database."),
+					Comment = new CommentData(new []{
+						"This method is used for updating an existing record in the database.",
+						"<para>St4mpede guid:{B2B1B845-5F93-4A5C-9F90-FBA570228542}</para>"
+						}),
 					Scope = Common.VisibilityScope.Private,
 					ReturnTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
 					Parameters = new[] {
@@ -396,9 +433,28 @@ namespace St4mpede.St4mpede.Surface
 							} }
 						.ToList(),
 					Body = new BodyData(new[]
-							{
-						"//TODO:OF:TBA.",
-						"throw new NotImplementedException(\"TBA\");"
+						{
+						$"const string Sql = @" + "\"",
+						$"	Update {table.Name}",
+						$"	Set",
+						"\t\t" + string.Join(", ",table.NonPrimaryKeyColumns.Select(c=>
+							$"{c.Name} = @{c.Name.ToCamelCase()}"
+						)),
+						$"\tWhere",
+						"\t\t" + string.Join(" And ",table.PrimaryKeyColumns.Select(c=>
+							$"{c.Name} = @{c.Name}"))
+						,
+						$"\t Select * From {table.Name} Where ", 
+						$"\t\t" + string.Join(" And ", table.PrimaryKeyColumns.Select(c=>$"{c.Name} = ${c.Name.ToCamelCase()}")),
+						"\t\";",
+						$"var ret = context.Connection.Query<TheDAL.Poco.{table.Name}>(", //	TODO:OF:Fetch namespace from Poco project.
+						"	Sql, ",
+						"	new {",
+						$"	{string.Join(", ", table.Columns.Select(c=> "\t" + c.Name.ToCamelCase() + " = " + table.Name.ToCamelCase() + "." + c.Name  ))}",
+						"	},",
+						"	context.Transaction,",
+						"	false, null, null);",
+						"return ret.Single();",
 					})
 				});
 
@@ -408,7 +464,8 @@ namespace St4mpede.St4mpede.Surface
 					Name = "Upsert",
 					Comment = new CommentData(new[] {
 						"This method is used for creating a new or  updating an existing record in the database.",
-						"If the primary key is 0 (zero) we know it is a new record and try to add it. Otherwise we try to update the record."
+						"If the primary key is 0 (zero) we know it is a new record and try to add it. Otherwise we try to update the record.",
+						"<para>St4mpede guid:{A821E709-7333-4ABA-9F38-E85617C906FE}</para>"
 						}),
 					Scope = Common.VisibilityScope.Public,
 					ReturnTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
@@ -420,17 +477,20 @@ namespace St4mpede.St4mpede.Surface
 							} }
 						.Concat(
 						table.Columns
-							.Select(p =>
+							.Select(c =>
 							   new ParameterData
 							   {
-								   Name = p.Name,
-								   SystemTypeString = parserLogic2.ConvertDatabaseTypeToDotnetTypeString(p.DatabaseTypeName)
+								   Name = c.Name,
+								   SystemTypeString = parserLogic2.ConvertDatabaseTypeToDotnetTypeString(c.DatabaseTypeName)
 							   }))
 						.ToList(),
 					Body = new BodyData(new[]
 						{
-						"//TODO:OF:TBA.",
-						"throw new NotImplementedException(\"TBA\");"
+						$"return Upsert(",
+						"\tcontext,",
+						$"\tnew TheDAL.Poco.{table.Name}(", //	TODO:OF:Fetch namespace from settings.
+						"\t\t" + string.Join( ", ", table.Columns.Select(c=>$"{c.Name.ToCamelCase()}")),
+						"));"
 					})
 				});
 
@@ -440,7 +500,8 @@ namespace St4mpede.St4mpede.Surface
 					Name = "Upsert",
 					Comment = new CommentData(new[] {
 						"This method is used for creating a new or  updating an existing record in the database.",
-						"If the primary key is 0 (zero) we know it is a new record and try to add it. Otherwise we try to update the record."
+						"If the primary key is default value (typically null or zero) we know it is a new record and try to add it. Otherwise we try to update the record.",
+						"<para>St4mpede guid:{97D67E96-7C3E-4D8B-8984-104896646077}</para>"
 						}),
 					Scope = Common.VisibilityScope.Public,
 					ReturnTypeString = $"TheDAL.Poco.{table.Name}", //	TODO:OF:Fetch namespace from Poco project.
@@ -458,8 +519,11 @@ namespace St4mpede.St4mpede.Surface
 						.ToList(),
 					Body = new BodyData(new[]
 						{
-						"//TODO:OF:TBA. =>if( return 0 == primarykey ? Add(...) : Update(...)",
-						"throw new NotImplementedException(\"TBA\");"
+						"if(" + string.Join(" &&", table.PrimaryKeyColumns.Select(c=> $"{table.Name.ToCamelCase()}.{c.Name} == default({parserLogic2.ConvertDatabaseTypeToDotnetTypeString(c.DatabaseTypeName)})") ) + "){",
+						$"\treturn Add(context, {table.Name.ToCamelCase()});", 
+						"}else{",
+						$"\treturn Update(context, {table.Name.ToCamelCase()});", 
+						"}"
 					})
 				});
 			});
